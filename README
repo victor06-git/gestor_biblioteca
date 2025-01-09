@@ -1,1 +1,20 @@
 - Treball 00 : Gestió de biblioteca
+
+
+- Dades:
+        Llibres:
+                    Id
+                    Títol
+                    Autor
+        Usuaris:
+                    Id 
+                    Nom
+                    Cognoms
+                    Telèfon
+        Préstecs:
+                    Id 
+                    IdLlibre
+                    IdUsuari
+                    DataPrestec
+                    DataDevolucio
+        
