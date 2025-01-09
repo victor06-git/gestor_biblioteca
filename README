@@ -18,3 +18,19 @@
                     DataPrestec
                     DataDevolucio
         
+Creació arxius .json / autoguardat
+
+Format opcions -->  
+                  Passar a minúscules el que escrigui  l'usuari/ no hi hagi cap problema si escriu amb majúscules o mínuscúles
+
+                  Llistats s'han de mostrar amb un tabulat per facilitar la lectura
+
+Errors --> 
+                - Intentar prestar un llibre prestat
+                - Intentar assignar més de 4 préstecs a l'usuari
+                - Identificadors únics
+                - Dates no vàlides
+                - Els camps de Id, Títol, Cognoms, Nom, Telèfon no poden estar buits.
+                - Camp telèfon númeric
+
+                
