@@ -21,16 +21,76 @@
 Creació arxius .json / autoguardat
 
 Format opcions -->  
-                  Passar a minúscules el que escrigui  l'usuari/ no hi hagi cap problema si escriu amb majúscules o mínuscúles
+                  - Passar a minúscules el que escrigui  l'usuari/ no hi hagi cap problema si escriu amb majúscules o mínuscúles
 
-                  Llistats s'han de mostrar amb un tabulat per facilitar la lectura
+                  - Llistats s'han de mostrar amb un tabulat per facilitar la lectura
 
 Errors --> 
                 - Intentar prestar un llibre prestat
-                - Intentar assignar més de 4 préstecs a l'usuari
+                - Intentar assignar més de 4 préstecs a l'usuari (no més de 4 per usuari)
                 - Identificadors únics
                 - Dates no vàlides
                 - Els camps de Id, Títol, Cognoms, Nom, Telèfon no poden estar buits.
                 - Camp telèfon númeric
 
+Llistats --> 
+                - Llistar tots els llibres (función1)
+                        - Llistar els llibres en prestec (función2)
+                        - Llistar llibres d'un autor (función3)
+                        - Llistar llibres a partir de paraules en el títol (función4)
                 
+                - Llistar els usuaris  (función5)
+                        - Llistar els usuaris amb préstecs actius (función6)
+                        - Llistar usuaris amb prestecs fora de termini (función7)
+                
+                - Llistar préstecs (función8)
+                        - Llistar préstecs d'un usuari (función9)
+                        - Llistar préstecs actius (función10)
+                        - Llistar préstecs fora de termini (función11) 
+
+Outputs --> 
+                - Menú principal (función12)
+                        - Llibres (passar a menú de llibres)
+                        - Usuaris (passar a menú d'usuaris)
+                        - Préstecs (passar a menú de préstecs)
+                
+                - Menú  de llibres (función13)
+                        - Afegir
+                        - Modificar
+                        - Eliminar
+                        - Llistar
+                        - Torna al menú principal
+
+                - Menú de llistar llibres (función14):
+                        - Tots
+                        - En préstec
+                        - Per autor
+                        - Cercar títol
+                        - Torna al menú de llibres
+
+                - Menú d'usuaris (función15):
+                        - Afegir 
+                        - Modificar 
+                        - Eliminar 
+                        - Llistar
+                        - Torna al menú principal
+
+                - Menú de llistar usuaris:
+                        - Tots
+                        - Préstecs actius
+                        - Préstecs fora de termini
+                        - Torna al menú d'usuaris
+
+                - Menú de préstecs
+                        - Afegir
+                        - Modificar
+                        - Eliminar
+                        - Llistar
+                        - Torna al menú principal
+
+                - Menú de llistar préstecs
+                        - Tots
+                        - Per usuari
+                        - Préstecs arxius
+                        - Préstecs fora de termini
+                        - Torna al menú de préstecs
