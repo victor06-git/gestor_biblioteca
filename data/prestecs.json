@@ -1,9 +1,80 @@
 [
     {
-        "Id": 0,
-        "IdLlibre": 0,
-        "IdUsuari": 0,
+        "Id": 1,
+        "IdLlibre": 2,
+        "IdUsuari": 3,
         "DataPrestec": "2025-01-09",
         "DataDevolucio": "2025-02-09"
+    },
+    {
+        "Id": 2,
+        "IdLlibre": 1,
+        "IdUsuari": 1,
+        "DataPrestec": "2023-01-09",
+        "DataDevolucio": "2023-02-09"
+    },
+    {
+        "Id": 3,
+        "IdLlibre": 3,
+        "IdUsuari": 1,
+        "DataPrestec": "2024-02-20",
+        "DataDevolucio": "2024-03-20"
+    },
+    {
+        "Id": 4,
+        "IdLlibre": 4,
+        "IdUsuari": 2,
+        "DataPrestec": "2022-05-21",
+        "DataDevolucio": "2022-06-21"
+    },
+    {
+        "Id": 5,
+        "IdLlibre": 5,
+        "IdUsuari": 3,
+        "DataPrestec": "2025-01-02",
+        "DataDevolucio": "2025-02-02"
+    },
+    {
+        "Id": 6,
+        "IdLlibre": 6,
+        "IdUsuari": 1,
+        "DataPrestec": "2024-03-22",
+        "DataDevolucio": "2024-04-22"
+    },
+    {
+        "Id": 7,
+        "IdLlibre": 7,
+        "IdUsuari": 4,
+        "DataPrestec": "2025-02-03",
+        "DataDevolucio": "2025-03-03"
+    },
+    {
+        "Id": 8,
+        "IdLlibre": 8,
+        "IdUsuari": 2,
+        "DataPrestec": "2023-11-22",
+        "DataDevolucio": "2023-12-22"
+    },
+    {
+        "Id": 9,
+        "IdLlibre": 9,
+        "IdUsuari": 5,
+        "DataPrestec": "2025-01-01",
+        "DataDevolucio": "2025-02-01"
+    },
+    {
+        "Id": 10,
+        "IdLlibre": 10,
+        "IdUsuari": 6,
+        "DataPrestec": "2024-12-01",
+        "DataDevolucio":"2025-01-01"
+    },
+    {
+        "Id": 11,
+        "IdLlibre": 11,
+        "IdUsuari": 5,
+        "DataPrestec": "2024-09-20",
+        "DataDevolucio": "2024-10-20"
     }
+
 ]
