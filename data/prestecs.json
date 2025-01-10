@@ -75,6 +75,69 @@
         "IdUsuari": 5,
         "DataPrestec": "2024-09-20",
         "DataDevolucio": "2024-10-20"
+    },
+    {
+        "Id": 12,
+        "IdLlibre": 12,
+        "IdUsuari": 7,
+        "DataPrestec": "2025-01-08",
+        "DataDevolucio": "2025-02-08"
+    },
+    {
+        "Id": 13,
+        "IdLlibre": 13,
+        "IdUsuari": 8,
+        "DataPrestec": "2023-03-04",
+        "DataDevolucio": "2023-04-04"
+    },
+    {
+        "Id": 14,
+        "IdLlibre": 14,
+        "IdUsuari": 8,
+        "DataPrestec": "2024-05-07",
+        "DataDevolucio": "2024-06-07"
+    },
+    {
+        "Id": 15,
+        "IdLlibre": 15,
+        "IdUsuari": 7,
+        "DataPrestec": "2025-01-02",
+        "DataDevolucio": "2025-02-02"
+    },
+    {
+        "Id": 16,
+        "IdLlibre": 16,
+        "IdUsuari": 9,
+        "DataPrestec": "2024-07-09",
+        "DataDevolucio": "2024-08-09"
+    },
+    {
+        "Id": 17,
+        "IdLlibre": 17,
+        "IdUsuari": 9,
+        "DataPrestec": "2025-01-05",
+        "DataDevolucio": "2025-02-05"
+    },
+    {
+        "Id": 18,
+        "IdLlibre": 18,
+        "IdUsuari": 9,
+        "DataPrestec": "2024-12-24",
+        "DataDevolucio": "2025-01-24"
+    },
+    {
+        "Id": 19,
+        "IdLlibre": 19,
+        "IdUsuari": 10,
+        "DataPrestec": "2024-08-12",
+        "DataDevolucio": "2024-09-12"
+    },
+    {
+        "Id": 20,
+        "IdLlibre": 20,
+        "IdUsuari": 10,
+        "DataPrestec": "2023-12-24",
+        "DataDevolucio": "2025-01-24"
     }
 
 ]
