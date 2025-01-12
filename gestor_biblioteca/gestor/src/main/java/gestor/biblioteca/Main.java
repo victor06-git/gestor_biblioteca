@@ -28,7 +28,7 @@ public class Main {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String bookTitle = jsonObject.getString("titol");
 
-                if (bookTitle.equals(title)) {
+                if (bookTitle.toLowerCase().contains(title.toLowerCase())) {
                     return jsonObject.toString();
                 }
             }
