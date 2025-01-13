@@ -119,9 +119,49 @@ public class Main {
         return prestecList.toString();
     }
 
+    /**
+     * Funció que llistar tots els llibres (.json) de la biblioteca.
+     * 
+     * @return Retorna un array dels llibres segons id, titol i autor.
+     */
+    public static String llibresLlistat(){
+        // Ruta arxiu "llibres.json"
+        String filePath_llibres = "./data/llibres.json";
+        StringBuilder llibresList = new StringBuilder();
+
+        int idWidth = 5;
+        int titolWidth = 35;
+        int autorWidth = 25;
+
+        // Crear les columnes
+        llibresList.append(String.format("%-" + idWidth + "s %-"
+                        + titolWidth + "s %-" + autorWidth + "s%n", "ID", "Títol", "Autor"));
+                        llibresList.append("---------------------------------------------------------------------\n");
+
+        //Iterar sobre cada llibre
+        try{
+            String content = new String(Files.readAllBytes(Paths.get(filePath_llibres)));
+            JSONArray jsonArray = new JSONArray(content);
+
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                int id = jsonObject.getInt("id");
+                String titol = jsonObject.getString("titol");
+                String autor = jsonObject.getString("autor");
+
+                llibresList.append(String.format("%-" + idWidth + "s %-"
+                + titolWidth + "s %-" + autorWidth + "s%n", id, titol, autor));
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            }
+        return llibresList.toString();
+    }
+
+
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        
+        System.out.println(llibresLlistat());
         
     }
 }
