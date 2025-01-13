@@ -101,7 +101,7 @@ public class Main {
         String filePath_usuaris = "./data/usuaris.json";
         StringBuilder prestecList = new StringBuilder();
 
-        int idWidth = 3;
+        int idWidth = 5;
         int idLlibreWidth = 35;
         int idUsuariWidth = 25;
         int dataPrestecWidth = 15;
@@ -204,10 +204,8 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        String prueba = prestecsLlista();
-        System.out.println(prueba);
         
-        System.out.println(llibresLlistat());
+        System.out.println(prestecsLlista());
         
     }
 }
