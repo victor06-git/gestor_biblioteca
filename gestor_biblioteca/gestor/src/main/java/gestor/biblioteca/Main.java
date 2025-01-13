@@ -136,7 +136,7 @@ public class Main {
         // Crear les columnes
         llibresList.append(String.format("%-" + idWidth + "s %-"
                         + titolWidth + "s %-" + autorWidth + "s%n", "ID", "Títol", "Autor"));
-                        llibresList.append("----------------------------------------------\n");
+                        llibresList.append("---------------------------------------------------------------------\n");
 
         //Iterar sobre cada llibre
         try{
