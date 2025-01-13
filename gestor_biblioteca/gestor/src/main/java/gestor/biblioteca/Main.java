@@ -1,11 +1,10 @@
 package gestor.biblioteca;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Scanner;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Main {
     
@@ -121,7 +120,5 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        
-        
     }
 }
