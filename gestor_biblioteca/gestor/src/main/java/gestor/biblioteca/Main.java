@@ -32,6 +32,7 @@ public class Main {
                     return jsonObject.toString();
                 }
             }
+
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -44,7 +45,7 @@ public class Main {
      * 
      * @return Retorna un array d'usuaris segons el Nom, Cognom i Telèfon.
      */
-    public static String usuarisLlistat(){
+    public static String usuarisLlistat() {
         // Function to get the list of users from the JSON file
         String filePath_users = "./data/usuaris.json";
         StringBuilder userList = new StringBuilder(); 
@@ -77,8 +78,50 @@ public class Main {
         return userList.toString();
     }
 
+    /**
+     * Funció que llistar els prestecs de la biblioteca prestecs (.json) en una llista.
+     * 
+     * @return Retorna un array de prestecs segons el "IdLlibre", "IdUsuari", "DataPrestec" i "DataDevolucio".
+     */
+    public static String prestecsLlista() {
+        // Function to get the list of books from the JSON file
+        String filePath_prestecs = "./data/prestecs.json";
+        StringBuilder prestecList = new StringBuilder();
+
+        int idLlibreWidth = 10;
+        int idUsuariWidth = 10;
+        int dataPrestecWidth = 15;
+        int dataDevolucioWidth = 15;
+
+        prestecList.append(String.format("%-" + idLlibreWidth + "s %-" + 
+                        idUsuariWidth + "s %-" + dataPrestecWidth + "s %-" +
+                        dataDevolucioWidth + "s%n", "IdLlibre", "IdUsuari", "Data Prestec", "Data Devolucio"));
+        prestecList.append("----------------------------------------------------\n");
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePath_prestecs)));
+
+            JSONArray jsonArray = new JSONArray(content);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Integer idLlibre = jsonObject.getInt("IdLlibre");
+                Integer idUsuari = jsonObject.getInt("IdUsuari");
+                String dataPrestec = jsonObject.getString("DataPrestec");
+                String dataDevolucio = jsonObject.getString("DataDevolucio");
+
+                prestecList.append(String.format("%-" + idLlibreWidth + "s %-" + idUsuariWidth + "s %-" +
+                                    dataPrestecWidth + "s %-" + dataDevolucioWidth + "s%n", idLlibre, idUsuari, dataPrestec, dataDevolucio));
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            }
+        return prestecList.toString();
+    }
+
     public static void main(String[] args) {
         System.out.println("Hello world!");
+        
         
     }
 }
