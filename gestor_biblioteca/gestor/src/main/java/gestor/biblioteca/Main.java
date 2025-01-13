@@ -17,7 +17,7 @@ public class Main {
 
         Integer nomLlibreWidth = 25;
         Integer autorLlibreWidth = 15;
-        Integer space = 5;
+        //Integer space = 5;
 
         llibresNom.append(String.format("%-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n", "Titol", "Autor"));
         llibresNom.append("--------                  ----------\n");
