@@ -2,6 +2,8 @@ package gestor.biblioteca;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -209,7 +211,6 @@ public class Main {
 
         int usuarisWidth = 25;
         int nomUsuariWidth = 5;
-        int cognomUsuariWidth = 5;
 
         usuarisAmbPrestecs.append(String.format("%-" + usuarisWidth + "s%n", "Usuari"));
         usuarisAmbPrestecs.append("-------------------------\n");
@@ -230,9 +231,13 @@ public class Main {
                 for (int j = 0; j < jsonArray2.length(); j++) {
                     JSONObject jsonObject2 = jsonArray2.getJSONObject(j);
                     Integer idUsuari2 = jsonObject2.getInt("IdUsuari");
+                    String dataDevol = jsonObject2.getString("DataDevolucio");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //Format de la data
+                    Date dataDevolDate = sdf.parse(dataDevol); //Conversió de la data a format Date
+                    Date dataHoy = new Date();
 
-                    if (idUsuari == idUsuari2) {
-                        usuarisAmbPrestecs.append(String.format("%-" + usuarisWidth + "s %-" +  nomUsuariWidth + "s%n", nomUsuari + " " + cognomUsuari));
+                    if (idUsuari == idUsuari2 && dataDevolDate.after(dataHoy)) {
+                        usuarisAmbPrestecs.append(String.format("%-" +  nomUsuariWidth + "s%n", nomUsuari + " " + cognomUsuari));
                         
                     }
                 }
