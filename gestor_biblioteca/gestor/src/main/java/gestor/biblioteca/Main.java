@@ -6,6 +6,9 @@ import org.json.JSONObject;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
     
@@ -119,9 +122,126 @@ public class Main {
         return prestecList.toString();
     }
 
+    public static String prestecsLlistas(){
+        String filePathPrestecs = "./data/prestecs.json";
+        String filePathLlibres = "./data/llibres.json";
+        StringBuilder prestecList = new StringBuilder();
+
+        int idLlibreWidth = 10;
+        int nomLlibreWith = 40;
+        int estatWidth = 15;
+
+        prestecList.append(String.format("%-" + idLlibreWidth + "s %-" + nomLlibreWith + "s %-" + estatWidth + "s%n", "IdLlibre", "NomLlibre", "estat"));
+        prestecList.append("------------------------------------------------------------\n");
+
+        try {
+            String prestecsContent = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
+            String llibresContent = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
+
+            JSONArray prestecsArray = new JSONArray(prestecsContent);
+            JSONArray llibresArray = new JSONArray(llibresContent);
+
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            /*Recorrer para mostrar el estado de los libros*/
+            for (int i = 0; i < llibresArray.length(); i++) {
+                JSONObject llibre = llibresArray.getJSONObject(i);
+
+                int id = llibre.getInt("id");
+                String nomLlibre = llibre.getString("titol");
+                String estat = "Disponible";
+
+                /*Buscar si el libro esta en prestamo */
+                for (int j = 0; j < prestecsArray.length(); j++){
+                    JSONObject prestec = prestecsArray.getJSONObject(j);
+                    if (prestec.getInt("IdLlibre") == id) {
+                        String dataDevolucioStr = prestec.optString("DataDevolucio", " ");
+                        if (!dataDevolucioStr.isEmpty()) {
+                            LocalDate dataDevolucio = LocalDate.parse(dataDevolucioStr, formatter);
+                            if (dataDevolucio.isAfter(currentDate)){
+                                estat = "En Prestamo";
+                            }
+                        }
+                        break;
+                    }
+                }
+            
+                prestecList.append(String.format("%-" + idLlibreWidth + "d %-" + nomLlibreWith + "s %-" + estatWidth + "s%n", id, nomLlibre, estat));
+            }
+        }catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return prestecList.toString();
+    }
+
+
+    public static String prestecsforatermini(){
+        String filePath_Prestecs = "./data/prestecs.json";
+        String filePath_Usuaris = "./data/usuaris.json";
+        StringBuilder pfora = new StringBuilder();
+
+        Integer IdLlibre = 10;
+        Integer DataDevolucio = 15;
+        Integer IdUsuari = 10;
+        int Nomusuari = 30;
+
+        pfora.append(String.format("%-" + IdLlibre + "s %-"+ IdUsuari +"s %-"+ DataDevolucio + "s %-" + Nomusuari +"s%n", "IdLlibre", "IdUsuari","DataDevolucio","Nomusuari"));
+        pfora.append("-------------------------------------------------------------------------\n");
+
+        try {
+            String datosusuari = new String(Files.readAllBytes(Paths.get(filePath_Usuaris)));
+            String datosprestec = new String(Files.readAllBytes(Paths.get(filePath_Prestecs)));
+
+            JSONArray jsonArray = new JSONArray(datosusuari);
+            JSONArray jsonArraypres = new JSONArray(datosprestec);
+
+            LocalDate currenDate = LocalDate.now();
+            DateTimeFormatter fortime = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            for (int i = 0; i < JSONArray.length(); i++){
+                JSONObject prestamos = jsonArray.getJSONObject(i);
+                String idenLlibre = jsonObject.getInt("Idllibre");
+                String idenUsuari = JSONObject.getInt("IdUsuari");
+            }
+        }
+        
+    }
+
+    /*public static String llibresPerAutorLlistat(String autor) {
+        
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePath_books)));
+            
+            JSONArray jsonArray = new JSONArray(content); // Convertir el contingut a JSONArray
+    
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String bookTitle = jsonObject.getString("titol");
+                String autorNom = jsonObject.getString("autor");
+    
+                if (autorNom.toLowerCase().contains(autor.toLowerCase())) {
+                    llibresAutor.append(String.format("%-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n", bookTitle, autorNom));
+                }
+            }
+            return llibresAutor.toString();
+    
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    
+        return null;
+    }*/
     public static void main(String[] args) {
         System.out.println("Hello world!");
         
-        
+        /*System.out.println(prestecsLlistas());*/
+        String listaPrestecs = Main.prestecsLlistas();
+        /*String autorlistado = Main.llibresPerAutorLlistat();*/
+
+        System.out.println(listaPrestecs);
+        /*System.out.println(autorlistado);*/
+
     }
 }
