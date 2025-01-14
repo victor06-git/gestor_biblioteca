@@ -272,5 +272,15 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
         
+        Scanner scanner = new Scanner(System.in);
+
+        // Sol·licitar l'ID de l'usuari
+        System.out.print("Introdueix l'ID de l'usuari: ");
+        int idUsuari = scanner.nextInt();
+
+        // Mostrar el llistat de préstecs
+        String result = llistatPrestecsUsuari(idUsuari);
+        System.out.println(result);
+        scanner.close();
     }
 }
