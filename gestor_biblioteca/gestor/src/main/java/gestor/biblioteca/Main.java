@@ -212,31 +212,36 @@ public class Main {
         // Ruta arxiu "prestecs.json"
         String filePath_prestecs = "./data/prestecs.json";
         String filePath_usuaris = "./data/usuaris.json";
+        String filePath_llibres = "./data/llibres.json";
         StringBuilder prestecsList = new StringBuilder();
 
         int nomUsuariWidth = 10;
         int cognomsUsuariWidth = 20; 
         int idWidth = 12;
         int idLlibreWidth = 12;
+        int nomLlibreWidth = 30;
         int dataPrestecWidth = 15;
         int dataDevolucioWith = 15;
         
 
         // Crear les columnes
         prestecsList.append(String.format("%-" + nomUsuariWidth + "s %-" + cognomsUsuariWidth + "s %-" + idWidth + "s %-"
-                        + idLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWith 
-                        + "s%n", "Nom", "Cognoms", "ID Préstec", "ID Llibre", "Data Prestec", "Data Devolució"));
-                        prestecsList.append("--------------------------------------------------------------------------------------------\n");
+                        + idLlibreWidth +  "s %-" + nomLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWith 
+                        + "s%n", "Nom", "Cognoms", "ID Préstec", "ID Llibre", "Nom Llibre", "Data Prestec", "Data Devolució"));
+                        prestecsList.append("--------------------------------------------------------------------------------------------------------------------------\n");
 
         //Iterar sobre cada prestec
         try{
             String content = new String(Files.readAllBytes(Paths.get(filePath_prestecs)));
             String content_2 = new String(Files.readAllBytes(Paths.get(filePath_usuaris)));
+            String content_3 = new String(Files.readAllBytes(Paths.get(filePath_llibres)));
             JSONArray prestecsArray = new JSONArray(content);
             JSONArray usuarisArray = new JSONArray(content_2);
+            JSONArray llibresArray = new JSONArray(content_3);
 
             String strNom = "";
             String strCognoms = "";
+            String strNomLlibre = "";
 
 
             for(int i = 0; i < prestecsArray.length(); i++) {
@@ -256,11 +261,21 @@ public class Main {
                         strNom = nom;
                         strCognoms = cognoms; 
                     }
+
+                    for(int k = 0; k < llibresArray.length(); k++){
+                        JSONObject llibre = llibresArray.getJSONObject(k);
+                        Integer idLlibre2 = llibre.getInt("id");
+                        String nomLlibre = llibre.getString("titol");
+
+                        if (idLlibre == idLlibre2) {
+                            strNomLlibre = nomLlibre;
+                        }
+                    }
                 }
 
                 if (prestec.getInt("IdUsuari") == idUsuari) {
                     prestecsList.append(String.format("%-" + nomUsuariWidth + "s %-" + cognomsUsuariWidth + "s %-" + idWidth + "s %-"
-                    + idLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWith + "s%n", strNom, strCognoms, id, idLlibre, dataPrestec, dataDevolucio));
+                    + idLlibreWidth + "s %-" + nomLlibreWidth + "s %-"+ dataPrestecWidth + "s %-" + dataDevolucioWith + "s%n", strNom, strCognoms, id, idLlibre, strNomLlibre, dataPrestec, dataDevolucio));
                 }
             }
         } catch (Exception e) {
@@ -272,15 +287,5 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
         
-        Scanner scanner = new Scanner(System.in);
-
-        // Sol·licitar l'ID de l'usuari
-        System.out.print("Introdueix l'ID de l'usuari: ");
-        int idUsuari = scanner.nextInt();
-
-        // Mostrar el llistat de préstecs
-        String result = llistatPrestecsUsuari(idUsuari);
-        System.out.println(result);
-        scanner.close();
     }
 }
