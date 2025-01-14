@@ -2,13 +2,24 @@ package gestor.biblioteca;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Main {
+
+    //Funcions per afegir, modificar i eliminar llibres, usuaris i prestecs
     
+    
+
+
+
+
+
+
+
     /**
      * Funció que llistar els llibres de la biblioteca que tinguin el titol corresponent.
      * 
@@ -284,8 +295,111 @@ public class Main {
 
         return prestecsList.toString();
     }
+
+    /**
+     * Funció que llistar els usuaris amb préstecs actius
+     *
+     * @return Retorna un array dels usuaris amb préstecs actius segons NomUsuari i CognomUsuari.
+     */
+    public static String usuarisLlistatAmbPrestecsActius() {
+        String filePath_usuaris = "./data/usuaris.json";
+        String filePath_prestecs = "./data/prestecs.json";
+
+        StringBuilder usuarisAmbPrestecs = new StringBuilder();
+
+        int usuarisWidth = 25;
+        int nomUsuariWidth = 5;
+
+        usuarisAmbPrestecs.append(String.format("%-" + usuarisWidth + "s%n", "Usuari"));
+        usuarisAmbPrestecs.append("-------------------------\n");
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePath_usuaris)));
+            String content2 = new String(Files.readAllBytes(Paths.get(filePath_prestecs)));
+
+            JSONArray jsonArray = new JSONArray(content);
+            JSONArray jsonArray2 = new JSONArray(content2);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Integer idUsuari = jsonObject.getInt("id");
+                String nomUsuari = jsonObject.getString("nom");
+                String cognomUsuari = jsonObject.getString("cognoms");
+
+                for (int j = 0; j < jsonArray2.length(); j++) {
+                    JSONObject jsonObject2 = jsonArray2.getJSONObject(j);
+                    Integer idUsuari2 = jsonObject2.getInt("IdUsuari");
+                    String dataDevol = jsonObject2.getString("DataDevolucio");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //Format de la data
+                    Date dataDevolDate = sdf.parse(dataDevol); //Conversió de la data a format Date
+                    Date dataHoy = new Date();
+
+                    if (idUsuari == idUsuari2 && dataDevolDate.after(dataHoy)) {
+                        usuarisAmbPrestecs.append(String.format("%-" +  nomUsuariWidth + "s%n", nomUsuari + " " + cognomUsuari));
+                        
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return usuarisAmbPrestecs.toString();
+    }
+
+    /**
+     * Funció que llistar els usuaris amb préstecs fora de termini
+     *
+     * @return Retorna un array dels usuaris amb préstecs fora de termini segons NomUsuari i CognomUsuari.
+     */
+    public static String usuarisLlistatAmbPrestecsForaTermini() {
+        String filePath_usuaris = "./data/usuaris.json";
+        String filePath_prestecs = "./data/prestecs.json";
+
+        StringBuilder usuarisAmbPrestecs = new StringBuilder();
+
+        int usuarisWidth = 25;
+        int nomUsuariWidth = 5;
+
+        usuarisAmbPrestecs.append(String.format("%-" + usuarisWidth + "s%n", "Usuari"));
+        usuarisAmbPrestecs.append("-------------------------\n");
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePath_usuaris)));
+            String content2 = new String(Files.readAllBytes(Paths.get(filePath_prestecs)));
+
+            JSONArray jsonArray = new JSONArray(content);
+            JSONArray jsonArray2 = new JSONArray(content2);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Integer idUsuari = jsonObject.getInt("id");
+                String nomUsuari = jsonObject.getString("nom");
+                String cognomUsuari = jsonObject.getString("cognoms");
+
+                for (int j = 0; j < jsonArray2.length(); j++) {
+                    JSONObject jsonObject2 = jsonArray2.getJSONObject(j);
+                    Integer idUsuari2 = jsonObject2.getInt("IdUsuari");
+                    String dataDevol = jsonObject2.getString("DataDevolucio");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //Format de la data
+                    Date dataDevolDate = sdf.parse(dataDevol); //Conversió de la data a format Date
+                    Date dataHoy = new Date();
+
+                    if (idUsuari == idUsuari2 && dataDevolDate.before(dataHoy)) {
+                        usuarisAmbPrestecs.append(String.format("%-" +  nomUsuariWidth + "s%n", nomUsuari + " " + cognomUsuari));
+                        
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return usuarisAmbPrestecs.toString();
+    }
+
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        
+        System.out.println(usuarisLlistatAmbPrestecsForaTermini());
     }
 }
