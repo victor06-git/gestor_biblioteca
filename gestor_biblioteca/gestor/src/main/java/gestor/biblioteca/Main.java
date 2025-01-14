@@ -2,6 +2,7 @@ package gestor.biblioteca;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -201,11 +202,75 @@ public class Main {
         return llibresList.toString();
     }
 
+    /**
+     * Funció que llistar els préstecs d'un usuari
+     *
+     * @param idUsuari ID de l'usuari
+     * @return Retorna un array dels prestecs de l'usuari segons NomUsuari, CognomUsuari, IdPrestec, IdLlibre, DataPrestec i DataDevolucio.
+     */
+    public static String llistatPrestecsUsuari(int idUsuari){
+        // Ruta arxiu "prestecs.json"
+        String filePath_prestecs = "./data/prestecs.json";
+        String filePath_usuaris = "./data/usuaris.json";
+        StringBuilder prestecsList = new StringBuilder();
 
+        int nomUsuariWidth = 10;
+        int cognomsUsuariWidth = 20; 
+        int idWidth = 12;
+        int idLlibreWidth = 12;
+        int dataPrestecWidth = 15;
+        int dataDevolucioWith = 15;
+        
+
+        // Crear les columnes
+        prestecsList.append(String.format("%-" + nomUsuariWidth + "s %-" + cognomsUsuariWidth + "s %-" + idWidth + "s %-"
+                        + idLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWith 
+                        + "s%n", "Nom", "Cognoms", "ID Préstec", "ID Llibre", "Data Prestec", "Data Devolució"));
+                        prestecsList.append("--------------------------------------------------------------------------------------------\n");
+
+        //Iterar sobre cada prestec
+        try{
+            String content = new String(Files.readAllBytes(Paths.get(filePath_prestecs)));
+            String content_2 = new String(Files.readAllBytes(Paths.get(filePath_usuaris)));
+            JSONArray prestecsArray = new JSONArray(content);
+            JSONArray usuarisArray = new JSONArray(content_2);
+
+            String strNom = "";
+            String strCognoms = "";
+
+
+            for(int i = 0; i < prestecsArray.length(); i++) {
+                JSONObject prestec = prestecsArray.getJSONObject(i);
+                int id = prestec.getInt("Id");
+                int idLlibre = prestec.getInt("IdLlibre");
+                String dataPrestec = prestec.getString("DataPrestec");
+                String dataDevolucio = prestec.getString("DataDevolucio");
+
+                for(int j = 0; j < usuarisArray.length(); j++){
+                    JSONObject usuari = usuarisArray.getJSONObject(j);
+                    Integer idUsuari2 = usuari.getInt("id");
+                    String nom = usuari.getString("nom");
+                    String cognoms = usuari.getString("cognoms");
+
+                    if (idUsuari == idUsuari2) {
+                        strNom = nom;
+                        strCognoms = cognoms; 
+                    }
+                }
+
+                if (prestec.getInt("IdUsuari") == idUsuari) {
+                    prestecsList.append(String.format("%-" + nomUsuariWidth + "s %-" + cognomsUsuariWidth + "s %-" + idWidth + "s %-"
+                    + idLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWith + "s%n", strNom, strCognoms, id, idLlibre, dataPrestec, dataDevolucio));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            }
+
+        return prestecsList.toString();
+    }
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        
-        System.out.println(prestecsLlista());
         
     }
 }
