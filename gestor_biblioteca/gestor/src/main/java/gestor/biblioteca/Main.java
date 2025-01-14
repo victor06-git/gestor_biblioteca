@@ -9,7 +9,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Main {
+
+    //Funcions per afegir, modificar i eliminar llibres, usuaris i prestecs
     
+    
+
+
+
+
+
+
+
     /**
      * Funció que llistar els llibres de la biblioteca que tinguin el titol corresponent.
      * 
@@ -271,6 +281,11 @@ public class Main {
         return prestecsList.toString();
     }
 
+    /**
+     * Funció que llistar els usuaris amb préstecs actius
+     *
+     * @return Retorna un array dels usuaris amb préstecs actius segons NomUsuari i CognomUsuari.
+     */
     public static String usuarisLlistatAmbPrestecsActius() {
         String filePath_usuaris = "./data/usuaris.json";
         String filePath_prestecs = "./data/prestecs.json";
@@ -317,6 +332,11 @@ public class Main {
         return usuarisAmbPrestecs.toString();
     }
 
+    /**
+     * Funció que llistar els usuaris amb préstecs fora de termini
+     *
+     * @return Retorna un array dels usuaris amb préstecs fora de termini segons NomUsuari i CognomUsuari.
+     */
     public static String usuarisLlistatAmbPrestecsForaTermini() {
         String filePath_usuaris = "./data/usuaris.json";
         String filePath_prestecs = "./data/prestecs.json";
