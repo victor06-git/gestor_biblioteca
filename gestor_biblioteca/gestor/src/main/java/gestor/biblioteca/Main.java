@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,8 +12,50 @@ import org.json.JSONObject;
 public class Main {
 
     //Funcions per afegir, modificar i eliminar llibres, usuaris i prestecs
+    public void afegir_prestecs() {
+        // Afegir prestecs
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Qui vol fer un préstec?: ");
+        Integer idUsuari = scanner.nextInt();
+        System.out.print("Quin llibre es vol prestar?: ");
+        Integer idLlibre = scanner.nextInt();
+        System.out.print("Quina data es vol prestar?: ");
+        String dataPrestec = scanner.nextLine();
+        System.out.print("Quina data es vol tornar?: ");
+        String dataDevolucio = scanner.nextLine();
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("IdUsuari", idUsuari);
+        jsonObject.put("IdLlibre", idLlibre);
+        jsonObject.put("DataPrestec", dataPrestec);
+        jsonObject.put("DataDevolucio", dataDevolucio);
+
+
+        try {
+            String filePath_prestecs = "./data/prestecs.json";
+            String content = new String(Files.readAllBytes(Paths.get(filePath_prestecs)));
+            JSONArray jsonArray = new JSONArray(content);
+            
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+                Integer id = jsonObject2.getInt("Id");
+                jsonObject.put("Id", id + 1);
+                if (id == idUsuari) {
+                    System.out.println("Error: Aquest usuari ja te un préstec actiu.");
+                    return;
+                }
+
+            }
+            jsonArray.put(jsonObject);
+            Files.write(Paths.get(filePath_prestecs), jsonArray.toString().getBytes());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     
-    
+
+
+    }
 
 
 
@@ -385,6 +428,5 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        System.out.println(usuarisLlistatAmbPrestecsForaTermini());
     }
 }
