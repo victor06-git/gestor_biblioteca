@@ -201,11 +201,54 @@ public class Main {
         return llibresList.toString();
     }
 
+    public static String usuarisLlistatAmbPrestecsActius() {
+        String filePath_usuaris = "./data/usuaris.json";
+        String filePath_prestecs = "./data/prestecs.json";
+
+        StringBuilder usuarisAmbPrestecs = new StringBuilder();
+
+        int usuarisWidth = 25;
+        int nomUsuariWidth = 5;
+        int cognomUsuariWidth = 5;
+
+        usuarisAmbPrestecs.append(String.format("%-" + usuarisWidth + "s%n", "Usuari"));
+        usuarisAmbPrestecs.append("-------------------------\n");
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePath_usuaris)));
+            String content2 = new String(Files.readAllBytes(Paths.get(filePath_prestecs)));
+
+            JSONArray jsonArray = new JSONArray(content);
+            JSONArray jsonArray2 = new JSONArray(content2);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Integer idUsuari = jsonObject.getInt("id");
+                String nomUsuari = jsonObject.getString("nom");
+                String cognomUsuari = jsonObject.getString("cognoms");
+
+                for (int j = 0; j < jsonArray2.length(); j++) {
+                    JSONObject jsonObject2 = jsonArray2.getJSONObject(j);
+                    Integer idUsuari2 = jsonObject2.getInt("IdUsuari");
+
+                    if (idUsuari == idUsuari2) {
+                        usuarisAmbPrestecs.append(String.format("%-" + usuarisWidth + "s %-" +  nomUsuariWidth + "s%n", nomUsuari + " " + cognomUsuari));
+                        
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return usuarisAmbPrestecs.toString();
+    }
+
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
+        System.out.println(usuarisLlistatAmbPrestecsActius());
         
-        System.out.println(prestecsLlista());
         
     }
 }
