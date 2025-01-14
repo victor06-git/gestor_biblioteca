@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -400,6 +401,16 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        System.out.println(usuarisLlistatAmbPrestecsForaTermini());
+        Scanner scanner = new Scanner(System.in);
+
+        // Sol·licitar l'ID de l'usuari
+        System.out.print("Introdueix l'ID de l'usuari: ");
+        int idUsuari = scanner.nextInt();
+
+        // Mostrar el llistat de préstecs
+        String result = llistatPrestecsUsuari(idUsuari);
+        System.out.println(result);
+        scanner.close();
+        
     }
 }
