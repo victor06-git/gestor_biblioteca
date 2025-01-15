@@ -271,6 +271,7 @@ public class Main {
      * @return Retorna un array dels prestecs de l'usuari segons NomUsuari, CognomUsuari, IdPrestec, IdLlibre, NomLlibre, DataPrestec i DataDevolucio.
      */
     public static String llistatPrestecsUsuari(int idUsuari){
+
         // Ruta arxiu "prestecs.json"
         String filePath_prestecs = "./data/prestecs.json";
         String filePath_usuaris = "./data/usuaris.json";
@@ -287,9 +288,9 @@ public class Main {
         
 
         // Crear les columnes
-        prestecsList.append(String.format("%-" + nomUsuariWidth + "s %-" + cognomsUsuariWidth + "s %-" + idWidth + "s %-"
-                        + idLlibreWidth +  "s %-" + nomLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWith 
-                        + "s%n", "Nom", "Cognoms", "ID Préstec", "ID Llibre", "Nom Llibre", "Data Prestec", "Data Devolució"));
+        prestecsList.append(String.format("%-" + nomUsuariWidth + "s %-" + cognomsUsuariWidth + "s %" + idWidth + "s  %" 
+        + idLlibreWidth + "s %-" + nomLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWith 
+        + "s%n", "Nom", "Cognoms", "ID Préstec", "ID Llibre", "Nom Llibre", "Data Prestec", "Data Devolució"));
                         prestecsList.append("--------------------------------------------------------------------------------------------------------------------------\n");
 
         //Iterar sobre cada prestec
@@ -336,8 +337,10 @@ public class Main {
                 }
 
                 if (prestec.getInt("IdUsuari") == idUsuari) {
-                    prestecsList.append(String.format("%-" + nomUsuariWidth + "s %-" + cognomsUsuariWidth + "s %-" + idWidth + "s %-"
-                    + idLlibreWidth + "s %-" + nomLlibreWidth + "s %-"+ dataPrestecWidth + "s %-" + dataDevolucioWith + "s%n", strNom, strCognoms, id, idLlibre, strNomLlibre, dataPrestec, dataDevolucio));
+                    prestecsList.append(String.format("%-" + nomUsuariWidth + "s %-" + cognomsUsuariWidth + "s %" + idWidth + "d  %" 
+                    + idLlibreWidth + "d  %-" + nomLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWith + "s%n", 
+                    strNom, strCognoms, id, idLlibre, strNomLlibre, dataPrestec, dataDevolucio));
+
                 }
             }
         } catch (Exception e) {
