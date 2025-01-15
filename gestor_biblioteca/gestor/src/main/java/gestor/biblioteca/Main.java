@@ -63,8 +63,55 @@ public class Main {
 
 
     }
-    
 
+    public static void eliminar_prestecs() {
+        Scanner scanner = new Scanner(System.in);
+        String filePathPrestecs = "./data/prestecs.json";
+    
+        try {
+            String contentPrestecs = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
+            JSONArray prestecsArray = new JSONArray(contentPrestecs);
+    
+            // demanem l'ID del préstec a eliminar
+            System.out.print("Quin ID de préstec vols eliminar?: ");
+            int idPrestecEliminar = scanner.nextInt();
+    
+            JSONObject prestecAEliminar = null;
+            int indexToRemove = -1;
+    
+            // buscar el prestec a eliminar
+            for (int i = 0; i < prestecsArray.length(); i++) {
+                JSONObject prestec = prestecsArray.getJSONObject(i);
+                if (prestec.getInt("Id") == idPrestecEliminar) {
+                    prestecAEliminar = prestec;
+                    indexToRemove = i;
+                    break;
+                }
+            }
+    
+            if (prestecAEliminar != null) {
+                // confirmem si l'usuari vol eliminar o no el prestec
+                System.out.println("Estàs segur que vols eliminar el següent préstec?");
+                System.out.println(prestecAEliminar.toString(4));
+                System.out.print("Vols eliminar aquest préstec? (s/n): ");
+                String confirmacio = scanner.next();
+    
+                if (confirmacio.equalsIgnoreCase("s")) {
+                    // eliminar el préstec i guardar el fitxer
+                    prestecsArray.remove(indexToRemove);
+                    Files.write(Paths.get(filePathPrestecs), prestecsArray.toString(4).getBytes());
+                    System.out.println("S'ha eliminat el préstec amb ID " + idPrestecEliminar);
+                } else {
+                    System.out.println("No s'ha eliminat el préstec amb ID " + idPrestecEliminar);
+                }
+            } else {
+                System.out.println("No s'ha trobat cap préstec amb l'ID especificat.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+     
 
 
 
