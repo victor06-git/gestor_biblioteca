@@ -3,6 +3,8 @@ package gestor.biblioteca;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import org.json.JSONArray;
@@ -398,8 +400,105 @@ public class Main {
         return usuarisAmbPrestecs.toString();
     }
 
+
+
+    /**
+     * Funció que llista tots els prectes actius
+     *
+     * @return Retorna un array dels prestecs actius segons id, idUsuari, strNom, strCognoms, idLlibre, strNomLlibre, dataPrestec, dataDevolucio
+     */
+    public static String llistatPrestecsActius() {
+        // Ruta arxiu "prestecs.json"
+        String filePath_prestecs = "./data/prestecs.json";
+        String filePath_usuaris = "./data/usuaris.json";
+        String filePath_llibres = "./data/llibres.json";
+        StringBuilder prestecsList = new StringBuilder();
+
+        int idWidth = 10;
+        int idUsuariWidth = 10;
+        int nomUsuariWidth = 15;
+        int cognomsUsuariWidth = 20; 
+        int idLlibreWidth = 9;
+        int nomLlibreWidth = 30;
+        int dataPrestecWidth = 15;
+        int dataDevolucioWith = 15;
+        
+
+        // Crear les columnes
+        prestecsList.append(String.format("%" + idWidth + "s  %-" + idUsuariWidth + "s  %-"+  nomUsuariWidth + "s %-" + cognomsUsuariWidth + "s %"
+        + idLlibreWidth + "s  %-" + nomLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWith 
+        + "s%n", "ID Préstec", "Id Usuari", "Nom Usuari", "Cognoms Usuari", "ID Llibre", "Nom Llibre", "Data Prestec", "Data Devolució"));
+
+                        prestecsList.append("--------------------------------------------------------------------------------------------------------------------------------------\n");
+
+        //Iterar sobre cada prestec
+        try{
+            String content = new String(Files.readAllBytes(Paths.get(filePath_prestecs)));
+            String content_2 = new String(Files.readAllBytes(Paths.get(filePath_usuaris)));
+            String content_3 = new String(Files.readAllBytes(Paths.get(filePath_llibres)));
+            JSONArray prestecsArray = new JSONArray(content);
+            JSONArray usuarisArray = new JSONArray(content_2);
+            JSONArray llibresArray = new JSONArray(content_3);
+
+
+            LocalDate dataLocalActual = LocalDate.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            String strNom = "";
+            String strCognoms = "";
+            String strNomLlibre = "";
+
+
+
+            for(int i = 0; i < prestecsArray.length(); i++) {
+                JSONObject prestec = prestecsArray.getJSONObject(i);
+                int id = prestec.getInt("Id");
+                int idUsuari = prestec.getInt("IdUsuari");
+                int idLlibre = prestec.getInt("IdLlibre");
+                String dataPrestec = prestec.getString("DataPrestec");
+                String dataDevolucio = prestec.getString("DataDevolucio");
+
+                for(int j = 0; j < usuarisArray.length(); j++){
+                    JSONObject usuari = usuarisArray.getJSONObject(j);
+                    Integer idUsuari2 = usuari.getInt("id");
+                    String nom = usuari.getString("nom");
+                    String cognoms = usuari.getString("cognoms");
+
+                    if (idUsuari == idUsuari2) {
+                        strNom = nom;
+                        strCognoms = cognoms; 
+                    }
+
+                    for(int k = 0; k < llibresArray.length(); k++){
+                        JSONObject llibre = llibresArray.getJSONObject(k);
+                        Integer idLlibre2 = llibre.getInt("id");
+                        String nomLlibre = llibre.getString("titol");
+
+                        if (idLlibre == idLlibre2) {
+                            strNomLlibre = nomLlibre;
+                        }
+
+                    }
+                }
+                if (prestec.has("DataDevolucio")) {
+                    LocalDate dataDevolucio2 = LocalDate.parse(dataDevolucio, format); //aquesta línea converteix(parse) "dataDevolucio" en un objecte localDate per poder comparar les dates bé
+
+                    if (dataDevolucio2.isAfter(dataLocalActual)) {
+                        prestecsList.append(String.format("%" + idWidth + "d  %" + idUsuariWidth + "d  %-" + nomUsuariWidth + "s %-" + cognomsUsuariWidth + "s %"
+                        + idLlibreWidth + "d  %-" + nomLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWith + "s%n", 
+                        id, idUsuari, strNom, strCognoms, idLlibre, strNomLlibre, dataPrestec, dataDevolucio));
+                }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            }
+
+        return prestecsList.toString();
+    }
+
+
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        System.out.println(usuarisLlistatAmbPrestecsForaTermini());
     }
 }
