@@ -133,6 +133,7 @@ public class Main {
             JSONObject nouPrestec = new JSONObject();
             int idLlibre = -1;
             int idUsuari = -1;
+            String dataDevolucio = null;
 
             boolean idLlibreTrobat = true; //Variable per a comprovar si el llibre existeix o no
             while (idLlibreTrobat) {
@@ -149,12 +150,11 @@ public class Main {
                         idLlibreTrobat = false;
                         break;
                     } 
-                    
+                }
                     if (idLlibreTrobat == true) {
                         System.out.println("No existeix cap llibre amb l'ID " + idLlibre);
                     }
                 }
-            }
 
             boolean idUsuariTrobat = true; //Variable per a comprovar si l'usuari existeix o no                                                                    
             while (idUsuariTrobat) {    
@@ -171,19 +171,32 @@ public class Main {
                         idUsuariTrobat = false;
                         break;
                         
-                    } 
+                    }
+                } 
                     if (idUsuariTrobat == true) {
                         System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
-                    }
                 }
             }
             
             Date dataActual = new Date();
             String dataPrestec = new SimpleDateFormat("yyyy-MM-dd").format(dataActual); //Data actual en format String per afegir-ho al prestec.json
 
-            System.out.print("Escriu la data de devolució (yyyy-MM-dd): ");
-            String dataDevolucio = scanner.next();
+            System.out.println("Data de préstec: " + dataPrestec);
 
+            boolean dataCorrecta = true; //Variable per a comprovar si la data de devolució és correcta
+            while(dataCorrecta){   
+                System.out.print("Escriu la data de devolució (yyyy-MM-dd): ");
+                dataDevolucio = scanner.nextLine();
+
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                Date dataDevolucioDate = formato.parse(dataDevolucio); //Conversió de la data a format Date
+                if (dataDevolucioDate.after(dataActual)) {
+                    nouPrestec.put("DataDevolucio", dataDevolucio);
+                    dataCorrecta = false;
+                } else {
+                    System.out.println("La data de devolució ha de ser posterior a la data actual.");
+                }
+            }
             nouPrestec.put("DataPrestec", dataPrestec);
             nouPrestec.put("DataDevolucio", dataDevolucio);
 
@@ -197,9 +210,9 @@ public class Main {
                 if (id == nouId) {
                     nouId++;
                     k = -1; //tornem a començar el bucle per a que es comprovi si l'id está repetit o no
-                }
-                
+                }    
             }
+
             nouPrestec.put("Id", nouId); //S'afegeix el nou ID al nou prestec que es vol afegir
 
             System.out.println("Vols afegir aquest préstec?");
@@ -225,6 +238,7 @@ public class Main {
         } finally {
             scanner.close();
         }
+        
     }
 
 
