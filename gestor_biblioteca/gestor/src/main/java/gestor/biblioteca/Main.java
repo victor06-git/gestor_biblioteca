@@ -111,8 +111,108 @@ public class Main {
             System.out.println("Error: " + e.getMessage());
         }
     }
-     
 
+    public static void afegir_prestecs() {
+        //afegir nous prestecs
+        Scanner scanner = new Scanner(System.in);
+        
+        try {
+
+            String filePathPrestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
+            String filePathLlibres = "./gestor_biblioteca/gestor/data/llibres.json";
+            String filePathUsuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
+            
+            String content = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
+            String content2 = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
+            String content3 = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
+
+            JSONArray prestecsArray = new JSONArray(content);       
+            JSONArray usuarisArray = new JSONArray(content2);
+            JSONArray llibresArray = new JSONArray(content3);
+
+
+            System.out.print("Escriu l'ID del llibre a prestar: ");
+            int idLlibre = scanner.nextInt();
+
+            for (int i = 0; i < llibresArray.length(); i++) { //Bucle per a recorrer el json de llibres
+                JSONObject llibre = llibresArray.getJSONObject(i);
+                Integer idLlibre2 = llibre.getInt("id");
+
+                if (idLlibre == idLlibre2) {
+                    System.out.println("El llibre amb ID " + idLlibre + " és: " + llibre.getString("titol"));
+                } else {
+                    System.out.println("No existeix cap llibre amb l'ID " + idLlibre);
+                    return;
+                }
+
+            System.out.print("Escriu l'ID de l'usuari del prestec: ");
+            int idUsuari = scanner.nextInt();
+
+            for (int j = 0; j < usuarisArray.length(); j++) { //Bucle per a recorrer el json d'usuaris
+                JSONObject usuari = usuarisArray.getJSONObject(j);
+                Integer idUsuari2 = usuari.getInt("id");
+
+                if (idUsuari == idUsuari2) {
+                    System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
+                } else {
+                    System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
+                    System.out.print("Torna a escriure l'ID de l'usuari: ");
+                    idUsuari = scanner.nextInt();
+                }
+            }
+            
+            Date dataActual = new Date();
+            String dataPrestec = new SimpleDateFormat("yyyy-MM-dd").format(dataActual); //Data actual en format String per afegir-ho al prestec.json
+
+            System.out.print("Escriu la data de devolució (yyyy-MM-dd): ");
+            String dataDevolucio = scanner.next();
+
+            JSONObject nouPrestec = new JSONObject();
+            nouPrestec.put("IdLlibre", idLlibre);
+            nouPrestec.put("IdUsuari", idUsuari);
+            nouPrestec.put("DataPrestec", dataPrestec);
+            nouPrestec.put("DataDevolucio", dataDevolucio);
+
+            JSONArray prestecs = new JSONArray(content);
+
+            int nouId = 1; //Inicialitzem el nou ID a 1
+            for (int k = 0; k < prestecsArray.length(); k++){
+                JSONObject prestec = prestecsArray.getJSONObject(k);
+                Integer id = prestec.getInt("Id");
+
+                if (id == nouId) {
+                    nouId++;
+                    k = -1; //tornem a començar el bucle per a que es comprovi si l'id está repetit o no
+                }
+                
+            }
+            nouPrestec.put("Id", nouId); //S'afegeix el nou ID al nou prestec que es vol afegir
+
+            System.out.println("Vols afegir aquest préstec?");
+            System.out.println(nouPrestec.toString(4));
+            System.out.print("Vols afegir aquest préstec? (s/n): ");
+            String confirmacio = scanner.next();
+
+            if (confirmacio.equalsIgnoreCase("s")) {
+                prestecs.put(nouPrestec);
+                Files.write(Paths.get(filePathPrestecs), prestecs.toString(4).getBytes());
+                System.out.println("S'ha afegit el següent préstec:");
+                System.out.println("ID: " + nouId);
+                System.out.println("ID Llibre: " + idLlibre);
+                System.out.println("ID Usuari: " + idUsuari);
+                System.out.println("Data de préstec: " + dataPrestec);
+                System.out.println("Data de devolució: " + dataDevolucio);
+            } else {
+                System.out.println("No s'ha afegit el préstec.");
+            }
+        }
+        
+        } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+        } finally {
+        scanner.close();
+        }
+    }
 
 
 
@@ -599,6 +699,6 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        eliminar_prestecs();
+        afegir_prestecs();
     }
 }
