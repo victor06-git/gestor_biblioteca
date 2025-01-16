@@ -130,10 +130,20 @@ public class Main {
             JSONArray usuarisArray = new JSONArray(content2);
             JSONArray llibresArray = new JSONArray(content3);
 
-            JSONObject nouPrestec = new JSONObject();
             int idLlibre = -1;
             int idUsuari = -1;
-            String dataDevolucio = null;
+            String dataDevolucio = "";
+
+            int nouId = 1; //Inicialitzem el nou ID a 1
+            for (int k = 0; k < prestecsArray.length(); k++){
+                JSONObject prestec = prestecsArray.getJSONObject(k);
+                Integer id = prestec.getInt("Id");
+
+                if (id == nouId) {
+                    nouId++;
+                    k = -1; //tornem a començar el bucle per a que es comprovi si l'id está repetit o no
+                }    
+            }
 
             boolean idLlibreTrobat = true; //Variable per a comprovar si el llibre existeix o no
             while (idLlibreTrobat) {
@@ -146,7 +156,6 @@ public class Main {
 
                     if (idLlibre == idLlibre2) {
                         System.out.println("El llibre amb ID " + idLlibre + " és: " + llibre.getString("titol"));
-                        nouPrestec.put("IdLlibre", idLlibre);
                         idLlibreTrobat = false;
                         break;
                     } 
@@ -167,7 +176,7 @@ public class Main {
 
                     if (idUsuari == idUsuari2) {
                         System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
-                        nouPrestec.put("IdUsuari", idUsuari);
+                        
                         idUsuariTrobat = false;
                         break;
                         
@@ -181,39 +190,33 @@ public class Main {
             Date dataActual = new Date();
             String dataPrestec = new SimpleDateFormat("yyyy-MM-dd").format(dataActual); //Data actual en format String per afegir-ho al prestec.json
 
-            System.out.println("Data de préstec: " + dataPrestec);
+            System.out.println("Data de prestec: " + dataPrestec);
 
             boolean dataCorrecta = true; //Variable per a comprovar si la data de devolució és correcta
             while(dataCorrecta){   
                 System.out.print("Escriu la data de devolució (yyyy-MM-dd): ");
-                dataDevolucio = scanner.nextLine();
+                dataDevolucio = scanner.next();
 
                 SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
                 Date dataDevolucioDate = formato.parse(dataDevolucio); //Conversió de la data a format Date
                 if (dataDevolucioDate.after(dataActual)) {
-                    nouPrestec.put("DataDevolucio", dataDevolucio);
                     dataCorrecta = false;
                 } else {
                     System.out.println("La data de devolució ha de ser posterior a la data actual.");
                 }
             }
+
+            JSONObject nouPrestec = new JSONObject();
+            
+
+            nouPrestec.put("Id", nouId);
+            nouPrestec.put("IdLlibre", idLlibre);
+            nouPrestec.put("IdUsuari", idUsuari);
             nouPrestec.put("DataPrestec", dataPrestec);
             nouPrestec.put("DataDevolucio", dataDevolucio);
+            
 
             JSONArray prestecs = new JSONArray(content);
-
-            int nouId = 1; //Inicialitzem el nou ID a 1
-            for (int k = 0; k < prestecsArray.length(); k++){
-                JSONObject prestec = prestecsArray.getJSONObject(k);
-                Integer id = prestec.getInt("Id");
-
-                if (id == nouId) {
-                    nouId++;
-                    k = -1; //tornem a començar el bucle per a que es comprovi si l'id está repetit o no
-                }    
-            }
-
-            nouPrestec.put("Id", nouId); //S'afegeix el nou ID al nou prestec que es vol afegir
 
             System.out.println("Vols afegir aquest préstec?");
             System.out.println(nouPrestec.toString(4));
