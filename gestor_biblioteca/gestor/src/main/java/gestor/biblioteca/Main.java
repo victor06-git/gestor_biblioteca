@@ -118,9 +118,9 @@ public class Main {
         
         try {
 
-            String filePathPrestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
-            String filePathLlibres = "./gestor_biblioteca/gestor/data/llibres.json";
-            String filePathUsuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
+            String filePathPrestecs = "./data/prestecs.json";
+            String filePathLlibres = "./data/llibres.json";
+            String filePathUsuaris = "./data/usuaris.json";
             
             String content = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
             String content2 = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
@@ -134,7 +134,7 @@ public class Main {
             int idLlibre = -1;
             int idUsuari = -1;
 
-            boolean idLlibreTrobat = false; //Variable per a comprovar si el llibre existeix o no
+            boolean idLlibreTrobat = true; //Variable per a comprovar si el llibre existeix o no
             while (idLlibreTrobat) {
                 System.out.print("Escriu l'ID del llibre a prestar: ");
                 idLlibre = scanner.nextInt();
@@ -146,16 +146,17 @@ public class Main {
                     if (idLlibre == idLlibre2) {
                         System.out.println("El llibre amb ID " + idLlibre + " és: " + llibre.getString("titol"));
                         nouPrestec.put("IdLlibre", idLlibre);
-                        idLlibreTrobat = true;
+                        idLlibreTrobat = false;
+                        break;
                     } 
-
-                    if (!idLlibreTrobat) {
+                    
+                    if (idLlibreTrobat == true) {
                         System.out.println("No existeix cap llibre amb l'ID " + idLlibre);
                     }
                 }
             }
 
-            boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no                                                                    
+            boolean idUsuariTrobat = true; //Variable per a comprovar si l'usuari existeix o no                                                                    
             while (idUsuariTrobat) {    
                 System.out.print("Escriu l'ID de l'usuari del prestec: ");
                 idUsuari = scanner.nextInt();
@@ -164,14 +165,15 @@ public class Main {
                     JSONObject usuari = usuarisArray.getJSONObject(j);
                     Integer idUsuari2 = usuari.getInt("id");
 
-                if (idUsuari == idUsuari2) {
-                    System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
-                    idUsuariTrobat = true;
-                    nouPrestec.put("IdUsuari", idUsuari);
-                }
-
-                if (!idUsuariTrobat) {
-                    System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
+                    if (idUsuari == idUsuari2) {
+                        System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
+                        nouPrestec.put("IdUsuari", idUsuari);
+                        idUsuariTrobat = false;
+                        break;
+                        
+                    } 
+                    if (idUsuariTrobat == true) {
+                        System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
                     }
                 }
             }
