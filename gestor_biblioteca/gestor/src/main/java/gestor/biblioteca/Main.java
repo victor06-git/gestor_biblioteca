@@ -113,6 +113,169 @@ public class Main {
     }
      
 
+    public static void modificar_usuaris() {
+        //modificar usuaris
+        Scanner scanner = new Scanner(System.in);
+        String filePathUsuaris = "./data/usuaris.json";
+        StringBuilder userList = new StringBuilder();
+
+        int nomWidth = 15;
+        int cognomsWidth = 20;
+        int phoneWidth = 15;
+        userList.append(String.format("%-" + nomWidth + "s %-"
+                + cognomsWidth + "s %-" + phoneWidth + "s%n", "Nom", "Cognoms", "Telèfon"));
+                userList.append("----------------------------------------------\n");
+
+        try{
+            String contentUsuaris = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
+            JSONArray usuarisArray = new JSONArray(contentUsuaris);
+
+            System.out.print("Escriu l'ID del usuari a modificar: ");
+            int id = scanner.nextInt();
+
+            for(int i = 0; i < usuarisArray.length();i++){
+                JSONObject usuari = usuarisArray.getJSONObject(i);
+                Integer idUsuari = usuari.getInt("id");
+                String nom = usuari.getString("nom");
+                String cognoms = usuari.getString("cognoms");
+                String telefon = usuari.getString("telefon");
+
+                if (id == idUsuari) {
+                    System.out.println("L'usuari amb ID " + id + " conté les següents dades: ");
+                    userList.append(String.format("%-" + nomWidth + "s %-"
+                            + cognomsWidth + "s %-" + phoneWidth + "s%n", nom, cognoms, telefon));
+                    System.out.println(userList.toString());
+
+                    boolean continuar = true;
+                    while (continuar) {
+                        System.out.println("Quin camp vols modificar?: ");
+                        System.out.println("1. Nom");
+                        System.out.println("2. Cognoms");
+                        System.out.println("3. Telèfon");
+                        System.out.println("4. Sortir");
+                        System.out.print("Selecciona una opció: ");
+                        int opcio = scanner.nextInt();
+                        scanner.nextLine(); // cnsumir el salt de linia restant
+
+                        switch (opcio) {
+                            case 1://validem nom
+                                boolean nomValid = false;
+                                while (!nomValid) {
+                                    System.out.print("Escriu el nou nom (només lletres i espais): ");
+                                    String nouNom = scanner.nextLine();
+                            
+                                    if (nouNom.matches("[a-zA-ZÀ-ÿ\\s]+")) { //lletres i espais de aA-zZ, de À-ÿ, incloent espais \\s
+                                        usuari.put("nom", nouNom);
+                                        System.out.println("Nom actualitzat!");
+                                        nomValid = true;
+                                        nom = nouNom;
+                            
+                                        Files.write(Paths.get(filePathUsuaris), usuarisArray.toString(4).getBytes());
+
+                                        userList.setLength(0); //netejem el StringBuilder per no escriure el mateix d'abans
+
+
+                                        userList.append(String.format("%-" + nomWidth + "s %-"
+                                            + cognomsWidth + "s %-" + phoneWidth + "s%n", "Nom", "Cognoms", "Telèfon"));
+                                        userList.append("----------------------------------------------\n");
+
+                                        userList.append(String.format("%-" + nomWidth + "s %-"
+                                            + cognomsWidth + "s %-" + phoneWidth + "s%n", nom, cognoms, telefon));
+                                        System.out.println(userList.toString());
+
+                                    } else {
+                                        System.out.println("Error: El nom només pot contenir lletres i espais. Torna-ho a intentar.");
+                                    }
+                                }
+                                break;
+                            
+                            case 2://validem cognoms
+                                boolean cognomsValids = false;
+                                while (!cognomsValids) {
+                                    System.out.print("Escriu els nous cognoms (només lletres i espais): ");
+                                    String nousCognoms = scanner.nextLine();
+                            
+                                    if (nousCognoms.matches("[a-zA-ZÀ-ÿ\\s]+")) { //lletres i espais de aA-zZ, de À-ÿ, incloent espais \\s
+                                        usuari.put("cognoms", nousCognoms);
+                                        System.out.println("Cognoms actualitzats!");
+                                        cognomsValids = true;
+                                        cognoms = nousCognoms;
+                            
+                                        Files.write(Paths.get(filePathUsuaris), usuarisArray.toString(4).getBytes());
+
+                                        userList.setLength(0); //netejem el StringBuilder per no escriure el mateix d'abans
+
+                                        userList.append(String.format("%-" + nomWidth + "s %-"
+                                            + cognomsWidth + "s %-" + phoneWidth + "s%n", "Nom", "Cognoms", "Telèfon"));
+                                        userList.append("----------------------------------------------\n");
+
+                                        userList.append(String.format("%-" + nomWidth + "s %-"
+                                            + cognomsWidth + "s %-" + phoneWidth + "s%n", nom, cognoms, telefon));
+                                        System.out.println(userList.toString());
+
+                                    } else {
+                                        System.out.println("Error: Els cognoms només poden contenir lletres i espais. Torna-ho a intentar.");
+                                    }
+                                }
+                                break;
+
+                            case 3: //validem telèfon
+                                boolean telefonoValido = false;
+                                while (!telefonoValido) {
+                                    System.out.print("Escriu el nou telèfon (9 dígits): ");
+                                    String nouTelefon = scanner.nextLine();
+                            
+                                    if (nouTelefon.length() == 9 && nouTelefon.chars().allMatch(Character::isDigit)) {
+                                        usuari.put("telefon", nouTelefon);
+                                        System.out.println("Telèfon actualitzat!");
+                                        telefonoValido = true;
+                                        telefon = nouTelefon;
+                            
+                                        Files.write(Paths.get(filePathUsuaris), usuarisArray.toString(4).getBytes());
+
+                                        userList.setLength(0); //netejem el StringBuilder per no escriure el mateix d'abans
+
+                                        userList.append(String.format("%-" + nomWidth + "s %-"
+                                            + cognomsWidth + "s %-" + phoneWidth + "s%n", "Nom", "Cognoms", "Telèfon"));
+                                        userList.append("----------------------------------------------\n");
+                                        
+                                        userList.append(String.format("%-" + nomWidth + "s %-"
+                                            + cognomsWidth + "s %-" + phoneWidth + "s%n", nom, cognoms, telefon));
+                                        System.out.println(userList.toString());
+
+                                    } else {
+                                        System.out.println("Error: El telèfon ha de contenir exactament 9 dígits numèrics. Torna-ho a intentar.");
+                                    }
+                                }
+                                break;
+                            
+                            case 4:
+                                continuar = false;
+                                System.out.println("Sortint del menú de modificació.");
+                                break;
+                            default:
+                                System.out.println("Opció no vàlida. Intenta-ho de nou.");
+                                break;
+                        }
+                    }
+
+                    // Guardar cambios en el archivo JSON
+                    Files.write(Paths.get(filePathUsuaris), usuarisArray.toString(4).getBytes());
+                    System.out.println("Els canvis s'han guardat correctament.");
+                    return;
+                }
+            }
+
+            System.out.println("No s'ha trobat cap usuari amb l'ID especificat.");
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }finally{
+            scanner.close();
+        }
+    }
+
+
 
 
 
@@ -599,6 +762,5 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        eliminar_prestecs();
     }
 }
