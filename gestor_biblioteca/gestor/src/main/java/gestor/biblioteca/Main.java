@@ -130,34 +130,49 @@ public class Main {
             JSONArray usuarisArray = new JSONArray(content2);
             JSONArray llibresArray = new JSONArray(content3);
 
+            JSONObject nouPrestec = new JSONObject();
+            int idLlibre = -1;
+            int idUsuari = -1;
 
-            System.out.print("Escriu l'ID del llibre a prestar: ");
-            int idLlibre = scanner.nextInt();
+            boolean idLlibreTrobat = false; //Variable per a comprovar si el llibre existeix o no
+            while (idLlibreTrobat) {
+                System.out.print("Escriu l'ID del llibre a prestar: ");
+                idLlibre = scanner.nextInt();
 
-            for (int i = 0; i < llibresArray.length(); i++) { //Bucle per a recorrer el json de llibres
-                JSONObject llibre = llibresArray.getJSONObject(i);
-                Integer idLlibre2 = llibre.getInt("id");
+                for (int i = 0; i < llibresArray.length(); i++) { //Bucle per a recorrer el json de llibres
+                    JSONObject llibre = llibresArray.getJSONObject(i);
+                    Integer idLlibre2 = llibre.getInt("id");
 
-                if (idLlibre == idLlibre2) {
-                    System.out.println("El llibre amb ID " + idLlibre + " és: " + llibre.getString("titol"));
-                } else {
-                    System.out.println("No existeix cap llibre amb l'ID " + idLlibre);
-                    return;
+                    if (idLlibre == idLlibre2) {
+                        System.out.println("El llibre amb ID " + idLlibre + " és: " + llibre.getString("titol"));
+                        nouPrestec.put("IdLlibre", idLlibre);
+                        idLlibreTrobat = true;
+                    } 
+
+                    if (!idLlibreTrobat) {
+                        System.out.println("No existeix cap llibre amb l'ID " + idLlibre);
+                    }
                 }
+            }
 
-            System.out.print("Escriu l'ID de l'usuari del prestec: ");
-            int idUsuari = scanner.nextInt();
+            boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no                                                                    
+            while (idUsuariTrobat) {    
+                System.out.print("Escriu l'ID de l'usuari del prestec: ");
+                idUsuari = scanner.nextInt();
 
-            for (int j = 0; j < usuarisArray.length(); j++) { //Bucle per a recorrer el json d'usuaris
-                JSONObject usuari = usuarisArray.getJSONObject(j);
-                Integer idUsuari2 = usuari.getInt("id");
+                for (int j = 0; j < usuarisArray.length(); j++) { //Bucle per a recorrer el json d'usuaris
+                    JSONObject usuari = usuarisArray.getJSONObject(j);
+                    Integer idUsuari2 = usuari.getInt("id");
 
                 if (idUsuari == idUsuari2) {
                     System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
-                } else {
+                    idUsuariTrobat = true;
+                    nouPrestec.put("IdUsuari", idUsuari);
+                }
+
+                if (!idUsuariTrobat) {
                     System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
-                    System.out.print("Torna a escriure l'ID de l'usuari: ");
-                    idUsuari = scanner.nextInt();
+                    }
                 }
             }
             
@@ -167,9 +182,6 @@ public class Main {
             System.out.print("Escriu la data de devolució (yyyy-MM-dd): ");
             String dataDevolucio = scanner.next();
 
-            JSONObject nouPrestec = new JSONObject();
-            nouPrestec.put("IdLlibre", idLlibre);
-            nouPrestec.put("IdUsuari", idUsuari);
             nouPrestec.put("DataPrestec", dataPrestec);
             nouPrestec.put("DataDevolucio", dataDevolucio);
 
@@ -205,12 +217,11 @@ public class Main {
             } else {
                 System.out.println("No s'ha afegit el préstec.");
             }
-        }
         
         } catch (Exception e) {
         System.out.println("Error: " + e.getMessage());
         } finally {
-        scanner.close();
+            scanner.close();
         }
     }
 
