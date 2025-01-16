@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -176,8 +177,55 @@ public class Main {
         return prestecList.toString();
     }
 
+    public static String llibresperautorllistat(String autor) {
+        
+        String filePathllibre = "./data/llibres.json";
+        StringBuilder llibresAutor = new StringBuilder();
 
-    public static String prestecsforatermini(){
+        int nomLlibreWidth = 25;
+        int autorLlibreWidth = 25;
+
+        llibresAutor.append(String.format("%-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n","titol","autor"));
+        llibresAutor.append("------------------------------------------\n");
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePathllibre)));
+            JSONArray jsonArray = new JSONArray(content);
+
+            HashMap<String, StringBuilder> autoresLibros = new HashMap<>();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String titolllibre = jsonObject.getString("titol");
+                String autorNom = jsonObject.getString("autor");
+
+                if (autorNom.toLowerCase().contains(autor.toLowerCase())) {
+
+                    autoresLibros
+                        .computeIfAbsent(autorNom, k -> new StringBuilder())
+                        .append(String.format("%-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n", titolllibre, autorNom));        
+                }
+
+            }
+
+            if (autoresLibros.isEmpty()) {
+                return "No se encontraron libros para el autor: " + autor;
+            }
+
+            for (HashMap.Entry<String, StringBuilder> entry : autoresLibros.entrySet()) {
+                llibresAutor.append("autor: ").append(entry.getKey()).append("\n");
+                llibresAutor.append(entry.getValue());
+                llibresAutor.append("\n");
+            }
+
+            return llibresAutor.toString();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return null; 
+    }
+  /*  public static String prestecsforatermini(){
         String filePath_Prestecs = "./data/prestecs.json";
         String filePath_Usuaris = "./data/usuaris.json";
         StringBuilder pfora = new StringBuilder();
@@ -200,15 +248,15 @@ public class Main {
             LocalDate currenDate = LocalDate.now();
             DateTimeFormatter fortime = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-            for (int i = 0; i < JSONArray.length(); i++){
-                JSONObject prestamos = jsonArray.getJSONObject(i);
-                String idenLlibre = jsonObject.getInt("Idllibre");
-                String idenUsuari = JSONObject.getInt("IdUsuari");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String 
             }
         }
         
-    }
+    }*/
 
+    
     /*public static String llibresPerAutorLlistat(String autor) {
         
         try {
@@ -237,10 +285,12 @@ public class Main {
         System.out.println("Hello world!");
         
         /*System.out.println(prestecsLlistas());*/
-        String listaPrestecs = Main.prestecsLlistas();
-        /*String autorlistado = Main.llibresPerAutorLlistat();*/
+        /*String listaPrestecs = Main.prestecsLlistas();*/
+        String llistatllibresperautor = Main.llibresperautorllistat("");
 
-        System.out.println(listaPrestecs);
+
+        /*System.out.println(listaPrestecs);*/
+        System.out.println(llistatllibresperautor);
         /*System.out.println(autorlistado);*/
 
     }
