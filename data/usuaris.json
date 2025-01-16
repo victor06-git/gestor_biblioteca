@@ -1,62 +1,62 @@
 [
     {
-        "id": 1,
-        "nom": "Erik",
         "cognoms": "García López",
-        "telefon": "633596074"
+        "telefon": "633596074",
+        "id": 1,
+        "nom": "Erik"
     },
     {
-        "id": 2,
-        "nom": "Valeria",
         "cognoms": "Ruiz Palacios",
-        "telefon": "694903564"
+        "telefon": "694903564",
+        "id": 2,
+        "nom": "Valeria"
     },
     {
-        "id": 3,
-        "nom": "Sofía",
         "cognoms": "Martínez Torres",
-        "telefon": "657839201"
+        "telefon": "657839201",
+        "id": 3,
+        "nom": "Sofía"
     },
     {
-        "id": 4,
-        "nom": "Daniel",
         "cognoms": "Fernández Gómez",
-        "telefon": "678451203"
+        "telefon": "678451203",
+        "id": 4,
+        "nom": "Daniel"
     },
     {
-        "id": 5,
-        "nom": "Camila",
         "cognoms": "Hernández Sánchez",
-        "telefon": "634892715"
+        "telefon": "634892715",
+        "id": 5,
+        "nom": "Camila"
     },
     {
-        "id": 6,
-        "nom": "Lucas",
         "cognoms": "Ramírez Díaz",
-        "telefon": "612987634"
+        "telefon": "612987634",
+        "id": 6,
+        "nom": "Lucas"
     },
     {
-        "id": 7,
-        "nom": "Emma",
         "cognoms": "Morales Pérez",
-        "telefon": "645903276"
+        "telefon": "645903276",
+        "id": 7,
+        "nom": "Emma"
     },
     {
-        "id": 8,
-        "nom": "Mateo",
         "cognoms": "Castro Jiménez",
-        "telefon": "689210374"
+        "telefon": "689210374",
+        "id": 8,
+        "nom": "Mateo"
     },
     {
-        "id": 9,
-        "nom": "Isabella",
         "cognoms": "Romero Ortega",
-        "telefon": "678923104"
+        "telefon": "678923104",
+        "id": 9,
+        "nom": "Isabella"
     },
     {
-        "id": 10,
-        "nom": "David",
         "cognoms": "López Navarro",
-        "telefon": "635789412"
+        "telefon": "635789412",
+        "id": 10,
+        "nom": "David"
     }
 ]

@@ -3,6 +3,9 @@ package gestor.biblioteca;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -281,75 +284,112 @@ public class Main {
 
         return null;
     }
-  /*  public static String prestecsforatermini(){
-        String filePath_Prestecs = "./data/prestecs.json";
-        String filePath_Usuaris = "./data/usuaris.json";
-        StringBuilder pfora = new StringBuilder();
 
-        Integer IdLlibre = 10;
-        Integer DataDevolucio = 15;
-        Integer IdUsuari = 10;
-        int Nomusuari = 30;
-
-        pfora.append(String.format("%-" + IdLlibre + "s %-"+ IdUsuari +"s %-"+ DataDevolucio + "s %-" + Nomusuari +"s%n", "IdLlibre", "IdUsuari","DataDevolucio","Nomusuari"));
-        pfora.append("-------------------------------------------------------------------------\n");
-
-        try {
-            String datosusuari = new String(Files.readAllBytes(Paths.get(filePath_Usuaris)));
-            String datosprestec = new String(Files.readAllBytes(Paths.get(filePath_Prestecs)));
-
-            JSONArray jsonArray = new JSONArray(datosusuari);
-            JSONArray jsonArraypres = new JSONArray(datosprestec);
-
-            LocalDate currenDate = LocalDate.now();
-            DateTimeFormatter fortime = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String 
-            }
+    /*public static String afegirusuario(int idUsuari, String nom, String cognoms, String telefon) {
+        String filePathUsuarios = "./data/usuaris.json";
+       
+        if (idUsuari >= 1 && idUsuari <= 10) {
+            return "Error: Los Ids del 1 al 10 están reservados y no pueden utilizarse.";
         }
-        
-    }*/
 
-    
-    /*public static String llibresPerAutorLlistat(String autor) {
-        
-        try {
-            String content = new String(Files.readAllBytes(Paths.get(filePath_books)));
-            
-            JSONArray jsonArray = new JSONArray(content); // Convertir el contingut a JSONArray
-    
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String bookTitle = jsonObject.getString("titol");
-                String autorNom = jsonObject.getString("autor");
-    
-                if (autorNom.toLowerCase().contains(autor.toLowerCase())) {
-                    llibresAutor.append(String.format("%-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n", bookTitle, autorNom));
+        try{
+            String contenido = new String(Files.readAllBytes(Paths.get(filePathUsuarios)));
+            JSONArray jsonArray = new JSONArray(contenido);
+
+            for (int i = 0; i < jsonArray.length(); i++){
+                JSONObject usuariosexistentes = jsonArray.getJSONObject(i);
+                if (usuariosexistentes.getInt("id") == idUsuari) {
+                    return "Error: El usuario con ID " + idUsuari + " ya existe; Escoge otro ID.";
                 }
             }
-            return llibresAutor.toString();
-    
+
+            /* Cear nuevo usuairo */
+           /* JSONObject newUser = new JSONObject();
+            newUser.put("id", idUsuari);
+            newUser.put("nom", nom);
+            newUser.put("cognoms", cognoms);
+            newUser.put("telefon", telefon);
+
+            jsonArray.put(newUser);*/
+
+            /*Se añade el usuario en el archivo json */
+           /*  try (FileWriter file = new FileWriter(filePathUsuarios)) {
+                file.write(jsonArray.toString(4));
+            }
+
+            return "Nuevo usuario añadido con exito: ID = " + idUsuari + ", Nom = " + nom + " " + cognoms + ", Telefon = " + telefon;
+
+        } catch (IOException e) {
+            return "Error al leer o escribir en el archivo: " + e.getMessage();
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            return "Error inesperado: " + e.getMessage();
         }
-    
-        return null;
     }*/
+
+    public static void afegirUsuari() {
+        String filePathUsuaris = "./data/usuaris.json";
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            String contenido = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
+            JSONArray jsonArray = new JSONArray(contenido);
+
+            int maxID = 10;
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject usuarisexistentes = jsonArray.getJSONObject(i);
+                int currentId = usuarisexistentes.getInt("id");
+                if (currentId > maxID) {
+                    maxID = currentId;
+                }
+            }
+            int newID = maxID + 1;
+
+            System.out.print("Introduce el nombre del usuario: ");
+            String nom = scanner.nextLine();
+
+            System.out.print("Escribe los apellidos del usuario: ");
+            String cognoms = scanner.nextLine();
+
+            System.out.print("Introduce el numero de telefono: ");
+            String telefon = scanner.nextLine();
+
+            JSONObject newUser = new JSONObject();
+            newUser.put("id", newID);
+            newUser.put("nom", nom);
+            newUser.put("cognoms", cognoms);
+            newUser.put("telefon", telefon);
+
+            jsonArray.put(newUser);
+
+            try (FileWriter file = new FileWriter(filePathUsuaris)) {
+                file.write(jsonArray.toString(4));
+            }
+
+            System.out.println("Nuevo usuario añadido con éxito: ID = " + newID + ", Nom = " + nom + " " + cognoms + ", Telefon = " + telefon);            
+        } catch (IOException e) {
+            System.out.println("Error al leer o escribir en el archivo: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error inesperad: " + e.getMessage());
+        } finally{
+            scanner.close();
+        }
+        
+    }
     public static void main(String[] args) {
         System.out.println("Hello world!");
         
         /*System.out.println(prestecsLlistas());*/
         /*String listaPrestecs = Main.prestecsLlistas();*/
         /*String llistatllibresperautor = Main.llibresperautorllistat("");*/
-        String foraterminilist = Main.prestecsforatermini();
-
+       /* String foraterminilist = Main.prestecsforatermini();
+        String afegirusuario = Main.afegirusuario(10, , , )*/
 
         /*System.out.println(listaPrestecs);*/
         /*System.out.println(llistatllibresperautor);*/
-        System.out.println(foraterminilist);
+        /*System.out.println(foraterminilist);
+       /*  System.out.println(afegirusuario);*/
         /*System.out.println(autorlistado);*/
+        afegirUsuari();
 
     }
 }
