@@ -225,6 +225,62 @@ public class Main {
 
         return null; 
     }
+
+    public static String prestecsforatermini(){
+        String filePathPrestecs = "./data/prestecs.json";
+        StringBuilder prestecsList = new StringBuilder();
+
+        int idUsuariWidth = 10;
+        int idLlibreWidth = 10;
+        int dataPrestecWidth = 15;
+        int dataDevolucioWidth = 15;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        prestecsList.append(String.format("%-" + idUsuariWidth + "s %-" + idLlibreWidth +  "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWidth + "s%n", "IdUsuari", "IdLlibre", "DataPrestec", "DataDevolucio"));
+        prestecsList.append("--------------------------------------------------------------------------------------\n");
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
+            JSONArray jsonArray = new JSONArray(content);
+
+            HashMap<String, StringBuilder> usersLoans = new HashMap<>();
+            LocalDate currentDate = LocalDate.now();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                int idUsuari = jsonObject.getInt("IdUsuari");
+                int idLlibre = jsonObject.getInt("IdLlibre");
+                String DataPrestec = jsonObject.getString("DataPrestec");
+                String DataDevolucio = jsonObject.optString("DataDevolucio", "");
+
+                LocalDate prestecDate = LocalDate.parse(DataPrestec, formatter);
+                LocalDate devolucioDate = DataDevolucio.isEmpty() ? null : LocalDate.parse(DataDevolucio, formatter);
+
+                /*Verificar estado de prestamo */
+                if (devolucioDate == null || devolucioDate.isAfter(currentDate)) {
+                    StringBuilder loans = usersLoans.computeIfAbsent(String.valueOf(idUsuari), k -> new StringBuilder());
+                    loans.append(String.format("%-" + idUsuariWidth + "s %-" + idLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWidth + "s%n",
+                    idUsuari, idLlibre, DataPrestec, DataDevolucio.isEmpty() ? "No devuelto" : DataDevolucio));
+                }
+            }
+
+            if (usersLoans.isEmpty()) {
+                return "No se encontraron prestamos fuera de termino.";
+            }
+
+            for (HashMap.Entry<String, StringBuilder> entry : usersLoans.entrySet()) {
+                prestecsList.append("Usuario: ").append(entry.getKey()).append("\n");
+                prestecsList.append(entry.getValue()).append("\n");
+            }
+
+            return prestecsList.toString();
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return null;
+    }
   /*  public static String prestecsforatermini(){
         String filePath_Prestecs = "./data/prestecs.json";
         String filePath_Usuaris = "./data/usuaris.json";
@@ -286,11 +342,13 @@ public class Main {
         
         /*System.out.println(prestecsLlistas());*/
         /*String listaPrestecs = Main.prestecsLlistas();*/
-        String llistatllibresperautor = Main.llibresperautorllistat("");
+        /*String llistatllibresperautor = Main.llibresperautorllistat("");*/
+        String foraterminilist = Main.prestecsforatermini();
 
 
         /*System.out.println(listaPrestecs);*/
-        System.out.println(llistatllibresperautor);
+        /*System.out.println(llistatllibresperautor);*/
+        System.out.println(foraterminilist);
         /*System.out.println(autorlistado);*/
 
     }
