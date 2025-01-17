@@ -36,7 +36,7 @@ public class Main {
 
                 case "2":
                 case "usuaris":
-                    menuUsuaris(scanner);
+                    menuUsuaris();
                     break;
 
                 case "3":
