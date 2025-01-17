@@ -132,7 +132,7 @@ public class Main {
                 case "1":
                 case "tots":
                     System.out.println("\nHas seleccionat 'Tots'");
-                    usuarisLlistat();
+                    System.out.println(usuarisLlistat());
                     break;
                 
                 case "2":
@@ -142,7 +142,7 @@ public class Main {
                 case "prestecs actius":
                 case "actius":
                     System.out.println("\nHas seleccionat 'Amb préstecs actius'");
-                    usuarisLlistatAmbPrestecsActius();
+                    System.out.println(usuarisLlistatAmbPrestecsActius());
                     break;
                 
                 case "3":
@@ -151,8 +151,9 @@ public class Main {
                 case "préstecs fora de termini":
                 case "prestecs fora de termini":
                 case "fora de termini":
-                    System.out.println("\nHas seleccionat 'mb préstecs fora de termini'");
-                    usuarisLlistatAmbPrestecsForaTermini();
+                    System.out.println("\nHas seleccionat 'Amb préstecs fora de termini'");
+                    System.out.println(usuarisLlistatAmbPrestecsForaTermini());
+                    break;
 
                 case "0":
                 case "tornar":
