@@ -105,7 +105,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Opció no vàlida. Torna-ho a intentar.");
+                    System.out.println("\nOpció no vàlida. Torna-ho a intentar.\n");
                     break;
             }
 
@@ -131,7 +131,7 @@ public class Main {
             switch (opcio) {
                 case "1":
                 case "tots":
-                    System.out.println("Has seleccionat 'Tots'");
+                    System.out.println("\nHas seleccionat 'Tots'");
                     usuarisLlistat();
                     break;
                 
@@ -141,7 +141,7 @@ public class Main {
                 case "préstecs actius":
                 case "prestecs actius":
                 case "actius":
-                    System.out.println("Has seleccionat 'Amb préstecs actius'");
+                    System.out.println("\nHas seleccionat 'Amb préstecs actius'");
                     usuarisLlistatAmbPrestecsActius();
                     break;
                 
@@ -151,7 +151,7 @@ public class Main {
                 case "préstecs fora de termini":
                 case "prestecs fora de termini":
                 case "fora de termini":
-                    System.out.println("Has seleccionat 'mb préstecs fora de termini'");
+                    System.out.println("\nHas seleccionat 'mb préstecs fora de termini'");
                     usuarisLlistatAmbPrestecsForaTermini();
 
                 case "0":
@@ -160,7 +160,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Opció no vàlida. Torna-ho a intentar.");
+                    System.out.println("nOpció no vàlida. Torna-ho a intentar.\n");
                     break;
             }
         }
