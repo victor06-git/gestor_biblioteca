@@ -457,15 +457,16 @@ public class Main {
             String autor = scanner.nextLine().trim();
 
             boolean found = false;
+            int indexToRemove = -1;
 
             /* Buscar libro pot titulo y autor */
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject librosExistentes = jsonArray.getJSONObject(i);
-                String tituloExistente = librosExistentes.getString("titol");
-                String autorExistente = librosExistentes.getString("autor");
+                String tituloExistente = librosExistentes.getString("titol").trim();
+                String autorExistente = librosExistentes.getString("autor").trim();
 
                 if (tituloExistente.equals(titol) && autorExistente.equals(autor)){
-                    System.out.print("¿Estas seguro que quieres eliminar el libro " + titol + "  de" + autor + "? (s/n): ");
+                    System.out.print("¿Estas seguro que quieres eliminar el libro " + titol + " de " + autor + "? (s/n): ");
                     String confirmar = scanner.nextLine().trim().toLowerCase();
 
                     if (confirmar.equals("s")){
