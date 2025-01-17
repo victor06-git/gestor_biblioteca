@@ -36,6 +36,7 @@ public class Main {
 
                 case "2":
                 case "usuaris":
+                    System.out.println("\nHas seleccionat 'Usuaris'.");
                     menuUsuaris();
                     break;
 
