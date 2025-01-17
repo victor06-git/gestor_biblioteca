@@ -188,52 +188,56 @@ public class Main {
                         }
                     
                 }
-
-            boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs
-                                                                            
-            while (!idUsuariPrestecs) {    
-                boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no   
-                int countUsuari = 0; //Variable per a comptar els préstecs de l'usuari
-                
-                System.out.print("Escriu l'ID de l'usuari del prestec: ");
-                idUsuari = scanner.nextInt();
-
-                for (int j = 0; j < usuarisArray.length(); j++) { //Bucle per a recorrer el json d'usuaris
-                    JSONObject usuari = usuarisArray.getJSONObject(j);
-                    Integer idUsuari2 = usuari.getInt("id");
-
-                    if (idUsuari == idUsuari2) {
-                        System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
-                        idUsuariTrobat = true;
-                        break;
-                    } else {
-                        idUsuariTrobat = false;
-                    }
-                }
-                
-                if (!idUsuariTrobat) {
-                    System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
-                    continue;
-                }
+            try {
+                boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs
+                                                                                
+                while (!idUsuariPrestecs) {    
+                    boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no   
+                    int countUsuari = 0; //Variable per a comptar els préstecs de l'usuari
                     
-                
-                for (int k = 0; k < prestecsArray.length(); k++) {
-                    JSONObject prestec = prestecsArray.getJSONObject(k);
-                    Integer id = prestec.getInt("IdUsuari");  
+                    System.out.print("Escriu l'ID de l'usuari del prestec: ");
+                    idUsuari = scanner.nextInt();
 
-                       if (idUsuari == id) {
-                            countUsuari++;
+                    for (int j = 0; j < usuarisArray.length(); j++) { //Bucle per a recorrer el json d'usuaris
+                        JSONObject usuari = usuarisArray.getJSONObject(j);
+                        Integer idUsuari2 = usuari.getInt("id");
+
+                        if (idUsuari == idUsuari2) {
+                            System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
+                            idUsuariTrobat = true;
+                            break;
+                        } else {
+                            idUsuariTrobat = false;
                         }
-                }
-
-                if (countUsuari == 4) {
-                    System.out.println("L'usuari amb ID " + idUsuari + " té 4 préstecs.");
-                        
-                } else  if (countUsuari < 4) {
-                    System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstecs.");
-                    break;
                     }
-            }
+                    
+                    if (!idUsuariTrobat) {
+                        System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
+                        continue;
+                    }
+                        
+                    
+                    for (int k = 0; k < prestecsArray.length(); k++) {
+                        JSONObject prestec = prestecsArray.getJSONObject(k);
+                        Integer id = prestec.getInt("IdUsuari");  
+
+                        if (idUsuari == id) {
+                                countUsuari++;
+                            }
+                    }
+
+                    if (countUsuari == 4) {
+                        System.out.println("L'usuari amb ID " + idUsuari + " té 4 préstecs.");
+                            
+                    } else  if (countUsuari < 4) {
+                        System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstecs.");
+                        break;
+                        }
+                    }
+                }
+                    catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }            
             
             
             Date dataActual = new Date();
