@@ -60,6 +60,58 @@ public class Main {
     }
 
 
+    public static void menuUsuaris(){
+        //MENÚ USUARIS
+        Scanner scanner = new Scanner(System.in);
+        boolean tornar = false;
+
+        while (!tornar) {
+            System.out.println("Gestió d'usuaris");
+            System.out.println("1. Afegir");
+            System.out.println("2. Modificar");
+            System.out.println("3. Eliminar");
+            System.out.println("4. Llistar");
+            System.out.println("0. Sortir");
+            System.out.print("\nEscull una opció: ");
+            String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
+
+            switch (opcio) {
+                case "1":
+                case "afegir":
+                    System.out.println("Has seleccionar 'Afegir'");
+                    //aquí s'ha d'afegir la funció que afegeix usuaris
+                    break;
+                
+                case "2":
+                case "modificar":
+                    System.out.println("Has seleccionat 'Modificar");
+                    modificar_usuaris();
+                    break;
+
+                case "3":
+                case "eliminar":
+                    System.out.println("Has seleccionat 'Eliminar");
+                    //aquí s'ha d'afegir la funció que elimina usuaris
+
+                case "4":
+                case "llistar":
+                    menuLlistarUsuaris(scanner);
+                    break;
+                
+                case "0":
+                case "tornar":
+                    tornar = true;
+                    break;
+
+                default:
+                    System.out.println("Opció no vàlida. Torna-ho a intentar.");
+                    break;
+            }
+
+        }
+
+    }
+
 
 
 
