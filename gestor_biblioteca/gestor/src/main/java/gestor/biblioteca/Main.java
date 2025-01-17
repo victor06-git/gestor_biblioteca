@@ -293,6 +293,7 @@ public class Main {
 
             System.out.print("Escriu l'ID del usuari a modificar: ");
             int id = scanner.nextInt();
+            scanner.nextLine();
 
             for(int i = 0; i < usuarisArray.length();i++){
                 JSONObject usuari = usuarisArray.getJSONObject(i);
@@ -322,12 +323,12 @@ public class Main {
                             case 1://validem nom
                                 boolean nomValid = false;
                                 while (!nomValid) {
-                                    System.out.print("Escriu el nou nom (només lletres i espais): ");
+                                    System.out.print("\nEscriu el nou nom (només lletres i espais): ");
                                     String nouNom = scanner.nextLine();
                             
                                     if (nouNom.matches("[a-zA-ZÀ-ÿ\\s]+")) { //lletres i espais de aA-zZ, de À-ÿ, incloent espais \\s
                                         usuari.put("nom", nouNom);
-                                        System.out.println("Nom actualitzat!");
+                                        System.out.println("Nom actualitzat!\n");
                                         nomValid = true;
                                         nom = nouNom;
                             
@@ -345,7 +346,7 @@ public class Main {
                                         System.out.println(userList.toString());
 
                                     } else {
-                                        System.out.println("Error: El nom només pot contenir lletres i espais. Torna-ho a intentar.");
+                                        System.out.println("\nError: El nom només pot contenir lletres i espais. Torna-ho a intentar.\n");
                                     }
                                 }
                                 break;
@@ -353,12 +354,12 @@ public class Main {
                             case 2://validem cognoms
                                 boolean cognomsValids = false;
                                 while (!cognomsValids) {
-                                    System.out.print("Escriu els nous cognoms (només lletres i espais): ");
+                                    System.out.print("\nEscriu els nous cognoms (només lletres i espais): ");
                                     String nousCognoms = scanner.nextLine();
                             
                                     if (nousCognoms.matches("[a-zA-ZÀ-ÿ\\s]+")) { //lletres i espais de aA-zZ, de À-ÿ, incloent espais \\s
                                         usuari.put("cognoms", nousCognoms);
-                                        System.out.println("Cognoms actualitzats!");
+                                        System.out.println("Cognoms actualitzats!\n");
                                         cognomsValids = true;
                                         cognoms = nousCognoms;
                             
@@ -375,7 +376,7 @@ public class Main {
                                         System.out.println(userList.toString());
 
                                     } else {
-                                        System.out.println("Error: Els cognoms només poden contenir lletres i espais. Torna-ho a intentar.");
+                                        System.out.println("\nError: Els cognoms només poden contenir lletres i espais. Torna-ho a intentar.\n");
                                     }
                                 }
                                 break;
@@ -383,12 +384,12 @@ public class Main {
                             case 3: //validem telèfon
                                 boolean telefonoValido = false;
                                 while (!telefonoValido) {
-                                    System.out.print("Escriu el nou telèfon (9 dígits): ");
+                                    System.out.print("\nEscriu el nou telèfon (9 dígits): ");
                                     String nouTelefon = scanner.nextLine();
                             
                                     if (nouTelefon.length() == 9 && nouTelefon.chars().allMatch(Character::isDigit)) {
                                         usuari.put("telefon", nouTelefon);
-                                        System.out.println("Telèfon actualitzat!");
+                                        System.out.println("Telèfon actualitzat!\n");
                                         telefonoValido = true;
                                         telefon = nouTelefon;
                             
@@ -405,34 +406,32 @@ public class Main {
                                         System.out.println(userList.toString());
 
                                     } else {
-                                        System.out.println("Error: El telèfon ha de contenir exactament 9 dígits numèrics. Torna-ho a intentar.");
+                                        System.out.println("\nError: El telèfon ha de contenir exactament 9 dígits numèrics. Torna-ho a intentar.\n");
                                     }
                                 }
                                 break;
                             
                             case 4:
                                 continuar = false;
-                                System.out.println("Sortint del menú de modificació.");
+                                System.out.println("Sortint del menú de modificació.\n");
                                 break;
                             default:
-                                System.out.println("Opció no vàlida. Intenta-ho de nou.");
+                                System.out.println("\nOpció no vàlida. Intenta-ho de nou.\n");
                                 break;
                         }
                     }
 
                     // Guardar cambios en el archivo JSON
                     Files.write(Paths.get(filePathUsuaris), usuarisArray.toString(4).getBytes());
-                    System.out.println("Els canvis s'han guardat correctament.");
+                    System.out.println("Els canvis s'han guardat correctament.\n");
                     return;
                 }
             }
 
-            System.out.println("No s'ha trobat cap usuari amb l'ID especificat.");
+            System.out.println("\nNo s'ha trobat cap usuari amb l'ID especificat.\n");
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        }finally{
-            scanner.close();
         }
     }
 
