@@ -30,7 +30,7 @@ public class Main {
             switch (opcio) {
                 case "1":
                 case "llibres":
-                    System.out.println("Has seleccionat 'Llibres'.");
+                    System.out.println("\nHas seleccionat 'Llibres'.");
                     //aquí s'ha d'afegir la funció del menú que gestiona els llibres
                     break;
 
@@ -41,18 +41,18 @@ public class Main {
 
                 case "3":
                 case "préstecs":
-                    System.out.println("Has seleccionat 'Préstecs'.");
+                    System.out.println("\nHas seleccionat 'Préstecs'.");
                     //aquí s'ha d'afegir la funció del menú que gestiona els préstecs
                     break;
 
                 case "0":
                 case "sortir":
                     sortir = true;
-                    System.out.println("Sortint del programa...");
+                    System.out.println("\nSortint del programa...");
                     break;
             
                 default:
-                    System.out.println("Opció no vàlida. Torna-ho a intentar.");
+                    System.out.println("\nOpció no vàlida. Torna-ho a intentar.\n");
                     break;
             }
         }
