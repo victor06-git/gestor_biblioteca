@@ -2,10 +2,12 @@ package gestor.biblioteca;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -234,35 +236,42 @@ public class Main {
 
             System.out.println("Data de prestec: " + dataPrestec);
 
-            boolean dataCorrecta = true; //Variable per a comprovar si la data de devolució és correcta
-            while(dataCorrecta) {   
+            boolean dataCorrecta = false; //Variable per a comprovar si la data de devolució és correcta
+            while(!dataCorrecta) {   
                 System.out.print("Escriu la data de devolució (yyyy-MM-dd): ");
                 dataDevolucio = scanner.next();
 
                 SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            try {
                 Date dataDevolucioDate = formato.parse(dataDevolucio); //Conversió de la data a format Date
+                
                 if (dataDevolucioDate.after(dataActual)) {
-                    dataCorrecta = false;
+                    dataCorrecta = true;
                 } else {
                     System.out.println("La data de devolució ha de ser posterior a la data actual.");
                 }
+            } catch (ParseException e) {
+                System.out.println("Format de data incorrecta. Si us plau, introdueix la data en format yyyy-MM-dd.");
+                }
             }
 
-            JSONObject nouPrestec = new JSONObject();
-            nouPrestec.put("Id", nouId);
-            nouPrestec.put("IdLlibre", idLlibre);
-            nouPrestec.put("IdUsuari", idUsuari);
-            nouPrestec.put("DataPrestec", dataPrestec);
-            nouPrestec.put("DataDevolucio", dataDevolucio);
             
+            LinkedHashMap<String, Object> nouPrestecHashMap = new LinkedHashMap<>();
+            nouPrestecHashMap.put("Id", nouId);
+            nouPrestecHashMap.put("IdLlibre", idLlibre);
+            nouPrestecHashMap.put("IdUsuari", idUsuari);
+            nouPrestecHashMap.put("DataPrestec", dataPrestec);
+            nouPrestecHashMap.put("DataDevolucio", dataDevolucio);
 
-            JSONArray prestecs = new JSONArray(content);
+            JSONObject nouPrestec = new JSONObject(nouPrestecHashMap);
 
             System.out.println("Vols afegir aquest préstec?");
             System.out.println(nouPrestec.toString(4));
             System.out.print("Vols afegir aquest préstec? (s/n): ");
             String confirmacio = scanner.next();
 
+            JSONArray prestecs = new JSONArray(content);
+            
             if (confirmacio.equalsIgnoreCase("s")) {
                 prestecs.put(nouPrestec);
                 Files.write(Paths.get(filePathPrestecs), prestecs.toString(4).getBytes());
