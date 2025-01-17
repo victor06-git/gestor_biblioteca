@@ -112,6 +112,59 @@ public class Main {
 
     }
 
+    public static void menuLlistarUsuaris(){
+        //MENÚ LLISTAR USUARIS
+        Scanner scanner = new Scanner(System.in);
+        boolean tornar = false;
+
+        while (!tornar) {
+            System.out.println("Llistar usuaris");
+            System.out.println("1. Tots");
+            System.out.println("2. Amb préstecs actius");
+            System.out.println("3. Amb préstecs fora de termini");
+            System.out.println("0. Tornar al menú d'usuaris");
+            System.out.print("\nEscull una opció: ");
+            String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
+
+            switch (opcio) {
+                case "1":
+                case "tots":
+                    System.out.println("Has seleccionat 'Tots'");
+                    usuarisLlistat();
+                    break;
+                
+                case "2":
+                case "amb préstecs actius":
+                case "amb prestecs actius":
+                case "préstecs actius":
+                case "prestecs actius":
+                case "actius":
+                    System.out.println("Has seleccionat 'Amb préstecs actius'");
+                    usuarisLlistatAmbPrestecsActius();
+                    break;
+                
+                case "3":
+                case "amb préstecs fora de termini":
+                case "amb prestecs fora de termini":
+                case "préstecs fora de termini":
+                case "prestecs fora de termini":
+                case "fora de termini":
+                    System.out.println("Has seleccionat 'mb préstecs fora de termini'");
+                    usuarisLlistatAmbPrestecsForaTermini();
+
+                case "0":
+                case "tornar":
+                    tornar = true;
+                    break;
+
+                default:
+                    System.out.println("Opció no vàlida. Torna-ho a intentar.");
+                    break;
+            }
+        }
+
+    }
+
 
 
 
