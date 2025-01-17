@@ -475,7 +475,7 @@ public class Main {
                         try (FileWriter file = new FileWriter(filePathLlibres)) {
                             file.write(jsonArray.toString(4));
                         }
-                        System.out.println("Libro eliminado co éxito.");
+                        System.out.println("Libro eliminado con éxito.");
 
                     } else {
                         System.out.println("Operación cancelada");
