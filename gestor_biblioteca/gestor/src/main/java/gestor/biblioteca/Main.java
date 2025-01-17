@@ -350,22 +350,36 @@ public class Main {
             System.out.print("Escribe los apellidos del usuario: ");
             String cognoms = scanner.nextLine();
 
-            System.out.print("Introduce el numero de telefono: ");
-            String telefon = scanner.nextLine();
+            /* No permitir añadir usuarios ya existentes */
+            boolean duplicado = false;
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject usuariosexistentes = jsonArray.getJSONObject(i);
+                if (usuariosexistentes.getString("nom").equalsIgnoreCase(nom) && usuariosexistentes.getString("cognoms").equalsIgnoreCase(cognoms)) {
+                    duplicado = true;
+                    break;
+                }
+            }
+            if (duplicado) {
+                System.out.println("Error: Ya existe un usuario con la información proporcionada.");
+            } else {
+                System.out.print("Introduce el numero de telefono: ");
+                String telefon = scanner.nextLine().trim();
+            
+                JSONObject newUser = new JSONObject();
+                newUser.put("id", newID);
+                newUser.put("nom", nom);
+                newUser.put("cognoms", cognoms);
+                newUser.put("telefon", telefon);
 
-            JSONObject newUser = new JSONObject();
-            newUser.put("id", newID);
-            newUser.put("nom", nom);
-            newUser.put("cognoms", cognoms);
-            newUser.put("telefon", telefon);
+                jsonArray.put(newUser);
 
-            jsonArray.put(newUser);
-
-            try (FileWriter file = new FileWriter(filePathUsuaris)) {
+                 try (FileWriter file = new FileWriter(filePathUsuaris)) {
                 file.write(jsonArray.toString(4));
+                }
+            
+                System.out.println("Nuevo usuario añadido con éxito: ID = " + newID + ", Nom = " + nom + " " + cognoms + ", Telefon = " + telefon);
             }
 
-            System.out.println("Nuevo usuario añadido con éxito: ID = " + newID + ", Nom = " + nom + " " + cognoms + ", Telefon = " + telefon);            
         } catch (IOException e) {
             System.out.println("Error al leer o escribir en el archivo: " + e.getMessage());
         } catch (Exception e) {
@@ -443,8 +457,8 @@ public class Main {
         /*System.out.println(foraterminilist);
        /*  System.out.println(afegirusuario);*/
         /*System.out.println(autorlistado);*/
-        /*afegirUsuari();*/
-        eliminarUsuario();
+        afegirUsuari();
+        /*eliminarUsuario();*/
 
     }
 }
