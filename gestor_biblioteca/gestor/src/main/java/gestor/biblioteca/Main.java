@@ -110,8 +110,6 @@ public class Main {
             }
 
         }
-        scanner.close();
-
     }
 
     public static void menuLlistarUsuaris(){
