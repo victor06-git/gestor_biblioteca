@@ -218,11 +218,7 @@ public class Main {
 
         }catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        }finally{
-            scanner.close();
         }
-
-
     }
 
     public static void eliminar_prestecs() {
