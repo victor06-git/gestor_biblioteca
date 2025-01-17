@@ -146,38 +146,40 @@ public class Main {
                 }    
             }
 
-            boolean idLlibreTrobat = true; //Variable per a comprovar si el llibre existeix o no
             boolean idLLibrePrestat = false; //Variable per a comprovar si el llibre està prestat o no
-            while (idLlibreTrobat) {
+            while (!idLLibrePrestat) {
+                boolean idLlibreTrobat = false; //Variable per a comprovar si el llibre existeix o no
+            
                 System.out.print("Escriu l'ID del llibre a prestar: ");
                 idLlibre = scanner.nextInt();
 
                 for (int i = 0; i < llibresArray.length(); i++) { //Bucle per a recorrer el json de llibres
                     JSONObject llibre = llibresArray.getJSONObject(i);
                     Integer idLlibre2 = llibre.getInt("id");
+                    
 
                     if (idLlibre == idLlibre2) {
                         System.out.println("El llibre amb ID " + idLlibre + " és: " + llibre.getString("titol"));
-                        idLlibreTrobat = false;
-                        break;
-                    } 
-
-                    while (!idLLibrePrestat) {
-                        for (int j = 0; j < prestecsArray.length(); j++) {
-                            JSONObject prestec = prestecsArray.getJSONObject(j);
-                            Integer id = prestec.getInt("IdLlibre");
-
-                            if (idLlibre == id) {
-                                System.out.println("El llibre amb ID " + idLlibre + " està prestat.");
-                                idLlibreTrobat = true;
-                                break;
-                            }
-                        }
-                        idLLibrePrestat = true;
+                        idLlibreTrobat = true;
                     }
-                }
-                    if (idLlibreTrobat) {
+                } 
+
+                    if (!idLlibreTrobat) {
                         System.out.println("No existeix cap llibre amb l'ID " + idLlibre);
+                        continue;
+                    }
+                    
+                    for (int j = 0; j < prestecsArray.length(); j++) {
+                        JSONObject prestec = prestecsArray.getJSONObject(j);
+                        Integer id = prestec.getInt("IdLlibre");
+
+                        if (idLlibre == id) {
+                            System.out.println("El llibre amb ID " + idLlibre + " està prestat.");
+                        
+                        } else {
+                        
+                            break;
+                        }
                     }
                 }
 
