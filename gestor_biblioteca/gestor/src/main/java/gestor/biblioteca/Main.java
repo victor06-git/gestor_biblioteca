@@ -78,20 +78,21 @@ public class Main {
             switch (opcio) {
                 case "1":
                 case "afegir":
-                    System.out.println("Has seleccionar 'Afegir'");
+                    System.out.println("\nHas seleccionar 'Afegir'");
                     //aquí s'ha d'afegir la funció que afegeix usuaris
                     break;
                 
                 case "2":
                 case "modificar":
-                    System.out.println("Has seleccionat 'Modificar");
+                    System.out.println("\nHas seleccionat 'Modificar'");
                     modificar_usuaris();
                     break;
 
                 case "3":
                 case "eliminar":
-                    System.out.println("Has seleccionat 'Eliminar");
+                    System.out.println("\nHas seleccionat 'Eliminar'");
                     //aquí s'ha d'afegir la funció que elimina usuaris
+                    break;
 
                 case "4":
                 case "llistar":
@@ -109,6 +110,7 @@ public class Main {
             }
 
         }
+        scanner.close();
 
     }
 
