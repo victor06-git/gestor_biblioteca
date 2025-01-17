@@ -118,9 +118,9 @@ public class Main {
         
         try {
 
-            String filePathPrestecs = "./data/prestecs.json";
-            String filePathLlibres = "./data/llibres.json";
-            String filePathUsuaris = "./data/usuaris.json";
+            String filePathPrestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
+            String filePathLlibres = "./gestor_biblioteca/gestor/data/llibres.json";
+            String filePathUsuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
             
             String content = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
             String content2 = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
@@ -165,8 +165,10 @@ public class Main {
                     }
                 }
 
-            boolean idUsuariTrobat = true; //Variable per a comprovar si l'usuari existeix o no                                                                    
-            while (idUsuariTrobat) {    
+            boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no   
+            boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs
+            int countUsuari = 0;                                                                 
+            while (!idUsuariTrobat) {    
                 System.out.print("Escriu l'ID de l'usuari del prestec: ");
                 idUsuari = scanner.nextInt();
 
@@ -176,16 +178,56 @@ public class Main {
 
                     if (idUsuari == idUsuari2) {
                         System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
-                        
+                        idUsuariTrobat = true;
+                        break;
+                    }
+                }
+                    
+                while (!idUsuariPrestecs) {
+                    for (int k = 0; k < prestecsArray.length(); k++) {
+                        JSONObject prestec = prestecsArray.getJSONObject(k);
+                        Integer id = prestec.getInt("IdUsuari");  
+
+                        if (idUsuari == id) {
+                            countUsuari++;
+                        }
+                    }
+
+                switch (countUsuari) {
+                    case 0:
+                        System.out.println("L'usuari no té préstecs");
+                        idUsuariPrestecs = true;
+                        break;
+                    case 1:
+                        System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstec.");
+                        idUsuariPrestecs = true;
+                        break;
+                    case 2:
+                        System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstecs.");
+                        idUsuariPrestecs = true;
+                        break;
+                    case 3:
+                        System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstecs.");
+                        idUsuariPrestecs = true;
+                        break;
+                    case 4:
+                        System.out.println("L'usuari amb ID " + idUsuari + " té 4 préstecs.");
+                        idUsuariPrestecs = false;
                         idUsuariTrobat = false;
                         break;
-                        
-                    }
-                } 
-                    if (idUsuariTrobat == true) {
-                        System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
+                
+                    default:
+                        System.out.println("L'usuari amb ID " + idUsuari + " té més prestecs dels permesos.");
+                        idUsuariPrestecs = false;
+                        idUsuariTrobat = false;
+                        break;
                 }
             }
+            
+                if (!idUsuariTrobat) {
+                        System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
+                }
+        }
             
             Date dataActual = new Date();
             String dataPrestec = new SimpleDateFormat("yyyy-MM-dd").format(dataActual); //Data actual en format String per afegir-ho al prestec.json
@@ -193,7 +235,7 @@ public class Main {
             System.out.println("Data de prestec: " + dataPrestec);
 
             boolean dataCorrecta = true; //Variable per a comprovar si la data de devolució és correcta
-            while(dataCorrecta){   
+            while(dataCorrecta) {   
                 System.out.print("Escriu la data de devolució (yyyy-MM-dd): ");
                 dataDevolucio = scanner.next();
 
@@ -207,8 +249,6 @@ public class Main {
             }
 
             JSONObject nouPrestec = new JSONObject();
-            
-
             nouPrestec.put("Id", nouId);
             nouPrestec.put("IdLlibre", idLlibre);
             nouPrestec.put("IdUsuari", idUsuari);
