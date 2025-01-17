@@ -138,6 +138,20 @@
         "IdUsuari": 10,
         "DataPrestec": "2023-12-24",
         "DataDevolucio": "2025-01-24"
+    },
+    {
+        "Id": 21,
+        "IdLlibre": 1,
+        "IdUsuari": 10,
+        "DataPrestec": "2024-12-24",
+        "DataDevolucio": "2025-01-24"
+    },
+    {
+        "Id": 22,
+        "IdLlibre": 2,
+        "IdUsuari": 10,
+        "DataPrestec": "2024-12-24",
+        "DataDevolucio": "2025-01-24"
     }
 
 ]

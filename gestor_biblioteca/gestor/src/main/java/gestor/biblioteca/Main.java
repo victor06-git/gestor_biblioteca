@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -120,9 +119,9 @@ public class Main {
         
         try {
 
-            String filePathPrestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
-            String filePathLlibres = "./gestor_biblioteca/gestor/data/llibres.json";
-            String filePathUsuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
+            String filePathPrestecs = "./data/prestecs.json";
+            String filePathLlibres = "./data/llibres.json";
+            String filePathUsuaris = "./data/usuaris.json";
             
             String content = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
             String content2 = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
@@ -148,6 +147,7 @@ public class Main {
             }
 
             boolean idLlibreTrobat = true; //Variable per a comprovar si el llibre existeix o no
+            boolean idLLibrePrestat = false; //Variable per a comprovar si el llibre està prestat o no
             while (idLlibreTrobat) {
                 System.out.print("Escriu l'ID del llibre a prestar: ");
                 idLlibre = scanner.nextInt();
@@ -161,16 +161,32 @@ public class Main {
                         idLlibreTrobat = false;
                         break;
                     } 
+
+                    while (!idLLibrePrestat) {
+                        for (int j = 0; j < prestecsArray.length(); j++) {
+                            JSONObject prestec = prestecsArray.getJSONObject(j);
+                            Integer id = prestec.getInt("IdLlibre");
+
+                            if (idLlibre == id) {
+                                System.out.println("El llibre amb ID " + idLlibre + " està prestat.");
+                                idLlibreTrobat = true;
+                                break;
+                            }
+                        }
+                        idLLibrePrestat = true;
+                    }
                 }
-                    if (idLlibreTrobat == true) {
+                    if (idLlibreTrobat) {
                         System.out.println("No existeix cap llibre amb l'ID " + idLlibre);
                     }
                 }
 
-            boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no   
             boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs
-            int countUsuari = 0;                                                                 
-            while (!idUsuariTrobat) {    
+                                                                            
+            while (!idUsuariPrestecs) {    
+                boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no   
+                int countUsuari = 0; //Variable per a comptar els préstecs de l'usuari
+                
                 System.out.print("Escriu l'ID de l'usuari del prestec: ");
                 idUsuari = scanner.nextInt();
 
@@ -182,54 +198,35 @@ public class Main {
                         System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
                         idUsuariTrobat = true;
                         break;
+                    } else {
+                        idUsuariTrobat = false;
                     }
+                }
+                
+                if (!idUsuariTrobat) {
+                    System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
+                    continue;
                 }
                     
-                while (!idUsuariPrestecs) {
-                    for (int k = 0; k < prestecsArray.length(); k++) {
-                        JSONObject prestec = prestecsArray.getJSONObject(k);
-                        Integer id = prestec.getInt("IdUsuari");  
+                
+                for (int k = 0; k < prestecsArray.length(); k++) {
+                    JSONObject prestec = prestecsArray.getJSONObject(k);
+                    Integer id = prestec.getInt("IdUsuari");  
 
-                        if (idUsuari == id) {
+                       if (idUsuari == id) {
                             countUsuari++;
                         }
-                    }
-
-                switch (countUsuari) {
-                    case 0:
-                        System.out.println("L'usuari no té préstecs");
-                        idUsuariPrestecs = true;
-                        break;
-                    case 1:
-                        System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstec.");
-                        idUsuariPrestecs = true;
-                        break;
-                    case 2:
-                        System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstecs.");
-                        idUsuariPrestecs = true;
-                        break;
-                    case 3:
-                        System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstecs.");
-                        idUsuariPrestecs = true;
-                        break;
-                    case 4:
-                        System.out.println("L'usuari amb ID " + idUsuari + " té 4 préstecs.");
-                        idUsuariPrestecs = false;
-                        idUsuariTrobat = false;
-                        break;
-                
-                    default:
-                        System.out.println("L'usuari amb ID " + idUsuari + " té més prestecs dels permesos.");
-                        idUsuariPrestecs = false;
-                        idUsuariTrobat = false;
-                        break;
                 }
+
+                if (countUsuari == 4) {
+                    System.out.println("L'usuari amb ID " + idUsuari + " té 4 préstecs.");
+                        
+                } else  if (countUsuari < 4) {
+                    System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstecs.");
+                    break;
+                    }
             }
             
-                if (!idUsuariTrobat) {
-                        System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
-                }
-        }
             
             Date dataActual = new Date();
             String dataPrestec = new SimpleDateFormat("yyyy-MM-dd").format(dataActual); //Data actual en format String per afegir-ho al prestec.json
@@ -256,14 +253,14 @@ public class Main {
             }
 
             
-            LinkedHashMap<String, Object> nouPrestecHashMap = new LinkedHashMap<>();
-            nouPrestecHashMap.put("Id", nouId);
-            nouPrestecHashMap.put("IdLlibre", idLlibre);
-            nouPrestecHashMap.put("IdUsuari", idUsuari);
-            nouPrestecHashMap.put("DataPrestec", dataPrestec);
-            nouPrestecHashMap.put("DataDevolucio", dataDevolucio);
+            JSONObject nouPrestec = new JSONObject();
+            nouPrestec.put("Id", nouId);
+            nouPrestec.put("IdLlibre", idLlibre);
+            nouPrestec.put("IdUsuari", idUsuari);
+            nouPrestec.put("DataPrestec", dataPrestec);
+            nouPrestec.put("DataDevolucio", dataDevolucio);
 
-            JSONObject nouPrestec = new JSONObject(nouPrestecHashMap);
+            
 
             System.out.println("Vols afegir aquest préstec?");
             System.out.println(nouPrestec.toString(4));
