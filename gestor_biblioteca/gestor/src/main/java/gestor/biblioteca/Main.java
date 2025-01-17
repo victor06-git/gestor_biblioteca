@@ -12,6 +12,60 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Main {
+    //Funcions per els menús
+    public static void menuPrincipal(){
+        //MENÚ PRINCIPAL
+        Scanner scanner = new Scanner(System.in);
+        boolean sortir = false;
+
+        while (!sortir) {
+            System.out.println("Gestió de biblioteca");
+            System.out.println("1. Llibres");
+            System.out.println("2. Usuaris");
+            System.out.println("3. Prèstecs");
+            System.out.println("0. Sortir");
+            System.out.print("\nEscull una opció: ");
+            String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
+
+            switch (opcio) {
+                case "1":
+                case "llibres":
+                    System.out.println("Has seleccionat 'Llibres'.");
+                    //aquí s'ha d'afegir la funció del menú que gestiona els llibres
+                    break;
+
+                case "2":
+                case "usuaris":
+                    menuUsuaris(scanner);
+                    break;
+
+                case "3":
+                case "préstecs":
+                    System.out.println("Has seleccionat 'Préstecs'.");
+                    //aquí s'ha d'afegir la funció del menú que gestiona els préstecs
+                    break;
+
+                case "0":
+                case "sortir":
+                    sortir = true;
+                    System.out.println("Sortint del programa...");
+                    break;
+            
+                default:
+                    System.out.println("Opció no vàlida. Torna-ho a intentar.");
+                    break;
+            }
+        }
+        scanner.close();
+    }
+
+
+
+
+
+
+
+
 
     //Funcions per afegir, modificar i eliminar llibres, usuaris i prestecs
     public static void afegir_llibres(){
@@ -762,5 +816,6 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
+        menuPrincipal();
     }
 }
