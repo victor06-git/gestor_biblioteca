@@ -497,6 +497,33 @@ public class Main {
         }
     }
 
+    public static void modificarLLibre(){
+        String filePathLlibres = "./data/llibres.json";
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            String contenido = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
+            JSONArray jsonArray = new JSONArray(contenido);
+
+            System.out.print("Escribe el título del libro que quieres modificar: ");
+            String titol = scanner.nextLine().trim();
+
+            System.out.print("Escribe el auotr de libro: ");
+            String autor = scanner.nextLine().trim();
+
+            boolean found = false;
+
+            /* Buscar libro */
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject librosExistentes = jsonArray.getJSONObject(i);
+                String tituloExistente = librosExistentes.getString("titol").trim();
+                String autorExistente = librosExistentes.getString("autor").trim();
+
+                
+            }
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("Hello world!");
         
