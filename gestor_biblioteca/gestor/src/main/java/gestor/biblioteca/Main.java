@@ -149,6 +149,7 @@ public class Main {
             boolean idLLibrePrestat = false; //Variable per a comprovar si el llibre està prestat o no
             while (!idLLibrePrestat) {
                 boolean idLlibreTrobat = false; //Variable per a comprovar si el llibre existeix o no
+                int count = 0; //Variable per a comptar els préstecs del llibre
             
                 System.out.print("Escriu l'ID del llibre a prestar: ");
                 idLlibre = scanner.nextInt();
@@ -174,13 +175,18 @@ public class Main {
                         Integer id = prestec.getInt("IdLlibre");
 
                         if (idLlibre == id) {
-                            System.out.println("El llibre amb ID " + idLlibre + " està prestat.");
-                        
-                        } else {
-                        
-                            break;
+                            count++;
                         }
                     }
+                        if (count == 1) {
+                            System.out.println("El llibre amb ID " + idLlibre + " està prestat.");
+                            continue;
+
+                        } else {
+                            System.out.println("El llibre amb ID " + idLlibre + " no està prestat.");
+                            break;
+                        }
+                    
                 }
 
             boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs
