@@ -71,7 +71,7 @@ public class Main {
             System.out.println("2. Modificar");
             System.out.println("3. Eliminar");
             System.out.println("4. Llistar");
-            System.out.println("0. Sortir");
+            System.out.println("0. Tornar");
             System.out.print("\nEscull una opció: ");
             String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
 
@@ -110,8 +110,6 @@ public class Main {
             }
 
         }
-        scanner.close();
-
     }
 
     public static void menuLlistarUsuaris(){
