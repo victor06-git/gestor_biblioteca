@@ -95,7 +95,7 @@ public class Main {
 
                 case "4":
                 case "llistar":
-                    menuLlistarUsuaris(scanner);
+                    menuLlistarUsuaris();
                     break;
                 
                 case "0":
