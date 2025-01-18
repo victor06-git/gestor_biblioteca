@@ -304,7 +304,6 @@ public class Main {
         /*modificarLLibre();*/
         /* eliminarLLibre(); */
 
-        menuLlistarLlibres();
 
     }
 }
