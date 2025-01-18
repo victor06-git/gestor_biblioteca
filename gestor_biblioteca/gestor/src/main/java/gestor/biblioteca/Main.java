@@ -14,6 +14,166 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Main {
+    //Funcions per els menús
+    public static void menuPrincipal(){
+        //MENÚ PRINCIPAL
+        Scanner scanner = new Scanner(System.in);
+        boolean sortir = false;
+
+        while (!sortir) {
+            System.out.println("Gestió de biblioteca");
+            System.out.println("1. Llibres");
+            System.out.println("2. Usuaris");
+            System.out.println("3. Prèstecs");
+            System.out.println("0. Sortir");
+            System.out.print("\nEscull una opció: ");
+            String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
+
+            switch (opcio) {
+                case "1":
+                case "llibres":
+                    System.out.println("\nHas seleccionat 'Llibres'.");
+                    //aquí s'ha d'afegir la funció del menú que gestiona els llibres
+                    break;
+
+                case "2":
+                case "usuaris":
+                    System.out.println("\nHas seleccionat 'Usuaris'.");
+                    menuUsuaris();
+                    break;
+
+                case "3":
+                case "préstecs":
+                    System.out.println("\nHas seleccionat 'Préstecs'.");
+                    //aquí s'ha d'afegir la funció del menú que gestiona els préstecs
+                    break;
+
+                case "0":
+                case "sortir":
+                    sortir = true;
+                    System.out.println("\nSortint del programa...");
+                    break;
+            
+                default:
+                    System.out.println("\nOpció no vàlida. Torna-ho a intentar.\n");
+                    break;
+            }
+        }
+        scanner.close();
+    }
+
+
+    public static void menuUsuaris(){
+        //MENÚ USUARIS
+        Scanner scanner = new Scanner(System.in);
+        boolean tornar = false;
+
+        while (!tornar) {
+            System.out.println("Gestió d'usuaris");
+            System.out.println("1. Afegir");
+            System.out.println("2. Modificar");
+            System.out.println("3. Eliminar");
+            System.out.println("4. Llistar");
+            System.out.println("0. Tornar");
+            System.out.print("\nEscull una opció: ");
+            String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
+
+            switch (opcio) {
+                case "1":
+                case "afegir":
+                    System.out.println("\nHas seleccionar 'Afegir'");
+                    //aquí s'ha d'afegir la funció que afegeix usuaris
+                    break;
+                
+                case "2":
+                case "modificar":
+                    System.out.println("\nHas seleccionat 'Modificar'");
+                    modificar_usuaris();
+                    break;
+
+                case "3":
+                case "eliminar":
+                    System.out.println("\nHas seleccionat 'Eliminar'");
+                    //aquí s'ha d'afegir la funció que elimina usuaris
+                    break;
+
+                case "4":
+                case "llistar":
+                    menuLlistarUsuaris();
+                    break;
+                
+                case "0":
+                case "tornar":
+                    tornar = true;
+                    break;
+
+                default:
+                    System.out.println("\nOpció no vàlida. Torna-ho a intentar.\n");
+                    break;
+            }
+
+        }
+    }
+
+    public static void menuLlistarUsuaris(){
+        //MENÚ LLISTAR USUARIS
+        Scanner scanner = new Scanner(System.in);
+        boolean tornar = false;
+
+        while (!tornar) {
+            System.out.println("Llistar usuaris");
+            System.out.println("1. Tots");
+            System.out.println("2. Amb préstecs actius");
+            System.out.println("3. Amb préstecs fora de termini");
+            System.out.println("0. Tornar al menú d'usuaris");
+            System.out.print("\nEscull una opció: ");
+            String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
+
+            switch (opcio) {
+                case "1":
+                case "tots":
+                    System.out.println("\nHas seleccionat 'Tots'");
+                    System.out.println(usuarisLlistat());
+                    break;
+                
+                case "2":
+                case "amb préstecs actius":
+                case "amb prestecs actius":
+                case "préstecs actius":
+                case "prestecs actius":
+                case "actius":
+                    System.out.println("\nHas seleccionat 'Amb préstecs actius'");
+                    System.out.println(usuarisLlistatAmbPrestecsActius());
+                    break;
+                
+                case "3":
+                case "amb préstecs fora de termini":
+                case "amb prestecs fora de termini":
+                case "préstecs fora de termini":
+                case "prestecs fora de termini":
+                case "fora de termini":
+                    System.out.println("\nHas seleccionat 'Amb préstecs fora de termini'");
+                    System.out.println(usuarisLlistatAmbPrestecsForaTermini());
+                    break;
+
+                case "0":
+                case "tornar":
+                    tornar = true;
+                    break;
+
+                default:
+                    System.out.println("nOpció no vàlida. Torna-ho a intentar.\n");
+                    break;
+            }
+        }
+    }
+
+
+
+
+
+
+
 
     //Funcions per afegir, modificar i eliminar llibres, usuaris i prestecs
     public static void afegir_llibres(){
@@ -59,11 +219,7 @@ public class Main {
 
         }catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        }finally{
-            scanner.close();
         }
-
-
     }
 
     public static void eliminar_prestecs() {
