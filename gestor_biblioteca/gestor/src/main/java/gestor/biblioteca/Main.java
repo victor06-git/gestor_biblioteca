@@ -229,6 +229,7 @@ public class Main {
         return null; 
     }
 
+
     public static String prestecsforatermini(){
         String filePathPrestecs = "./data/prestecs.json";
         StringBuilder prestecsList = new StringBuilder();
@@ -285,46 +286,6 @@ public class Main {
         return null;
     }
 
-    /*public static String afegirusuario(int idUsuari, String nom, String cognoms, String telefon) {
-        String filePathUsuarios = "./data/usuaris.json";
-       
-        if (idUsuari >= 1 && idUsuari <= 10) {
-            return "Error: Los Ids del 1 al 10 están reservados y no pueden utilizarse.";
-        }
-
-        try{
-            String contenido = new String(Files.readAllBytes(Paths.get(filePathUsuarios)));
-            JSONArray jsonArray = new JSONArray(contenido);
-
-            for (int i = 0; i < jsonArray.length(); i++){
-                JSONObject usuariosexistentes = jsonArray.getJSONObject(i);
-                if (usuariosexistentes.getInt("id") == idUsuari) {
-                    return "Error: El usuario con ID " + idUsuari + " ya existe; Escoge otro ID.";
-                }
-            }
-
-            /* Cear nuevo usuairo */
-           /* JSONObject newUser = new JSONObject();
-            newUser.put("id", idUsuari);
-            newUser.put("nom", nom);
-            newUser.put("cognoms", cognoms);
-            newUser.put("telefon", telefon);
-
-            jsonArray.put(newUser);*/
-
-            /*Se añade el usuario en el archivo json */
-           /*  try (FileWriter file = new FileWriter(filePathUsuarios)) {
-                file.write(jsonArray.toString(4));
-            }
-
-            return "Nuevo usuario añadido con exito: ID = " + idUsuari + ", Nom = " + nom + " " + cognoms + ", Telefon = " + telefon;
-
-        } catch (IOException e) {
-            return "Error al leer o escribir en el archivo: " + e.getMessage();
-        } catch (Exception e) {
-            return "Error inesperado: " + e.getMessage();
-        }
-    }*/
 
     public static void afegirUsuari() {
         String filePathUsuaris = "./data/usuaris.json";
@@ -648,13 +609,12 @@ public class Main {
         
         /*System.out.println(prestecsLlistas());*/
         /*String listaPrestecs = Main.prestecsLlistas();*/
-        String llistatllibresperautor = Main.llibresperautorllistat("");
-       /* String foraterminilist = Main.prestecsforatermini();
-        String afegirusuario = Main.afegirusuario(10, , , )*/
+        /*String llistatllibresperautor = Main.llibresperautorllistat("");*/
+       String foraterminilist = Main.prestecsforatermini();
 
         /*System.out.println(listaPrestecs);*/
-        System.out.println(llistatllibresperautor);
-        /*System.out.println(foraterminilist);
+       /*  System.out.println(llistatllibresperautor);*/
+        System.out.println(foraterminilist);
        /*  System.out.println(afegirusuario);*/
         /*System.out.println(autorlistado);*/
         /*afegirUsuari();*/
