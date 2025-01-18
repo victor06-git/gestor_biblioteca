@@ -684,7 +684,7 @@ public class Main {
             JSONArray llibres = new JSONArray(contentLlibres);
             JSONArray usuaris = new JSONArray(contentUsuaris);
             boolean continuar = false;
-            int idPrestecNou = -1;
+            //int idPrestecNou = -1;
             
                 System.out.print("Introdueix el ID del préstec que vols modificar: "); //Pregunta a l'usuari quin ID vol modificar
                 
@@ -694,10 +694,10 @@ public class Main {
                 for (int i = 0; i < prestecs.length(); i++) {
                     JSONObject prestec = prestecs.getJSONObject(i);
                     Integer id = prestec.getInt("Id");
-                    
+
 
                     if (id == idPrestec) {
-                        idPrestecNou = i;
+                        //idPrestecNou = i;
                         System.out.println("El préstec amb ID " + idPrestec + " conté les següents dades:");
                         prestecList.append(String.format("%-" + idLlibreWidth + "s %-" + idUsuariWidth + "s %-" + 
                                             dataPrestecWidth + "s %-" + dataDevolucioWidth + "s%n", 
@@ -706,13 +706,13 @@ public class Main {
                         
                         System.out.println(prestecList.toString());
                         continuar = true;
-                        }
-                    }
+                        
+                    
                     
 
                     
                     while (continuar) {
-                        JSONObject prestec = prestecs.getJSONObject(idPrestecNou);
+                        //JSONObject prestec = prestecs.getJSONObject(idPrestecNou);
                         System.out.println("Quin camp vols modificar?");
                         System.out.println("1. ID Llibre");
                         System.out.println("2. ID Usuari");
@@ -1210,6 +1210,8 @@ public class Main {
                         }
 
                     System.out.println("\nNo s'ha trobat cap prestec amb l'ID especificat.\n");
+                    }
+                }
 
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
