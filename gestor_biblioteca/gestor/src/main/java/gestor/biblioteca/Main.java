@@ -2,10 +2,12 @@ package gestor.biblioteca;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -31,11 +33,12 @@ public class Main {
                 case "1":
                 case "llibres":
                     System.out.println("\nHas seleccionat 'Llibres'.");
-                    //aquí s'ha d'afegir la funció del menú que gestiona els llibres
+                    menuLlibres();
                     break;
 
                 case "2":
                 case "usuaris":
+                    System.out.println("\nHas seleccionat 'Usuaris'.");
                     menuUsuaris();
                     break;
 
@@ -71,7 +74,7 @@ public class Main {
             System.out.println("2. Modificar");
             System.out.println("3. Eliminar");
             System.out.println("4. Llistar");
-            System.out.println("0. Sortir");
+            System.out.println("0. Tornar");
             System.out.print("\nEscull una opció: ");
             String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
 
@@ -110,8 +113,6 @@ public class Main {
             }
 
         }
-        scanner.close();
-
     }
 
     public static void menuLlistarUsuaris(){
@@ -132,7 +133,7 @@ public class Main {
                 case "1":
                 case "tots":
                     System.out.println("\nHas seleccionat 'Tots'");
-                    usuarisLlistat();
+                    System.out.println(usuarisLlistat());
                     break;
                 
                 case "2":
@@ -142,7 +143,7 @@ public class Main {
                 case "prestecs actius":
                 case "actius":
                     System.out.println("\nHas seleccionat 'Amb préstecs actius'");
-                    usuarisLlistatAmbPrestecsActius();
+                    System.out.println(usuarisLlistatAmbPrestecsActius());
                     break;
                 
                 case "3":
@@ -151,8 +152,9 @@ public class Main {
                 case "préstecs fora de termini":
                 case "prestecs fora de termini":
                 case "fora de termini":
-                    System.out.println("\nHas seleccionat 'mb préstecs fora de termini'");
-                    usuarisLlistatAmbPrestecsForaTermini();
+                    System.out.println("\nHas seleccionat 'Amb préstecs fora de termini'");
+                    System.out.println(usuarisLlistatAmbPrestecsForaTermini());
+                    break;
 
                 case "0":
                 case "tornar":
@@ -164,10 +166,95 @@ public class Main {
                     break;
             }
         }
-        scanner.close();
     }
 
+    /* Menú de Libros */
+    public static void menuLlibres() {
+        Scanner scanner = new Scanner(System.in);
+        boolean salir = false;
 
+        while (!salir) {
+            System.out.println("\nMenú de Llibres");
+            System.out.println("1. Afegir");
+            System.out.println("2. Modififcar");
+            System.out.println("3. Eliminar");
+            System.out.println("4. Llistar");
+            System.out.println("5. Torna al menú principal");
+            System.out.print("Selecciona una opció: ");
+
+            int opció = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opció) {
+                case 1:
+                    System.out.println("Has seleccionat afegir llibre");
+                    /* Escribir la función de añadir libro */
+                    break;
+                case 2:
+                    System.out.println("Has seleccionat modificar llibre");
+                    modificarLLibre();
+                    break;
+                case 3:
+                    System.out.println("Has seleccionat eliminar llibre");
+                    /*eliminarLLibre();*/
+                    break;
+                case 4:
+                    System.out.println("Has seleccionat llistar llibres");
+                    menuLlistarLlibres();
+                    break;
+                case 5:
+                    System.out.println("Tornant al menú principal...");
+                    salir = true;
+                    break;
+                default:
+                    System.out.println("Opció no vàlida. Torna a intentar-ho");
+            }
+        }
+    }
+
+    /*MENÚ DE LISTAR LIBROS */
+    public static void menuLlistarLlibres() {
+        Scanner scanner = new Scanner(System.in);
+        boolean salir = false;
+
+        while (!salir) {
+            System.out.println("\nMenú de llistar llibres");
+            System.out.println("1. Tots els llibres");
+            System.out.println("2. Llibres en préstec");
+            System.out.println("3. Llibres per autor");
+            System.out.println("4. Cercar títol");
+            System.out.println("5. Torna al menú de llibres");
+            System.out.print("Selecciona una opció: ");
+
+            int opció = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opció) {
+                case 1:
+                    System.out.println("Llistar tots els llibres.");
+                    /* Listar los libros */
+                    break;
+                case 2:
+                    System.out.println("Llistar els llibres en préstec.");
+                    /* Añadir la función de listar los libros en prestamo */
+                    break;
+                case 3: 
+                    System.out.println("Llistar els llibres per autor.");
+                    /*llibresperautorllistat("Gabriel Garcia");*/
+                    break;
+                case 4:
+                    System.out.println("Llistar els llibres per títol.");
+                    /* Funcion de buscar por título */
+                    break;
+                case 5:
+                    System.out.println("Tornant al menú llibres...");
+                    menuLlibres();
+                    break;
+                default:
+                    System.out.println("Opció no vàlida. Torna a intentar-ho");
+            }
+        }
+    }
 
 
 
@@ -218,11 +305,66 @@ public class Main {
 
         }catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        }finally{
+        }
+    }
+
+    public static void modificarLLibre(){
+        String filePathLlibres = "./data/llibres.json";
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            String contenido = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
+            JSONArray jsonArray = new JSONArray(contenido);
+
+            System.out.print("Escribe el título del libro que quieres modificar: ");
+            String titol = scanner.nextLine().trim();
+
+            System.out.print("Escribe el autor de libro: ");
+            String autor = scanner.nextLine().trim();
+
+            boolean found = false;
+
+            /* Buscar libro */
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject librosExistentes = jsonArray.getJSONObject(i);
+                String tituloExistente = librosExistentes.getString("titol").trim();
+                String autorExistente = librosExistentes.getString("autor").trim();
+                
+                if (tituloExistente.equalsIgnoreCase(titol) && autorExistente.equalsIgnoreCase(autor)) {
+                    found = true;
+
+                    System.out.println("Libro econtrado. Introduce los nuevos datos (no escribas nada para no modificar): ");
+
+                    System.out.print("Nuevo titulo: ");
+                    String nuevotitulo = scanner.nextLine().trim();
+                    if  (!nuevotitulo.isEmpty()) {
+                        librosExistentes.put("titol", nuevotitulo);
+                    }
+
+                    System.out.print("Nuevo autor: ");
+                    String nuevoAutor = scanner.nextLine().trim();
+                    if (!nuevoAutor.isEmpty()) {
+                        librosExistentes.put("autor",nuevoAutor);
+                    }
+
+                    try (FileWriter file = new FileWriter(filePathLlibres)) {
+                        file.write(jsonArray.toString(4));
+                    }
+                    System.out.println("Libro modificado con éxito.");
+                    break;
+                }   
+            }
+            if (!found) {
+                System.out.println("No se encontró un libro con los datos proporcionados");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer o escribir en el archivo: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+        } finally {
             scanner.close();
         }
-
-
     }
 
     public static void eliminar_prestecs() {
@@ -272,7 +414,6 @@ public class Main {
             System.out.println("Error: " + e.getMessage());
         }
     }
-     
 
     public static void modificar_usuaris() {
         //modificar usuaris
@@ -435,7 +576,235 @@ public class Main {
         }
     }
 
+    public static void afegir_prestecs() {
+        //afegir nous prestecs
+        Scanner scanner = new Scanner(System.in);
+        
+        try {
 
+            String filePathPrestecs = "./data/prestecs.json";
+            String filePathLlibres = "./data/llibres.json";
+            String filePathUsuaris = "./data/usuaris.json";
+            
+            String content = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
+            String content2 = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
+            String content3 = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
+
+            JSONArray prestecsArray = new JSONArray(content);       
+            JSONArray usuarisArray = new JSONArray(content2);
+            JSONArray llibresArray = new JSONArray(content3);
+
+            int idLlibre = -1;
+            int idUsuari = -1;
+            String dataDevolucio = "";
+
+            int nouId = 1; //Inicialitzem el nou ID a 1
+            for (int k = 0; k < prestecsArray.length(); k++){
+                JSONObject prestec = prestecsArray.getJSONObject(k);
+                Integer id = prestec.getInt("Id");
+
+                if (id == nouId) {
+                    nouId++;
+                    k = -1; //tornem a començar el bucle per a que es comprovi si l'id está repetit o no
+                }    
+            }
+
+            
+                boolean idLLibrePrestat = false; //Variable per a comprovar si el llibre està prestat o no
+                while (!idLLibrePrestat) {
+                    try {
+                        boolean idLlibreTrobat = false; //Variable per a comprovar si el llibre existeix o no
+                        int count = 0; //Variable per a comptar els préstecs del llibre
+                        System.out.print("Escriu l'ID del llibre a prestar: ");
+                        idLlibre = scanner.nextInt();
+
+                        for (int i = 0; i < llibresArray.length(); i++) { //Bucle per a recorrer el json de llibres
+                            JSONObject llibre = llibresArray.getJSONObject(i);
+                            Integer idLlibre2 = llibre.getInt("id");
+                            
+
+                            if (idLlibre == idLlibre2) {
+                                System.out.println("El llibre amb ID " + idLlibre + " és: " + llibre.getString("titol"));
+                                idLlibreTrobat = true;
+                            }
+                        } 
+
+                            if (!idLlibreTrobat) {
+                                System.out.println("No existeix cap llibre amb l'ID " + idLlibre);
+                                continue;
+                            }
+                            
+                            for (int j = 0; j < prestecsArray.length(); j++) {
+                                JSONObject prestec = prestecsArray.getJSONObject(j);
+                                Integer id = prestec.getInt("IdLlibre");
+
+                                if (idLlibre == id) {
+                                    count++;
+                                }
+                            }
+                                if (count == 1) {
+                                    System.out.println("El llibre amb ID " + idLlibre + " està prestat.");
+                                    continue;
+
+                                } else {
+                                    System.out.println("El llibre amb ID " + idLlibre + " no està prestat.");
+                                    break;
+                                }
+                            
+                    } catch (InputMismatchException e) {
+                            System.out.println("Introdueix un número vàlid.");
+                            scanner.nextLine();
+                        }
+                }
+                    
+                    
+                
+                    boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs
+                    //bucleUsuari = false; //Variable per a comprovar si l'usuari existeix o no                                    
+                    while (!idUsuariPrestecs) {    
+                        try {
+                            boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no   
+                            int countUsuari = 0; //Variable per a comptar els préstecs de l'usuari
+                            System.out.print("Escriu l'ID de l'usuari del prestec: ");
+                            idUsuari = scanner.nextInt();
+
+                            for (int j = 0; j < usuarisArray.length(); j++) { //Bucle per a recorrer el json d'usuaris
+                                JSONObject usuari = usuarisArray.getJSONObject(j);
+                                Integer idUsuari2 = usuari.getInt("id");
+
+                                if (idUsuari == idUsuari2) {
+                                    System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
+                                    idUsuariTrobat = true;
+                                    break;
+                                } else {
+                                    idUsuariTrobat = false;
+                                }
+                            }
+                            
+                            if (!idUsuariTrobat) {
+                                System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
+                                continue;
+                            }
+                                
+                            
+                            for (int k = 0; k < prestecsArray.length(); k++) {
+                                JSONObject prestec = prestecsArray.getJSONObject(k);
+                                Integer id = prestec.getInt("IdUsuari");  
+
+                                if (idUsuari == id) {
+                                        countUsuari++;
+                                    }
+                            }
+
+                            if (countUsuari == 4) {
+                                System.out.println("L'usuari amb ID " + idUsuari + " té 4 préstecs.");
+                                    
+                            } else  if (countUsuari < 4) {
+                                System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstecs.");
+                                break;
+                                }
+
+                        } catch (InputMismatchException ex) {
+                                System.out.println("Introdueix un número vàlid.");
+                                scanner.nextLine();
+                                //bucleUsuari = true;
+                            } 
+                        }
+                                   
+            
+            
+            Date dataActual = new Date();
+            String dataPrestec = new SimpleDateFormat("yyyy-MM-dd").format(dataActual); //Data actual en format String per afegir-ho al prestec.json
+
+            System.out.println("Data de prestec: " + dataPrestec);
+
+            boolean dataCorrecta = false; //Variable per a comprovar si la data de devolució és correcta
+            while(!dataCorrecta) {   
+                System.out.print("Escriu la data de devolució (yyyy-MM-dd): ");
+                dataDevolucio = scanner.next();
+
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date dataDevolucioDate = formato.parse(dataDevolucio); //Conversió de la data a format Date
+                
+                if (dataDevolucioDate.after(dataActual)) {
+                    String[] dataDevolucioArray = dataDevolucio.split("-");
+                    int anyDevolucio = Integer.parseInt(dataDevolucioArray[0]);
+                    int mesDevolucio = Integer.parseInt(dataDevolucioArray[1]);
+                    int diaDevolucio = Integer.parseInt(dataDevolucioArray[2]);
+
+                    if (mesDevolucio < 1 || mesDevolucio > 12) {
+                        System.out.println("El mes ha de ser entre 1 i 12.");
+                        continue;
+                    }
+                    boolean diaValid = false;
+                    switch (mesDevolucio) {
+                        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                            diaValid = (diaDevolucio >= 1 && diaDevolucio <= 31);
+                            break;
+                        case 4: case 6: case 9: case 11:
+                            diaValid = (diaDevolucio >= 1 && diaDevolucio <= 30);
+                            break;
+                        case 2:
+                            if (anyDevolucio % 4 == 0) {
+                                diaValid = (diaDevolucio >= 1 && diaDevolucio <= 29);
+                            } else {
+                                diaValid = (diaDevolucio >= 1 && diaDevolucio <= 28);
+                            }
+                            break;
+                    }
+
+                    if (diaValid) {
+                        dataCorrecta = true;
+                    } else {
+                        System.out.println("El dia no és vàlid per al mes introduït.");
+                    }
+
+                } else {
+                    System.out.println("La data de devolució ha de ser posterior a la data actual.");
+                }
+            } catch (ParseException e) {
+                System.out.println("Format de data incorrecta. Si us plau, introdueix la data en format yyyy-MM-dd.");
+                }
+            }
+
+            
+            JSONObject nouPrestec = new JSONObject();
+            nouPrestec.put("Id", nouId);
+            nouPrestec.put("IdLlibre", idLlibre);
+            nouPrestec.put("IdUsuari", idUsuari);
+            nouPrestec.put("DataPrestec", dataPrestec);
+            nouPrestec.put("DataDevolucio", dataDevolucio);
+
+            
+
+            System.out.println("Vols afegir aquest préstec?");
+            System.out.println(nouPrestec.toString(4));
+            System.out.print("Vols afegir aquest préstec? (s/n): ");
+            String confirmacio = scanner.next();
+
+            JSONArray prestecs = new JSONArray(content);
+            
+            if (confirmacio.equalsIgnoreCase("s")) {
+                prestecs.put(nouPrestec);
+                Files.write(Paths.get(filePathPrestecs), prestecs.toString(4).getBytes());
+                System.out.println("S'ha afegit el següent préstec:");
+                System.out.println("ID: " + nouId);
+                System.out.println("ID Llibre: " + idLlibre);
+                System.out.println("ID Usuari: " + idUsuari);
+                System.out.println("Data de préstec: " + dataPrestec);
+                System.out.println("Data de devolució: " + dataDevolucio);
+            } else {
+                System.out.println("No s'ha afegit el préstec.");
+            }
+        
+        } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+        
+    }
 
 
 
@@ -922,6 +1291,6 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        menuPrincipal();
+        afegir_prestecs();
     }
 }
