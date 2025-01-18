@@ -190,7 +190,7 @@ public class Main {
             switch (opció) {
                 case 1:
                     System.out.println("Has seleccionat afegir llibre");
-                    /* Escribir la función de añadir libro */
+                    afegir_llibres();
                     break;
                 case 2:
                     System.out.println("Has seleccionat modificar llibre");
@@ -198,7 +198,7 @@ public class Main {
                     break;
                 case 3:
                     System.out.println("Has seleccionat eliminar llibre");
-                    /*eliminarLLibre();*/
+                    eliminarLLibre();
                     break;
                 case 4:
                     System.out.println("Has seleccionat llistar llibres");
@@ -234,7 +234,7 @@ public class Main {
             switch (opció) {
                 case 1:
                     System.out.println("Llistar tots els llibres.");
-                    /* Listar los libros */
+                    llibresLlistat();
                     break;
                 case 2:
                     System.out.println("Llistar els llibres en préstec.");
