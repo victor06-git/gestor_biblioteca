@@ -683,7 +683,6 @@ public class Main {
             JSONArray prestecs = new JSONArray(contentPrestecs);
             JSONArray llibres = new JSONArray(contentLlibres);
             JSONArray usuaris = new JSONArray(contentUsuaris);
-            boolean continuar = false;
             //int idPrestecNou = -1;
             
                 System.out.print("Introdueix el ID del préstec que vols modificar: "); //Pregunta a l'usuari quin ID vol modificar
@@ -704,13 +703,9 @@ public class Main {
                                             prestec.getInt("IdLlibre"), prestec.getInt("IdUsuari"), 
                                             prestec.getString("DataPrestec"), prestec.getString("DataDevolucio")));
                         
-                        System.out.println(prestecList.toString());
-                        continuar = true;
-                        
-                    
-                    
-
-                    
+                        System.out.println(prestecList.toString());                   
+            
+                    boolean continuar = true;
                     while (continuar) {
                         //JSONObject prestec = prestecs.getJSONObject(idPrestecNou);
                         System.out.println("Quin camp vols modificar?");
@@ -1203,14 +1198,13 @@ public class Main {
                                         break;
                                     }
                                 }
-
-                            Files.write(Paths.get(filePathPrestecs), prestecs.toString(4).getBytes());
-                            System.out.println("Els canvis s'han guardat correctament.\n");
-                            return;
-                        }
-
-                    System.out.println("\nNo s'ha trobat cap prestec amb l'ID especificat.\n");
+                            }
+                            
+                        Files.write(Paths.get(filePathPrestecs), prestecs.toString(4).getBytes());
+                        System.out.println("Els canvis s'han guardat correctament.\n");
+                        return;
                     }
+                    System.out.println("\nNo s'ha trobat cap prestec amb l'ID especificat.\n");
                 }
 
                 } catch (Exception e) {
