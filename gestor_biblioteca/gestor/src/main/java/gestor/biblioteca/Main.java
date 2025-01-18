@@ -587,7 +587,7 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Has seleccionat llistar llibres");
-                    /* Añadir la función de listar libros */
+                    menuLlistarLlibres();
                     break;
                 case 5:
                     System.out.println("Tornant al menú principal...");
@@ -597,8 +597,52 @@ public class Main {
                     System.out.println("Opció no vàlida. Torna a intentar-ho");
             }
         }
-
     }
+
+    public static void menuLlistarLlibres() {
+        Scanner scanner = new Scanner(System.in);
+        boolean salir = false;
+
+        while (!salir) {
+            System.out.println("\nMenú de llistar llibres");
+            System.out.println("1. Tots els llibres");
+            System.out.println("2. Llibres en préstec");
+            System.out.println("3. Llibres per autor");
+            System.out.println("4. Cercar títol");
+            System.out.println("5. Torna al menú de llibres");
+            System.out.print("Selecciona una opció: ");
+
+            int opció = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opció) {
+                case 1:
+                    System.out.println("Llistar tots els llibres.");
+                    /* Listar los libros */
+                    break;
+                case 2:
+                    System.out.println("Llistar els llibres en prestecs.");
+                    /* Añadir la función de listar los libros en prestamo */
+                    break;
+                case 3: 
+                    System.out.println("Llistar els llibre per autor.");
+                    llibresperautorllistat("Gabriel Garcia");
+                    break;
+                case 4:
+                    System.out.println("Cercar títol.");
+                    /* Funcion de buscar por título */
+                    break;
+                case 5:
+                    System.out.println("Tornant al menú llibres...");
+                    menuLlibres();
+                    break;
+                default:
+                    System.out.println("Opció no vàlida. Torna a intentar-ho");
+            }
+        }
+    }
+
+
     public static void main(String[] args) {
         System.out.println("Hello world!");
         
@@ -618,7 +662,7 @@ public class Main {
         /*modificarLLibre();*/
         /* eliminarLLibre(); */
 
-        menuLlibres();
+        menuLlistarLlibres();
 
     }
 }
