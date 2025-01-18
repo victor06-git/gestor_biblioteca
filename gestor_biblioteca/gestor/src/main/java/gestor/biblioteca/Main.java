@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -146,98 +147,108 @@ public class Main {
                 }    
             }
 
-            boolean idLLibrePrestat = false; //Variable per a comprovar si el llibre està prestat o no
-            while (!idLLibrePrestat) {
-                boolean idLlibreTrobat = false; //Variable per a comprovar si el llibre existeix o no
-                int count = 0; //Variable per a comptar els préstecs del llibre
             
-                System.out.print("Escriu l'ID del llibre a prestar: ");
-                idLlibre = scanner.nextInt();
+                boolean idLLibrePrestat = false; //Variable per a comprovar si el llibre està prestat o no
+                while (!idLLibrePrestat) {
+                    try {
+                        boolean idLlibreTrobat = false; //Variable per a comprovar si el llibre existeix o no
+                        int count = 0; //Variable per a comptar els préstecs del llibre
+                        System.out.print("Escriu l'ID del llibre a prestar: ");
+                        idLlibre = scanner.nextInt();
 
-                for (int i = 0; i < llibresArray.length(); i++) { //Bucle per a recorrer el json de llibres
-                    JSONObject llibre = llibresArray.getJSONObject(i);
-                    Integer idLlibre2 = llibre.getInt("id");
-                    
-
-                    if (idLlibre == idLlibre2) {
-                        System.out.println("El llibre amb ID " + idLlibre + " és: " + llibre.getString("titol"));
-                        idLlibreTrobat = true;
-                    }
-                } 
-
-                    if (!idLlibreTrobat) {
-                        System.out.println("No existeix cap llibre amb l'ID " + idLlibre);
-                        continue;
-                    }
-                    
-                    for (int j = 0; j < prestecsArray.length(); j++) {
-                        JSONObject prestec = prestecsArray.getJSONObject(j);
-                        Integer id = prestec.getInt("IdLlibre");
-
-                        if (idLlibre == id) {
-                            count++;
-                        }
-                    }
-                        if (count == 1) {
-                            System.out.println("El llibre amb ID " + idLlibre + " està prestat.");
-                            continue;
-
-                        } else {
-                            System.out.println("El llibre amb ID " + idLlibre + " no està prestat.");
-                            break;
-                        }
-                    
-                }
-            try {
-                boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs
-                                                                                
-                while (!idUsuariPrestecs) {    
-                    boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no   
-                    int countUsuari = 0; //Variable per a comptar els préstecs de l'usuari
-                    
-                    System.out.print("Escriu l'ID de l'usuari del prestec: ");
-                    idUsuari = scanner.nextInt();
-
-                    for (int j = 0; j < usuarisArray.length(); j++) { //Bucle per a recorrer el json d'usuaris
-                        JSONObject usuari = usuarisArray.getJSONObject(j);
-                        Integer idUsuari2 = usuari.getInt("id");
-
-                        if (idUsuari == idUsuari2) {
-                            System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
-                            idUsuariTrobat = true;
-                            break;
-                        } else {
-                            idUsuariTrobat = false;
-                        }
-                    }
-                    
-                    if (!idUsuariTrobat) {
-                        System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
-                        continue;
-                    }
-                        
-                    
-                    for (int k = 0; k < prestecsArray.length(); k++) {
-                        JSONObject prestec = prestecsArray.getJSONObject(k);
-                        Integer id = prestec.getInt("IdUsuari");  
-
-                        if (idUsuari == id) {
-                                countUsuari++;
-                            }
-                    }
-
-                    if (countUsuari == 4) {
-                        System.out.println("L'usuari amb ID " + idUsuari + " té 4 préstecs.");
+                        for (int i = 0; i < llibresArray.length(); i++) { //Bucle per a recorrer el json de llibres
+                            JSONObject llibre = llibresArray.getJSONObject(i);
+                            Integer idLlibre2 = llibre.getInt("id");
                             
-                    } else  if (countUsuari < 4) {
-                        System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstecs.");
-                        break;
+
+                            if (idLlibre == idLlibre2) {
+                                System.out.println("El llibre amb ID " + idLlibre + " és: " + llibre.getString("titol"));
+                                idLlibreTrobat = true;
+                            }
+                        } 
+
+                            if (!idLlibreTrobat) {
+                                System.out.println("No existeix cap llibre amb l'ID " + idLlibre);
+                                continue;
+                            }
+                            
+                            for (int j = 0; j < prestecsArray.length(); j++) {
+                                JSONObject prestec = prestecsArray.getJSONObject(j);
+                                Integer id = prestec.getInt("IdLlibre");
+
+                                if (idLlibre == id) {
+                                    count++;
+                                }
+                            }
+                                if (count == 1) {
+                                    System.out.println("El llibre amb ID " + idLlibre + " està prestat.");
+                                    continue;
+
+                                } else {
+                                    System.out.println("El llibre amb ID " + idLlibre + " no està prestat.");
+                                    break;
+                                }
+                            
+                    } catch (InputMismatchException e) {
+                            System.out.println("Introdueix un número vàlid.");
+                            scanner.nextLine();
                         }
-                    }
                 }
-                    catch (Exception e) {
-                        System.out.println("Error: " + e.getMessage());
-                    }            
+                    
+                    
+                
+                    boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs
+                    //bucleUsuari = false; //Variable per a comprovar si l'usuari existeix o no                                    
+                    while (!idUsuariPrestecs) {    
+                        try {
+                            boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no   
+                            int countUsuari = 0; //Variable per a comptar els préstecs de l'usuari
+                            System.out.print("Escriu l'ID de l'usuari del prestec: ");
+                            idUsuari = scanner.nextInt();
+
+                            for (int j = 0; j < usuarisArray.length(); j++) { //Bucle per a recorrer el json d'usuaris
+                                JSONObject usuari = usuarisArray.getJSONObject(j);
+                                Integer idUsuari2 = usuari.getInt("id");
+
+                                if (idUsuari == idUsuari2) {
+                                    System.out.println("L'usuari amb ID " + idUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
+                                    idUsuariTrobat = true;
+                                    break;
+                                } else {
+                                    idUsuariTrobat = false;
+                                }
+                            }
+                            
+                            if (!idUsuariTrobat) {
+                                System.out.println("No existeix cap usuari amb l'ID " + idUsuari);
+                                continue;
+                            }
+                                
+                            
+                            for (int k = 0; k < prestecsArray.length(); k++) {
+                                JSONObject prestec = prestecsArray.getJSONObject(k);
+                                Integer id = prestec.getInt("IdUsuari");  
+
+                                if (idUsuari == id) {
+                                        countUsuari++;
+                                    }
+                            }
+
+                            if (countUsuari == 4) {
+                                System.out.println("L'usuari amb ID " + idUsuari + " té 4 préstecs.");
+                                    
+                            } else  if (countUsuari < 4) {
+                                System.out.println("L'usuari amb ID " + idUsuari + " té " + countUsuari + " préstecs.");
+                                break;
+                                }
+
+                        } catch (InputMismatchException ex) {
+                                System.out.println("Introdueix un número vàlid.");
+                                scanner.nextLine();
+                                //bucleUsuari = true;
+                            } 
+                        }
+                                   
             
             
             Date dataActual = new Date();
@@ -255,7 +266,38 @@ public class Main {
                 Date dataDevolucioDate = formato.parse(dataDevolucio); //Conversió de la data a format Date
                 
                 if (dataDevolucioDate.after(dataActual)) {
-                    dataCorrecta = true;
+                    String[] dataDevolucioArray = dataDevolucio.split("-");
+                    int anyDevolucio = Integer.parseInt(dataDevolucioArray[0]);
+                    int mesDevolucio = Integer.parseInt(dataDevolucioArray[1]);
+                    int diaDevolucio = Integer.parseInt(dataDevolucioArray[2]);
+
+                    if (mesDevolucio < 1 || mesDevolucio > 12) {
+                        System.out.println("El mes ha de ser entre 1 i 12.");
+                        continue;
+                    }
+                    boolean diaValid = false;
+                    switch (mesDevolucio) {
+                        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                            diaValid = (diaDevolucio >= 1 && diaDevolucio <= 31);
+                            break;
+                        case 4: case 6: case 9: case 11:
+                            diaValid = (diaDevolucio >= 1 && diaDevolucio <= 30);
+                            break;
+                        case 2:
+                            if (anyDevolucio % 4 == 0) {
+                                diaValid = (diaDevolucio >= 1 && diaDevolucio <= 29);
+                            } else {
+                                diaValid = (diaDevolucio >= 1 && diaDevolucio <= 28);
+                            }
+                            break;
+                    }
+
+                    if (diaValid) {
+                        dataCorrecta = true;
+                    } else {
+                        System.out.println("El dia no és vàlid per al mes introduït.");
+                    }
+
                 } else {
                     System.out.println("La data de devolució ha de ser posterior a la data actual.");
                 }
