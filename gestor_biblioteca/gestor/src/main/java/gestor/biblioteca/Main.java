@@ -876,7 +876,7 @@ public static void afegir_llibres() {
                             scanner.nextLine(); // consumir el salt de línia restant
 
                             switch (opcio) {
-                                case 1:
+                                case 1: //Modificar ID Llibre
                                 boolean idLlibrePrestat = false;
                                 while (!idLlibrePrestat) {
                                     int count = 0;
@@ -928,7 +928,7 @@ public static void afegir_llibres() {
                                 }
                                         break;
                                 
-                                case 2:
+                                case 2: // Modificar ID Usuari
                                 
                                     boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs                                    
                                     while (!idUsuariPrestecs) {    
@@ -983,7 +983,7 @@ public static void afegir_llibres() {
                                         }                                
                                     break;
 
-                                case 3:
+                                case 3: //Modificar Data Prestec
                                     Date dataActual = new Date();                  
                                     boolean dataCorrecta = false; //Variable per a comprovar si la data de devolució és correcta
                                     while(!dataCorrecta) {   
@@ -1041,7 +1041,7 @@ public static void afegir_llibres() {
                                             
                                     break;
 
-                                case 4:
+                                case 4: //Modificar Data Devolucio
                                     Date dataActual2 = new Date();
                                     String dataActual_2 = new SimpleDateFormat("yyyy-MM-dd").format(dataActual2); //Data actual en format String per afegir-ho al prestec.json
                         
@@ -1102,7 +1102,7 @@ public static void afegir_llibres() {
 
                                     break;
 
-                                    case 5:
+                                    case 5: // Sortir
                                         continuar = false;
                                         System.out.println("Sortint del menú...");
                                         break;
@@ -1117,7 +1117,7 @@ public static void afegir_llibres() {
                                 String opcio = scanner.nextLine();
 
                                 switch (opcio) {
-                                    case "IdLlibre": case "idLlibre": case "idllibre": case "Idllibre":
+                                    case "IdLlibre": case "idLlibre": case "idllibre": case "Idllibre": //Modificar ID Llibre
                                     boolean idLlibrePrestat = false;
                                     while (!idLlibrePrestat) {
                                         int count = 0;
@@ -1169,7 +1169,7 @@ public static void afegir_llibres() {
                                     }
                                             break;
                                     
-                                    case "IdUsuari": case "idUsuari": case "idusuari": case "Idusuari":
+                                    case "IdUsuari": case "idUsuari": case "idusuari": case "Idusuari": // Modificar ID Usuari
                                     
                                         boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs                                    
                                         while (!idUsuariPrestecs) {    
@@ -1224,7 +1224,7 @@ public static void afegir_llibres() {
                                             }                                
                                         break;
 
-                                    case "DataPrestec": case "dataprestec": case "dataPrestec": case "Dataprestec":
+                                    case "DataPrestec": case "dataprestec": case "dataPrestec": case "Dataprestec": //Modificar Data Prestec
                                         Date dataActual = new Date();                  
                                         boolean dataCorrecta = false; //Variable per a comprovar si la data de devolució és correcta
                                         while(!dataCorrecta) {   
@@ -1282,7 +1282,7 @@ public static void afegir_llibres() {
                                                 
                                         break;
 
-                                    case "DataDevolucio": case "datadevolucio": case "dataDevolucio": case "Datadevolucio":
+                                    case "DataDevolucio": case "datadevolucio": case "dataDevolucio": case "Datadevolucio": //Modificar Data Devolucio
                                         Date dataActual2 = new Date();
                                         String dataActual_2 = new SimpleDateFormat("yyyy-MM-dd").format(dataActual2); //Data actual en format String per afegir-ho al prestec.json
                             
@@ -1354,7 +1354,7 @@ public static void afegir_llibres() {
                                     }
                                 }
                             }
-                            
+
                         Files.write(Paths.get(filePathPrestecs), prestecs.toString(4).getBytes());
                         System.out.println("Els canvis s'han guardat correctament.\n");
                         return;
