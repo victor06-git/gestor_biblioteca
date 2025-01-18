@@ -455,13 +455,14 @@ public class Main {
                         System.out.println("1. Nom");
                         System.out.println("2. Cognoms");
                         System.out.println("3. Telèfon");
-                        System.out.println("4. Sortir");
+                        System.out.println("4. Tornar");
                         System.out.print("Selecciona una opció: ");
-                        int opcio = scanner.nextInt();
+                        String opcio = scanner.nextLine();
                         scanner.nextLine(); // cnsumir el salt de linia restant
 
                         switch (opcio) {
-                            case 1://validem nom
+                            case "1"://validem nom
+                            case "nom":
                                 boolean nomValid = false;
                                 while (!nomValid) {
                                     System.out.print("\nEscriu el nou nom (només lletres i espais): ");
@@ -492,7 +493,9 @@ public class Main {
                                 }
                                 break;
                             
-                            case 2://validem cognoms
+                            case "2"://validem cognoms
+                            case "cognoms":
+                            case "cognom":
                                 boolean cognomsValids = false;
                                 while (!cognomsValids) {
                                     System.out.print("\nEscriu els nous cognoms (només lletres i espais): ");
@@ -522,7 +525,9 @@ public class Main {
                                 }
                                 break;
 
-                            case 3: //validem telèfon
+                            case "3": //validem telèfon"
+                            case "telèfon":
+                            case "telefon":
                                 boolean telefonoValido = false;
                                 while (!telefonoValido) {
                                     System.out.print("\nEscriu el nou telèfon (9 dígits): ");
@@ -552,7 +557,8 @@ public class Main {
                                 }
                                 break;
                             
-                            case 4:
+                            case "4":
+                            case "tornar":
                                 continuar = false;
                                 System.out.println("Sortint del menú de modificació.\n");
                                 break;
