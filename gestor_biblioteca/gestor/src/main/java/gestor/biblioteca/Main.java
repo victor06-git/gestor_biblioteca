@@ -661,7 +661,18 @@ public class Main {
         
     }
 
-
+    public static void modificar_prestecs() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.print("Introdueix el ID del préstec que vols modificar: ");
+            int idPrestec = scanner.nextInt();
+            scanner.nextLine();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
 
 
 
