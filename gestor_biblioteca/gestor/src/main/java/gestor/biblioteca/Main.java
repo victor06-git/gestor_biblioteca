@@ -33,7 +33,7 @@ public class Main {
                 case "1":
                 case "llibres":
                     System.out.println("\nHas seleccionat 'Llibres'.");
-                    //aquí s'ha d'afegir la funció del menú que gestiona els llibres
+                    menuLlibres();
                     break;
 
                 case "2":
@@ -192,7 +192,7 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("Has seleccionat modificar llibre");
-                    /*modificarLLibre();*/
+                    modificarLLibre();
                     break;
                 case 3:
                     System.out.println("Has seleccionat eliminar llibre");
