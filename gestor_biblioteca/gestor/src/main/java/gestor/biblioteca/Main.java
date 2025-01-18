@@ -816,7 +816,558 @@ public static void afegir_llibres() {
         
     }
 
+    public static void modificar_prestecs() {
+        Scanner scanner = new Scanner(System.in);
+        String filePathPrestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
+        String filePathLlibres = "./gestor_biblioteca/gestor/data/llibres.json";
+        String filePathUsuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
+        StringBuilder prestecList = new StringBuilder();
 
+        int idLlibreWidth = 10;
+        int idUsuariWidth = 10;
+        int dataPrestecWidth = 15;
+        int dataDevolucioWidth = 15;
+        prestecList.append(String.format("%-" + idLlibreWidth + "s %-" + idUsuariWidth + "s %-" + 
+                                        dataPrestecWidth + "s %-" + dataDevolucioWidth + "s%n", "ID Llibre", "ID Usuari", "Data Prestec", "Data Devolucio"));
+        prestecList.append("------------------------------------------------------------\n");
+        
+        try {
+            String contentPrestecs = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
+            String contentLlibres = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
+            String contentUsuaris = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
+            JSONArray prestecs = new JSONArray(contentPrestecs);
+            JSONArray llibres = new JSONArray(contentLlibres);
+            JSONArray usuaris = new JSONArray(contentUsuaris);
+            //int idPrestecNou = -1;
+            
+                System.out.print("Introdueix el ID del préstec que vols modificar: "); //Pregunta a l'usuari quin ID vol modificar
+                
+                int idPrestec = scanner.nextInt();
+                scanner.nextLine();
+                
+                for (int i = 0; i < prestecs.length(); i++) {
+                    JSONObject prestec = prestecs.getJSONObject(i);
+                    Integer id = prestec.getInt("Id");
+
+
+                    if (id == idPrestec) {
+                        //idPrestecNou = i;
+                        System.out.println("El préstec amb ID " + idPrestec + " conté les següents dades:");
+                        prestecList.append(String.format("%-" + idLlibreWidth + "s %-" + idUsuariWidth + "s %-" + 
+                                            dataPrestecWidth + "s %-" + dataDevolucioWidth + "s%n", 
+                                            prestec.getInt("IdLlibre"), prestec.getInt("IdUsuari"), 
+                                            prestec.getString("DataPrestec"), prestec.getString("DataDevolucio")));
+                        
+                        System.out.println(prestecList.toString());                   
+            
+                    boolean continuar = true;
+                    while (continuar) {
+                        //JSONObject prestec = prestecs.getJSONObject(idPrestecNou);
+                        System.out.println("Quin camp vols modificar?");
+                        System.out.println("1. ID Llibre");
+                        System.out.println("2. ID Usuari");
+                        System.out.println("3. Data Prestec");
+                        System.out.println("4. Data Devolucio");
+                        System.out.println("5. Sortir");
+                        System.out.print("Selecciona una opció: ");
+                        
+                        if (scanner.hasNextInt()) {
+                            int opcio = scanner.nextInt();
+                            scanner.nextLine(); // consumir el salt de línia restant
+
+                            switch (opcio) {
+                                case 1: //Modificar ID Llibre
+                                boolean idLlibrePrestat = false;
+                                while (!idLlibrePrestat) {
+                                    int count = 0;
+                                    boolean idLlibreTrobat = false;
+                                    try {
+                                        System.out.print("Introdueix el nou ID del llibre: ");
+                                        int nouIdLlibre = scanner.nextInt();
+                                
+                                        // Iterar sobre llibres
+                                        for (int j = 0; j < llibres.length(); j++) {
+                                            JSONObject llibre = llibres.getJSONObject(j);
+                                            Integer idLlibre = llibre.getInt("id");
+                                
+                                            if (nouIdLlibre == idLlibre) {
+                                                System.out.println("El llibre amb ID " + nouIdLlibre + " és: " + llibre.getString("titol"));
+                                                idLlibreTrobat = true;
+                                
+                                                // Comprobar si el llibre està prestat
+                                                for (int k = 0; k < prestecs.length(); k++) {
+                                                    JSONObject llibre2 = prestecs.getJSONObject(k);
+                                                    Integer idLlibre2 = llibre2.getInt("IdLlibre");
+                                
+                                                    if (nouIdLlibre == idLlibre2) {
+                                                        count++;
+                                                    }
+                                                }
+                                
+                                                if (count > 0) {
+                                                    System.out.println("El llibre amb ID " + nouIdLlibre + " està prestat.");
+                                                } else {
+                                                    System.out.println("El llibre amb ID " + nouIdLlibre + " no està prestat.");
+                                                    prestec.put("IdLlibre", nouIdLlibre);
+                                                    System.out.println("ID Llibre actualitzat!\n");
+                                                    idLlibrePrestat = true;
+                                                }
+                                                break; // Salir del bucle una vez que se encuentra el libro
+                                            }
+                                        }
+                                
+                                        // Si no se encontró el libro, imprimir el mensaje de error
+                                        if (!idLlibreTrobat) {
+                                            System.out.println("No existeix cap llibre amb l'ID " + nouIdLlibre);
+                                        }
+                                
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Introdueix un número vàlid.");
+                                        scanner.nextLine(); // Limpiar el buffer del scanner
+                                    }
+                                }
+                                        break;
+                                
+                                case 2: // Modificar ID Usuari
+                                
+                                    boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs                                    
+                                    while (!idUsuariPrestecs) {    
+                                        try {
+                                            boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no   
+                                            int countUsuari = 0; //Variable per a comptar els préstecs de l'usuari
+                                            System.out.print("Escriu la nova ID de l'usuari del prestec: ");
+                                            int nouIdUsuari = scanner.nextInt();
+
+                                            for (int j = 0; j < usuaris.length(); j++) { //Bucle per a recorrer el json d'usuaris
+                                                JSONObject usuari = usuaris.getJSONObject(j);
+                                                Integer idUsuari2 = usuari.getInt("id");
+
+                                                if (nouIdUsuari == idUsuari2) {
+                                                    System.out.println("L'usuari amb ID " + nouIdUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
+                                                    idUsuariTrobat = true;
+                                                    break;
+                                                } else {
+                                                    idUsuariTrobat = false;
+                                                }
+                                            }
+                                            
+                                            if (!idUsuariTrobat) {
+                                                System.out.println("No existeix cap usuari amb l'ID " + nouIdUsuari);
+                                                continue;
+                                            }
+                                                
+                                            
+                                            for (int k = 0; k < prestecs.length(); k++) {
+                                                JSONObject prestec2 = prestecs.getJSONObject(k);
+                                                Integer idUsuari3 = prestec2.getInt("IdUsuari");  
+
+                                                if (nouIdUsuari == idUsuari3) {
+                                                        countUsuari++;
+                                                    }
+                                            }
+
+                                            if (countUsuari == 4) {
+                                                System.out.println("L'usuari amb ID " + nouIdUsuari + " té 4 préstecs.");
+                                                    
+                                            } else  if (countUsuari < 4) {
+                                                System.out.println("L'usuari amb ID " + nouIdUsuari + " té " + countUsuari + " préstecs.");
+                                                prestec.put("IdUsuari", nouIdUsuari);
+                                                System.out.println("ID Usuari actualitzat!\n");
+                                                break;
+                                                }
+
+                                        } catch (InputMismatchException ex) {
+                                                System.out.println("Introdueix un número vàlid.");
+                                                scanner.nextLine();
+                                            } 
+                                        }                                
+                                    break;
+
+                                case 3: //Modificar Data Prestec
+                                    Date dataActual = new Date();                  
+                                    boolean dataCorrecta = false; //Variable per a comprovar si la data de devolució és correcta
+                                    while(!dataCorrecta) {   
+                                        System.out.print("Introdueix la nova data de prestec (yyyy-MM-dd): ");
+                                        String dataPrestec = scanner.next();
+                        
+                                    try {    
+                                        
+                                        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date dataPrestec2 = formato.parse(dataPrestec);
+
+                                        if (dataPrestec2.after(dataActual)) {
+                                            String[] dataPrestecArray = dataPrestec.split("-");
+                                            int anyPrestec = Integer.parseInt(dataPrestecArray[0]);
+                                            int mesPrestec = Integer.parseInt(dataPrestecArray[1]);
+                                            int diaPrestec = Integer.parseInt(dataPrestecArray[2]);
+                        
+                                            if (mesPrestec < 1 || mesPrestec > 12) {
+                                                System.out.println("El mes ha de ser entre 1 i 12.");
+                                                continue;
+                                            }
+                                            boolean diaValid = false;
+                                            switch (mesPrestec) {
+                                                case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                                                    diaValid = (diaPrestec >= 1 && diaPrestec <= 31);
+                                                    break;
+                                                case 4: case 6: case 9: case 11:
+                                                    diaValid = (diaPrestec >= 1 && diaPrestec <= 30);
+                                                    break;
+                                                case 2:
+                                                    if (anyPrestec % 4 == 0) {
+                                                        diaValid = (diaPrestec >= 1 && diaPrestec <= 29);
+                                                    } else {
+                                                        diaValid = (diaPrestec >= 1 && diaPrestec <= 28);
+                                                    }
+                                                    break;
+                                            }
+                        
+                                            if (diaValid) {
+                                                dataCorrecta = true;
+                                                prestec.put("DataPrestec", dataPrestec);
+                                                System.out.println("Data de prestec actualitzada!\n");
+                                            } else {
+                                                System.out.println("El dia no és vàlid per al mes introduït.");
+                                            }
+                                        } else {
+                                            System.out.println("La data de prestec ha de ser posterior a la data actual.");
+                                        }
+
+                                    } catch (ParseException e) {
+
+                                        System.out.println("Format de data incorrecta. Si us plau, introdueix la data en format yyyy-MM-dd.");
+                                        }
+                                    }
+                                            
+                                    break;
+
+                                case 4: //Modificar Data Devolucio
+                                    Date dataActual2 = new Date();
+                                    String dataActual_2 = new SimpleDateFormat("yyyy-MM-dd").format(dataActual2); //Data actual en format String per afegir-ho al prestec.json
+                        
+                                    System.out.println("Data actual: " + dataActual_2);
+                        
+                                    boolean dataCorrecta2 = false; //Variable per a comprovar si la data de devolució és correcta
+                                    while(!dataCorrecta2) {   
+                                        System.out.print("Escriu la data de devolució (yyyy-MM-dd): ");
+                                        String dataDevolucio = scanner.nextLine();
+                        
+                                        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                                    try {
+                                        Date dataDevolucioDate = formato.parse(dataDevolucio); //Conversió de la data a format Date
+                                        
+                                        if (dataDevolucioDate.after(dataActual2)) {
+                                            String[] dataDevolucioArray = dataDevolucio.split("-");
+                                            int anyDevolucio = Integer.parseInt(dataDevolucioArray[0]);
+                                            int mesDevolucio = Integer.parseInt(dataDevolucioArray[1]);
+                                            int diaDevolucio = Integer.parseInt(dataDevolucioArray[2]);
+                        
+                                            if (mesDevolucio < 1 || mesDevolucio > 12) {
+                                                System.out.println("El mes ha de ser entre 1 i 12.");
+                                                continue;
+                                            }
+                                            boolean diaValid = false;
+                                            switch (mesDevolucio) {
+                                                case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                                                    diaValid = (diaDevolucio >= 1 && diaDevolucio <= 31);
+                                                    break;
+                                                case 4: case 6: case 9: case 11:
+                                                    diaValid = (diaDevolucio >= 1 && diaDevolucio <= 30);
+                                                    break;
+                                                case 2:
+                                                    if (anyDevolucio % 4 == 0) {
+                                                        diaValid = (diaDevolucio >= 1 && diaDevolucio <= 29);
+                                                    } else {
+                                                        diaValid = (diaDevolucio >= 1 && diaDevolucio <= 28);
+                                                    }
+                                                    break;
+                                            }
+                        
+                                            if (diaValid) {
+                                                dataCorrecta2 = true;
+                                                prestec.put("DataDevolucio", dataDevolucio);
+                                                System.out.println("Data de devolució actualitzada!\n"); 
+
+                                            } else {
+                                                System.out.println("El dia no és vàlid per al mes introduït.");
+                                            }
+                        
+                                        } else {
+                                            System.out.println("La data de devolució ha de ser posterior a la data actual.");
+                                        }
+                                    } catch (ParseException e) {
+                                        System.out.println("Format de data incorrecta. Si us plau, introdueix la data en format yyyy-MM-dd.");
+                                        }
+                                    }
+
+                                    break;
+
+                                    case 5: // Sortir
+                                        continuar = false;
+                                        System.out.println("Sortint del menú...");
+                                        break;
+                                    
+                                    default:
+                                        System.out.println("Opció no vàlida.");
+                                        break;
+                                    }
+                            
+                            } else {
+
+                                String opcio = scanner.nextLine();
+
+                                switch (opcio) {
+                                    case "IdLlibre": case "idLlibre": case "idllibre": case "Idllibre": //Modificar ID Llibre
+                                    boolean idLlibrePrestat = false;
+                                    while (!idLlibrePrestat) {
+                                        int count = 0;
+                                        boolean idLlibreTrobat = false;
+                                        try {
+                                            System.out.print("Introdueix el nou ID del llibre: ");
+                                            int nouIdLlibre = scanner.nextInt();
+                                    
+                                            // Iterar sobre llibres
+                                            for (int j = 0; j < llibres.length(); j++) {
+                                                JSONObject llibre = llibres.getJSONObject(j);
+                                                Integer idLlibre = llibre.getInt("id");
+                                    
+                                                if (nouIdLlibre == idLlibre) {
+                                                    System.out.println("El llibre amb ID " + nouIdLlibre + " és: " + llibre.getString("titol"));
+                                                    idLlibreTrobat = true;
+                                    
+                                                    // Comprobar si el llibre està prestat
+                                                    for (int k = 0; k < prestecs.length(); k++) {
+                                                        JSONObject llibre2 = prestecs.getJSONObject(k);
+                                                        Integer idLlibre2 = llibre2.getInt("IdLlibre");
+                                    
+                                                        if (nouIdLlibre == idLlibre2) {
+                                                            count++;
+                                                        }
+                                                    }
+                                    
+                                                    if (count > 0) {
+                                                        System.out.println("El llibre amb ID " + nouIdLlibre + " està prestat.");
+                                                    } else {
+                                                        System.out.println("El llibre amb ID " + nouIdLlibre + " no està prestat.");
+                                                        prestec.put("IdLlibre", nouIdLlibre);
+                                                        System.out.println("ID Llibre actualitzat!\n");
+                                                        idLlibrePrestat = true;
+                                                    }
+                                                    break; // Salir del bucle una vez que se encuentra el libro
+                                                }
+                                            }
+                                    
+                                            // Si no se encontró el libro, imprimir el mensaje de error
+                                            if (!idLlibreTrobat) {
+                                                System.out.println("No existeix cap llibre amb l'ID " + nouIdLlibre);
+                                            }
+                                    
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Introdueix un número vàlid.");
+                                            scanner.nextLine(); // Limpiar el buffer del scanner
+                                        }
+                                    }
+                                            break;
+                                    
+                                    case "IdUsuari": case "idUsuari": case "idusuari": case "Idusuari": // Modificar ID Usuari
+                                    
+                                        boolean idUsuariPrestecs = false; //Variable per a comprovar si l'usuari té més de 4 préstecs                                    
+                                        while (!idUsuariPrestecs) {    
+                                            try {
+                                                boolean idUsuariTrobat = false; //Variable per a comprovar si l'usuari existeix o no   
+                                                int countUsuari = 0; //Variable per a comptar els préstecs de l'usuari
+                                                System.out.print("Escriu la nova ID de l'usuari del prestec: ");
+                                                int nouIdUsuari = scanner.nextInt();
+
+                                                for (int j = 0; j < usuaris.length(); j++) { //Bucle per a recorrer el json d'usuaris
+                                                    JSONObject usuari = usuaris.getJSONObject(j);
+                                                    Integer idUsuari2 = usuari.getInt("id");
+
+                                                    if (nouIdUsuari == idUsuari2) {
+                                                        System.out.println("L'usuari amb ID " + nouIdUsuari + " és: " + usuari.getString("nom") + " " + usuari.getString("cognoms"));
+                                                        idUsuariTrobat = true;
+                                                        break;
+                                                    } else {
+                                                        idUsuariTrobat = false;
+                                                    }
+                                                }
+                                                
+                                                if (!idUsuariTrobat) {
+                                                    System.out.println("No existeix cap usuari amb l'ID " + nouIdUsuari);
+                                                    continue;
+                                                }
+                                                    
+                                                
+                                                for (int k = 0; k < prestecs.length(); k++) {
+                                                    JSONObject prestec2 = prestecs.getJSONObject(k);
+                                                    Integer idUsuari3 = prestec2.getInt("IdUsuari");  
+
+                                                    if (nouIdUsuari == idUsuari3) {
+                                                            countUsuari++;
+                                                        }
+                                                }
+
+                                                if (countUsuari == 4) {
+                                                    System.out.println("L'usuari amb ID " + nouIdUsuari + " té 4 préstecs.");
+                                                        
+                                                } else  if (countUsuari < 4) {
+                                                    System.out.println("L'usuari amb ID " + nouIdUsuari + " té " + countUsuari + " préstecs.");
+                                                    prestec.put("IdUsuari", nouIdUsuari);
+                                                    System.out.println("ID Usuari actualitzat!\n");
+                                                    break;
+                                                    }
+
+                                            } catch (InputMismatchException ex) {
+                                                    System.out.println("Introdueix un número vàlid.");
+                                                    scanner.nextLine();
+                                                } 
+                                            }                                
+                                        break;
+
+                                    case "DataPrestec": case "dataprestec": case "dataPrestec": case "Dataprestec": //Modificar Data Prestec
+                                        Date dataActual = new Date();                  
+                                        boolean dataCorrecta = false; //Variable per a comprovar si la data de devolució és correcta
+                                        while(!dataCorrecta) {   
+                                            System.out.print("Introdueix la nova data de prestec (yyyy-MM-dd): ");
+                                            String dataPrestec = scanner.next();
+                            
+                                        try {    
+                                            
+                                            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                                            Date dataPrestec2 = formato.parse(dataPrestec);
+
+                                            if (dataPrestec2.after(dataActual)) {
+                                                String[] dataPrestecArray = dataPrestec.split("-");
+                                                int anyPrestec = Integer.parseInt(dataPrestecArray[0]);
+                                                int mesPrestec = Integer.parseInt(dataPrestecArray[1]);
+                                                int diaPrestec = Integer.parseInt(dataPrestecArray[2]);
+                            
+                                                if (mesPrestec < 1 || mesPrestec > 12) {
+                                                    System.out.println("El mes ha de ser entre 1 i 12.");
+                                                    continue;
+                                                }
+                                                boolean diaValid = false;
+                                                switch (mesPrestec) {
+                                                    case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                                                        diaValid = (diaPrestec >= 1 && diaPrestec <= 31);
+                                                        break;
+                                                    case 4: case 6: case 9: case 11:
+                                                        diaValid = (diaPrestec >= 1 && diaPrestec <= 30);
+                                                        break;
+                                                    case 2:
+                                                        if (anyPrestec % 4 == 0) {
+                                                            diaValid = (diaPrestec >= 1 && diaPrestec <= 29);
+                                                        } else {
+                                                            diaValid = (diaPrestec >= 1 && diaPrestec <= 28);
+                                                        }
+                                                        break;
+                                                }
+                            
+                                                if (diaValid) {
+                                                    dataCorrecta = true;
+                                                    prestec.put("DataPrestec", dataPrestec);
+                                                    System.out.println("Data de prestec actualitzada!\n");
+                                                } else {
+                                                    System.out.println("El dia no és vàlid per al mes introduït.");
+                                                }
+                                            } else {
+                                                System.out.println("La data de prestec ha de ser posterior a la data actual.");
+                                            }
+
+                                        } catch (ParseException e) {
+
+                                            System.out.println("Format de data incorrecta. Si us plau, introdueix la data en format yyyy-MM-dd.");
+                                            }
+                                        }
+                                                
+                                        break;
+
+                                    case "DataDevolucio": case "datadevolucio": case "dataDevolucio": case "Datadevolucio": //Modificar Data Devolucio
+                                        Date dataActual2 = new Date();
+                                        String dataActual_2 = new SimpleDateFormat("yyyy-MM-dd").format(dataActual2); //Data actual en format String per afegir-ho al prestec.json
+                            
+                                        System.out.println("Data actual: " + dataActual_2);
+                            
+                                        boolean dataCorrecta2 = false; //Variable per a comprovar si la data de devolució és correcta
+                                        while(!dataCorrecta2) {   
+                                            System.out.print("Escriu la data de devolució (yyyy-MM-dd): ");
+                                            String dataDevolucio = scanner.nextLine();
+                            
+                                            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                                        try {
+                                            Date dataDevolucioDate = formato.parse(dataDevolucio); //Conversió de la data a format Date
+                                            
+                                            if (dataDevolucioDate.after(dataActual2)) {
+                                                String[] dataDevolucioArray = dataDevolucio.split("-");
+                                                int anyDevolucio = Integer.parseInt(dataDevolucioArray[0]);
+                                                int mesDevolucio = Integer.parseInt(dataDevolucioArray[1]);
+                                                int diaDevolucio = Integer.parseInt(dataDevolucioArray[2]);
+                            
+                                                if (mesDevolucio < 1 || mesDevolucio > 12) {
+                                                    System.out.println("El mes ha de ser entre 1 i 12.");
+                                                    continue;
+                                                }
+                                                boolean diaValid = false;
+                                                switch (mesDevolucio) {
+                                                    case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                                                        diaValid = (diaDevolucio >= 1 && diaDevolucio <= 31);
+                                                        break;
+                                                    case 4: case 6: case 9: case 11:
+                                                        diaValid = (diaDevolucio >= 1 && diaDevolucio <= 30);
+                                                        break;
+                                                    case 2:
+                                                        if (anyDevolucio % 4 == 0) {
+                                                            diaValid = (diaDevolucio >= 1 && diaDevolucio <= 29);
+                                                        } else {
+                                                            diaValid = (diaDevolucio >= 1 && diaDevolucio <= 28);
+                                                        }
+                                                        break;
+                                                }
+                            
+                                                if (diaValid) {
+                                                    dataCorrecta2 = true;
+                                                    prestec.put("DataDevolucio", dataDevolucio);
+                                                    System.out.println("Data de devolució actualitzada!\n"); 
+
+                                                } else {
+                                                    System.out.println("El dia no és vàlid per al mes introduït.");
+                                                }
+                            
+                                            } else {
+                                                System.out.println("La data de devolució ha de ser posterior a la data actual.");
+                                            }
+                                        } catch (ParseException e) {
+                                            System.out.println("Format de data incorrecta. Si us plau, introdueix la data en format yyyy-MM-dd.");
+                                            }
+                                        }
+
+                                        break;
+                                    
+                                    case "Sortir": case "sortir": case "s": case "S":
+                                        continuar = false;
+                                        System.out.println("Sortint del menú...");
+                                        break;
+                                    
+                                    default:
+                                        System.out.println("Opció no vàlida.");
+                                        break;
+                                    }
+                                }
+                            }
+
+                        Files.write(Paths.get(filePathPrestecs), prestecs.toString(4).getBytes());
+                        System.out.println("Els canvis s'han guardat correctament.\n");
+                        return;
+                    }
+                    System.out.println("\nNo s'ha trobat cap prestec amb l'ID especificat.\n");
+                }
+
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                } finally {
+                    scanner.close();
+                }
+            }
 
 
 
@@ -1301,6 +1852,6 @@ public static void afegir_llibres() {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        afegir_prestecs();
+        modificar_prestecs();
     }
 }
