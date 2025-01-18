@@ -664,17 +664,128 @@ public class Main {
     public static void modificar_prestecs() {
         Scanner scanner = new Scanner(System.in);
         String filePathPrestecs = "./data/prestecs.json";
+        String filePathLlibres = "./data/llibres.json";
+        String filePathUsuaris = "./data/usuaris.json";
         StringBuilder prestecList = new StringBuilder();
 
         int idLlibreWidth = 10;
         int idUsuariWidth = 10;
         int dataPrestecWidth = 15;
         int dataDevolucioWidth = 15;
+        prestecList.append(String.format("%-" + idLlibreWidth + "s %-" + idUsuariWidth + "s %-" + 
+                                        dataPrestecWidth + "s %-" + dataDevolucioWidth + "s%n", "ID Llibre", "ID Usuari", "Data Prestec", "Data Devolucio"));
+        prestecList.append("------------------------------------------------------------\n");
         
         try {
-            System.out.print("Introdueix el ID del préstec que vols modificar: ");
-            int idPrestec = scanner.nextInt();
-            scanner.nextLine();
+            String contentPrestecs = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
+            String contentLlibres = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
+            String contentUsuaris = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
+            JSONArray prestecs = new JSONArray(contentPrestecs);
+            JSONArray llibres = new JSONArray(contentLlibres);
+            JSONArray usuaris = new JSONArray(contentUsuaris);
+            
+                System.out.print("Introdueix el ID del préstec que vols modificar: "); //Pregunta a l'usuari quin ID vol modificar
+                int idPrestec = scanner.nextInt();
+                scanner.nextLine();
+
+                for (int i = 0; i < prestecs.length(); i++) {
+                    JSONObject prestec = prestecs.getJSONObject(i);
+                    Integer id = prestec.getInt("Id");
+
+                    if (id == idPrestec) {
+                        System.out.println("El préstec amb ID " + idPrestec + " conté les següents dades:");
+                        prestecList.append(String.format("%-" + idLlibreWidth + "s %-" + idUsuariWidth + "s %-" + 
+                                            dataPrestecWidth + "s %-" + dataDevolucioWidth + "s%n", 
+                                            prestec.getInt("IdLlibre"), prestec.getInt("IdUsuari"), 
+                                            prestec.getString("DataPrestec"), prestec.getString("DataDevolucio")));
+                        
+                        System.out.println(prestecList.toString());
+                    }
+
+                    boolean continuar = true;
+                    while (continuar) {
+                        System.out.println("Quin camp vols modificar?");
+                        System.out.println("1. ID Llibre");
+                        System.out.println("2. ID Usuari");
+                        System.out.println("3. Data Prestec");
+                        System.out.println("4. Data Devolucio");
+                        System.out.println("5. Sortir");
+                        System.out.print("Selecciona una opció: ");
+                        int opcio = scanner.nextInt();
+                        scanner.nextLine(); // consumir el salt de línia restant
+
+                        switch (opcio) {
+                            case 1:
+                                boolean idLlibrePrestat = false;
+                                while (!idLlibrePrestat) {
+                                    int count = 0;
+                                    boolean idLlibreTrobat = false;
+                                    try{
+                                        System.out.print("Introdueix el nou ID del llibre: ");
+                                        int nouIdLlibre = scanner.nextInt();
+                                        
+                                        for (int j = 0; j < llibres.length(); j++) {
+                                            JSONObject llibre = llibres.getJSONObject(j);
+                                            Integer idLlibre = llibre.getInt("id");
+                                            
+                                            if (nouIdLlibre == idLlibre) {
+                                                System.out.println("El llibre amb ID " + nouIdLlibre + " és: " + llibre.getString("titol"));
+                                                    System.out.println("El llibre amb ID " + idLlibre + " és: " + llibre.getString("titol"));
+                                                    idLlibreTrobat = true;
+                                                }
+                                            
+                    
+                                                if (!idLlibreTrobat) {
+                                                    System.out.println("No existeix cap llibre amb l'ID " + idLlibre);
+                                                    continue;
+                                                }
+                                                
+                                                for (int k = 0; k < prestecs.length(); k++) {
+                                                    JSONObject llibre2 = prestecs.getJSONObject(k);
+                                                    Integer idLlibre2 = llibre2.getInt("IdLlibre");
+                    
+                                                    if (nouIdLlibre == idLlibre2) {
+                                                        count++;
+                                                    }
+                                                }
+                                                    if (count == 1) {
+                                                        System.out.println("El llibre amb ID " + idLlibre + " està prestat.");
+                    
+                                                    } else {
+                                                        System.out.println("El llibre amb ID " + idLlibre + " no està prestat.");
+                                                        prestec.put("IdLlibre", nouIdLlibre);
+                                                        break;
+                                                    }
+                                            }
+
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Introdueix un número vàlid.");
+                                            scanner.nextLine();
+                                        }
+                                    }
+                            
+                            case 2:
+                                System.out.print("Introdueix el nou ID de l'usuari: ");
+                                int nouIdUsuari = scanner.nextInt();
+                                prestec.put("IdUsuari", nouIdUsuari);
+                                System.out.println("ID Usuari actualitzat!\n");
+                                break;
+                            case 3:
+                                System.out.print("Introdueix la nova data de préstec (yyyy-MM-dd): ");
+                                String novaDataPrestec = scanner.nextLine();
+                                prestec.put("DataPrestec", novaDataPrestec);
+                                System.out.println("Data de préstec actualitzada!\n");
+                                break;
+                            case 4:
+                                System.out.print("Introdueix la nova data de devolució (yyyy-MM-dd): ");
+                                String novaDataDevolucio = scanner.nextLine();
+                                prestec.put("DataDevolucio", novaDataDevolucio);
+                                System.out.println("Data de devolució actualitzada!\n");
+                                break;
+                        }
+                    }
+                }
+
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
@@ -1165,6 +1276,6 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        afegir_prestecs();
+        modificar_prestecs();
     }
 }
