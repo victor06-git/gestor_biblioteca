@@ -621,15 +621,15 @@ public class Main {
                     /* Listar los libros */
                     break;
                 case 2:
-                    System.out.println("Llistar els llibres en prestecs.");
+                    System.out.println("Llistar els llibres en préstec.");
                     /* Añadir la función de listar los libros en prestamo */
                     break;
                 case 3: 
-                    System.out.println("Llistar els llibre per autor.");
+                    System.out.println("Llistar els llibres per autor.");
                     llibresperautorllistat("Gabriel Garcia");
                     break;
                 case 4:
-                    System.out.println("Cercar títol.");
+                    System.out.println("Llistar els llibres per títol.");
                     /* Funcion de buscar por título */
                     break;
                 case 5:
@@ -648,12 +648,12 @@ public class Main {
         
         /*System.out.println(prestecsLlistas());*/
         /*String listaPrestecs = Main.prestecsLlistas();*/
-        /*String llistatllibresperautor = Main.llibresperautorllistat("");*/
+        String llistatllibresperautor = Main.llibresperautorllistat("");
        /* String foraterminilist = Main.prestecsforatermini();
         String afegirusuario = Main.afegirusuario(10, , , )*/
 
         /*System.out.println(listaPrestecs);*/
-        /*System.out.println(llistatllibresperautor);*/
+        System.out.println(llistatllibresperautor);
         /*System.out.println(foraterminilist);
        /*  System.out.println(afegirusuario);*/
         /*System.out.println(autorlistado);*/
