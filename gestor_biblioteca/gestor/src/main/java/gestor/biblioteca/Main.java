@@ -1,5 +1,7 @@
 package gestor.biblioteca;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -33,7 +35,7 @@ public class Main {
                 case "1":
                 case "llibres":
                     System.out.println("\nHas seleccionat 'Llibres'.");
-                    //aquí s'ha d'afegir la funció del menú que gestiona els llibres
+                    menuLlibres();
                     break;
 
                 case "2":
@@ -168,7 +170,93 @@ public class Main {
         }
     }
 
+    /* Menú de Libros */
+    public static void menuLlibres() {
+        Scanner scanner = new Scanner(System.in);
+        boolean salir = false;
 
+        while (!salir) {
+            System.out.println("\nMenú de Llibres");
+            System.out.println("1. Afegir");
+            System.out.println("2. Modififcar");
+            System.out.println("3. Eliminar");
+            System.out.println("4. Llistar");
+            System.out.println("5. Torna al menú principal");
+            System.out.print("Selecciona una opció: ");
+
+            int opció = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opció) {
+                case 1:
+                    System.out.println("Has seleccionat afegir llibre");
+                    /* Escribir la función de añadir libro */
+                    break;
+                case 2:
+                    System.out.println("Has seleccionat modificar llibre");
+                    modificarLLibre();
+                    break;
+                case 3:
+                    System.out.println("Has seleccionat eliminar llibre");
+                    /*eliminarLLibre();*/
+                    break;
+                case 4:
+                    System.out.println("Has seleccionat llistar llibres");
+                    menuLlistarLlibres();
+                    break;
+                case 5:
+                    System.out.println("Tornant al menú principal...");
+                    salir = true;
+                    break;
+                default:
+                    System.out.println("Opció no vàlida. Torna a intentar-ho");
+            }
+        }
+    }
+
+    /*MENÚ DE LISTAR LIBROS */
+    public static void menuLlistarLlibres() {
+        Scanner scanner = new Scanner(System.in);
+        boolean salir = false;
+
+        while (!salir) {
+            System.out.println("\nMenú de llistar llibres");
+            System.out.println("1. Tots els llibres");
+            System.out.println("2. Llibres en préstec");
+            System.out.println("3. Llibres per autor");
+            System.out.println("4. Cercar títol");
+            System.out.println("5. Torna al menú de llibres");
+            System.out.print("Selecciona una opció: ");
+
+            int opció = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opció) {
+                case 1:
+                    System.out.println("Llistar tots els llibres.");
+                    /* Listar los libros */
+                    break;
+                case 2:
+                    System.out.println("Llistar els llibres en préstec.");
+                    /* Añadir la función de listar los libros en prestamo */
+                    break;
+                case 3: 
+                    System.out.println("Llistar els llibres per autor.");
+                    /*llibresperautorllistat("Gabriel Garcia");*/
+                    break;
+                case 4:
+                    System.out.println("Llistar els llibres per títol.");
+                    /* Funcion de buscar por título */
+                    break;
+                case 5:
+                    System.out.println("Tornant al menú llibres...");
+                    menuLlibres();
+                    break;
+                default:
+                    System.out.println("Opció no vàlida. Torna a intentar-ho");
+            }
+        }
+    }
 
 
 
@@ -176,49 +264,110 @@ public class Main {
 
 
     //Funcions per afegir, modificar i eliminar llibres, usuaris i prestecs
-    public static void afegir_llibres(){
-        //afegir nous llibres
+public static void afegir_llibres() {
+    Scanner scanner = new Scanner(System.in);
+
+    System.out.print("Escriu el títol del llibre a afegir: ");
+    String titol = scanner.nextLine();
+    System.out.print("Escriu l'autor del llibre a afegir: ");
+    String autor = scanner.nextLine();
+
+    JSONObject nouLlibre = new JSONObject();
+    nouLlibre.put("titol", titol);
+    nouLlibre.put("autor", autor);
+
+    try {
+        String filePath_llibres = "./data/llibres.json";
+        String content = new String(Files.readAllBytes(Paths.get(filePath_llibres)));
+        JSONArray llibres = new JSONArray(content);
+
+        int nouId = 1;
+        for (int i = 0; i < llibres.length(); i++) {
+            JSONObject llibre = llibres.getJSONObject(i);
+            Integer id = llibre.getInt("id");
+
+            if (id == nouId) {
+                nouId++;
+                i = -1; // Tornem a començar el bucle per comprovar si l'ID està repetit o no
+            }
+        }
+        nouLlibre.put("id", nouId);
+
+        llibres.put(nouLlibre);
+        Files.write(Paths.get(filePath_llibres), llibres.toString(4).getBytes());
+
+        // Formato tabular para imprimir
+        int idWidth = 10;
+        int titolWidth = 30;
+        int autorWidth = 25;
+
+        System.out.println();
+        System.out.println(String.format("%-" + idWidth + "s  %-" + titolWidth + "s  %-" + autorWidth + "s", "ID", "Títol", "Autor"));
+        System.out.println("--------------------------------------------------------------");
+        System.out.println(String.format("%-" + idWidth + "d  %-" + titolWidth + "s  %-" + autorWidth + "s", nouId, titol, autor));
+
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+    }
+}
+
+
+    public static void modificarLLibre(){
+        String filePathLlibres = "./data/llibres.json";
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Escriu el títol del llibre a afegir: ");
-        String titol = scanner.nextLine();
-        System.out.print("Escriu l'autor del llibre a afegir: ");
-        String autor = scanner.nextLine();
+        try {
+            String contenido = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
+            JSONArray jsonArray = new JSONArray(contenido);
 
-        JSONObject nouLlibre = new JSONObject();
-        nouLlibre.put("titol", titol);
-        nouLlibre.put("autor", autor);
+            System.out.print("Escribe el título del libro que quieres modificar: ");
+            String titol = scanner.nextLine().trim();
 
-        try{
-            String filePath_llibres = "./data/llibres.json";
-            String content = new String(Files.readAllBytes(Paths.get(filePath_llibres)));
-            JSONArray llibres = new JSONArray(content);
+            System.out.print("Escribe el autor de libro: ");
+            String autor = scanner.nextLine().trim();
 
-            int nouId = 1;
-            for (int i = 0; i < llibres.length(); i++){
-                JSONObject llibre = llibres.getJSONObject(i);
-                Integer id = llibre.getInt("id");
+            boolean found = false;
 
-                if (id == nouId) {
-                    nouId++;
-                    i = -1; //tornem a començar el bucle per a que es comprovi si l'id está repetit o no
-                }
+            /* Buscar libro */
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject librosExistentes = jsonArray.getJSONObject(i);
+                String tituloExistente = librosExistentes.getString("titol").trim();
+                String autorExistente = librosExistentes.getString("autor").trim();
                 
+                if (tituloExistente.equalsIgnoreCase(titol) && autorExistente.equalsIgnoreCase(autor)) {
+                    found = true;
+
+                    System.out.println("Libro econtrado. Introduce los nuevos datos (no escribas nada para no modificar): ");
+
+                    System.out.print("Nuevo titulo: ");
+                    String nuevotitulo = scanner.nextLine().trim();
+                    if  (!nuevotitulo.isEmpty()) {
+                        librosExistentes.put("titol", nuevotitulo);
+                    }
+
+                    System.out.print("Nuevo autor: ");
+                    String nuevoAutor = scanner.nextLine().trim();
+                    if (!nuevoAutor.isEmpty()) {
+                        librosExistentes.put("autor",nuevoAutor);
+                    }
+
+                    try (FileWriter file = new FileWriter(filePathLlibres)) {
+                        file.write(jsonArray.toString(4));
+                    }
+                    System.out.println("Libro modificado con éxito.");
+                    break;
+                }   
             }
-            nouLlibre.put("id", nouId);
+            if (!found) {
+                System.out.println("No se encontró un libro con los datos proporcionados");
+            }
 
-            llibres.put(nouLlibre);
-            
-            Files.write(Paths.get(filePath_llibres), llibres.toString(4).getBytes());
-
-            System.out.println();
-            System.out.println("S'ha afegit el següent llibre:");
-            System.out.println("ID: " + nouId);
-            System.out.println("Títol: " + titol);
-            System.out.println("Autor: " + autor);
-
-        }catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error al leer o escribir en el archivo: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+        } finally {
+            scanner.close();
         }
     }
 
@@ -310,13 +459,14 @@ public class Main {
                         System.out.println("1. Nom");
                         System.out.println("2. Cognoms");
                         System.out.println("3. Telèfon");
-                        System.out.println("4. Sortir");
+                        System.out.println("4. Tornar");
                         System.out.print("Selecciona una opció: ");
-                        int opcio = scanner.nextInt();
+                        String opcio = scanner.nextLine();
                         scanner.nextLine(); // cnsumir el salt de linia restant
 
                         switch (opcio) {
-                            case 1://validem nom
+                            case "1"://validem nom
+                            case "nom":
                                 boolean nomValid = false;
                                 while (!nomValid) {
                                     System.out.print("\nEscriu el nou nom (només lletres i espais): ");
@@ -347,7 +497,9 @@ public class Main {
                                 }
                                 break;
                             
-                            case 2://validem cognoms
+                            case "2"://validem cognoms
+                            case "cognoms":
+                            case "cognom":
                                 boolean cognomsValids = false;
                                 while (!cognomsValids) {
                                     System.out.print("\nEscriu els nous cognoms (només lletres i espais): ");
@@ -377,7 +529,9 @@ public class Main {
                                 }
                                 break;
 
-                            case 3: //validem telèfon
+                            case "3": //validem telèfon"
+                            case "telèfon":
+                            case "telefon":
                                 boolean telefonoValido = false;
                                 while (!telefonoValido) {
                                     System.out.print("\nEscriu el nou telèfon (9 dígits): ");
@@ -407,7 +561,8 @@ public class Main {
                                 }
                                 break;
                             
-                            case 4:
+                            case "4":
+                            case "tornar":
                                 continuar = false;
                                 System.out.println("Sortint del menú de modificació.\n");
                                 break;
