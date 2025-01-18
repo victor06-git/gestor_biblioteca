@@ -1,5 +1,7 @@
 package gestor.biblioteca;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -262,51 +264,53 @@ public class Main {
 
 
     //Funcions per afegir, modificar i eliminar llibres, usuaris i prestecs
-    public static void afegir_llibres(){
-        //afegir nous llibres
-        Scanner scanner = new Scanner(System.in);
+public static void afegir_llibres() {
+    Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Escriu el títol del llibre a afegir: ");
-        String titol = scanner.nextLine();
-        System.out.print("Escriu l'autor del llibre a afegir: ");
-        String autor = scanner.nextLine();
+    System.out.print("Escriu el títol del llibre a afegir: ");
+    String titol = scanner.nextLine();
+    System.out.print("Escriu l'autor del llibre a afegir: ");
+    String autor = scanner.nextLine();
 
-        JSONObject nouLlibre = new JSONObject();
-        nouLlibre.put("titol", titol);
-        nouLlibre.put("autor", autor);
+    JSONObject nouLlibre = new JSONObject();
+    nouLlibre.put("titol", titol);
+    nouLlibre.put("autor", autor);
 
-        try{
-            String filePath_llibres = "./data/llibres.json";
-            String content = new String(Files.readAllBytes(Paths.get(filePath_llibres)));
-            JSONArray llibres = new JSONArray(content);
+    try {
+        String filePath_llibres = "./data/llibres.json";
+        String content = new String(Files.readAllBytes(Paths.get(filePath_llibres)));
+        JSONArray llibres = new JSONArray(content);
 
-            int nouId = 1;
-            for (int i = 0; i < llibres.length(); i++){
-                JSONObject llibre = llibres.getJSONObject(i);
-                Integer id = llibre.getInt("id");
+        int nouId = 1;
+        for (int i = 0; i < llibres.length(); i++) {
+            JSONObject llibre = llibres.getJSONObject(i);
+            Integer id = llibre.getInt("id");
 
-                if (id == nouId) {
-                    nouId++;
-                    i = -1; //tornem a començar el bucle per a que es comprovi si l'id está repetit o no
-                }
-                
+            if (id == nouId) {
+                nouId++;
+                i = -1; // Tornem a començar el bucle per comprovar si l'ID està repetit o no
             }
-            nouLlibre.put("id", nouId);
-
-            llibres.put(nouLlibre);
-            
-            Files.write(Paths.get(filePath_llibres), llibres.toString(4).getBytes());
-
-            System.out.println();
-            System.out.println("S'ha afegit el següent llibre:");
-            System.out.println("ID: " + nouId);
-            System.out.println("Títol: " + titol);
-            System.out.println("Autor: " + autor);
-
-        }catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
         }
+        nouLlibre.put("id", nouId);
+
+        llibres.put(nouLlibre);
+        Files.write(Paths.get(filePath_llibres), llibres.toString(4).getBytes());
+
+        // Formato tabular para imprimir
+        int idWidth = 10;
+        int titolWidth = 30;
+        int autorWidth = 25;
+
+        System.out.println();
+        System.out.println(String.format("%-" + idWidth + "s  %-" + titolWidth + "s  %-" + autorWidth + "s", "ID", "Títol", "Autor"));
+        System.out.println("--------------------------------------------------------------");
+        System.out.println(String.format("%-" + idWidth + "d  %-" + titolWidth + "s  %-" + autorWidth + "s", nouId, titol, autor));
+
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
     }
+}
+
 
     public static void modificarLLibre(){
         String filePathLlibres = "./data/llibres.json";
