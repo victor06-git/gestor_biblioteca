@@ -663,6 +663,14 @@ public class Main {
 
     public static void modificar_prestecs() {
         Scanner scanner = new Scanner(System.in);
+        String filePathPrestecs = "./data/prestecs.json";
+        StringBuilder prestecList = new StringBuilder();
+
+        int idLlibreWidth = 10;
+        int idUsuariWidth = 10;
+        int dataPrestecWidth = 15;
+        int dataDevolucioWidth = 15;
+        
         try {
             System.out.print("Introdueix el ID del préstec que vols modificar: ");
             int idPrestec = scanner.nextInt();
