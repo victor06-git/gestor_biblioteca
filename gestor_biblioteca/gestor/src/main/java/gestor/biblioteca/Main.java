@@ -556,6 +556,49 @@ public class Main {
         }
     }
 
+    public static void menuLlibres() {
+        Scanner scanner = new Scanner(System.in);
+        boolean salir = false;
+
+        while (!salir) {
+            System.out.println("\nMenú de Llibres");
+            System.out.println("1. Afegir");
+            System.out.println("2. Modififcar");
+            System.out.println("3. Eliminar");
+            System.out.println("4. Llistar");
+            System.out.println("5. Torna al menú principal");
+            System.out.print("Selecciona una opció: ");
+
+            int opció = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opció) {
+                case 1:
+                    System.out.println("Has seleccionat afegir llibre");
+                    /* Escribir la función de añadir libro */
+                    break;
+                case 2:
+                    System.out.println("Has seleccionat modificar llibre");
+                    modificarLLibre();
+                    break;
+                case 3:
+                    System.out.println("Has seleccionat eliminar llibre");
+                    eliminarLLibre();
+                    break;
+                case 4:
+                    System.out.println("Has seleccionat llistar llibres");
+                    /* Añadir la función de listar libros */
+                    break;
+                case 5:
+                    System.out.println("Tornant al menú principal...");
+                    salir = true;
+                    break;
+                default:
+                    System.out.println("Opció no vàlida. Torna a intentar-ho");
+            }
+        }
+
+    }
     public static void main(String[] args) {
         System.out.println("Hello world!");
         
@@ -572,8 +615,10 @@ public class Main {
         /*System.out.println(autorlistado);*/
         /*afegirUsuari();*/
         /*eliminarUsuario();*/
-        modificarLLibre();
+        /*modificarLLibre();*/
         /* eliminarLLibre(); */
+
+        menuLlibres();
 
     }
 }
