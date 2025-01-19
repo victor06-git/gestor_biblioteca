@@ -1,5 +1,8 @@
 - Treball 00 : Gestió de biblioteca
 
+Fes anar la biblioteca amb:
+./run.sh gestor.biblioteca.Main
+
 
 - Dades:
         Llibres:
