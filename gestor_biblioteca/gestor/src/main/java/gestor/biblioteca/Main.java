@@ -238,22 +238,37 @@ public class Main {
                     System.out.println("Llistar tots els llibres.");
                     llibresLlistat();
                     break;
+
                 case 2:
                     System.out.println("Llistar els llibres en préstec.");
                     /* Añadir la función de listar los libros en prestamo */
                     break;
+                
                 case 3: 
                     System.out.println("Llistar els llibres per autor.");
                     llibresperautorllistat();
                     break;
+
                 case 4:
                     System.out.println("Llistar els llibres per títol.");
-                    /* Funcion de buscar por título */
+                    try {
+                    
+                        System.out.print("Introdueix el títol del llibre a cercar: ");
+                        String title = scanner.nextLine();
+                        llibresNomLlistat(title);
+                        
+
+                    } catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
                     break;
+
+
                 case 5:
                     System.out.println("Tornant al menú llibres...");
                     menuLlibres();
                     break;
+
                 default:
                     System.out.println("Opció no vàlida. Torna a intentar-ho");
             }
@@ -1651,7 +1666,7 @@ public static void afegir_llibres() {
      */
     public static String llibresNomLlistat(String title) {
         // Function to get the list of books from the JSON file by name
-        String filePath_books = "./data/llibres.json";
+        String filePath_books = "./gestor_biblioteca/gestor/data/llibres.json";
 
         StringBuilder llibresNom = new StringBuilder();
 
@@ -1683,7 +1698,7 @@ public static void afegir_llibres() {
             System.out.println("Error: " + e.getMessage());
         }
 
-        return null;
+        return llibresNom.toString();
     }
 
     /**
@@ -2185,6 +2200,6 @@ public static void afegir_llibres() {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        menuLlistarPrestecs();
+        menuLlistarLlibres();
     }
 }
