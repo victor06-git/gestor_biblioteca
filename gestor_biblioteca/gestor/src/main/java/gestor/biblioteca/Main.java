@@ -180,15 +180,27 @@ public class Main {
         return prestecList.toString();
     }
 
-    public static String llibresperautorllistat(String autor) {
-        
+    /* Función que lista los libros por el autor 
+     * 
+     * @return el idLlibre, titol, autor.
+     */
+    public static void llibresperautorllistat() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el nombre del autor (o presione Enter para listar todos): ");
+        String autor = scanner.nextLine();
+        if (autor == null) {
+            autor = "";
+        }
+        autor = autor.trim().toLowerCase();
+
         String filePathllibre = "./data/llibres.json";
         StringBuilder llibresAutor = new StringBuilder();
 
-        int nomLlibreWidth = 25;
+        int idLlibreWidth = 5;
+        int nomLlibreWidth = 30;
         int autorLlibreWidth = 25;
 
-        llibresAutor.append(String.format("%-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n","titol","autor"));
+        llibresAutor.append(String.format("%-" + idLlibreWidth + "s %-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n","id","titol","autor"));
         llibresAutor.append("------------------------------------------\n");
 
         try {
@@ -199,38 +211,42 @@ public class Main {
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+                int idllibre = jsonObject.getInt("id");
                 String titolllibre = jsonObject.getString("titol");
                 String autorNom = jsonObject.getString("autor");
 
-                if (autorNom.toLowerCase().contains(autor.toLowerCase())) {
+                if (autor.isEmpty() || autorNom.toLowerCase().contains(autor.toLowerCase())) {
 
                     autoresLibros
                         .computeIfAbsent(autorNom, k -> new StringBuilder())
-                        .append(String.format("%-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n", titolllibre, autorNom));        
+                        .append(String.format("%-" + idLlibreWidth + "d %-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n", idllibre , titolllibre, autorNom));        
                 }
 
             }
 
             if (autoresLibros.isEmpty()) {
-                return "No se encontraron libros para el autor: " + autor;
+                System.out.println("No se encontraron libros para el autor: " + autor);
+                return;
             }
 
             for (HashMap.Entry<String, StringBuilder> entry : autoresLibros.entrySet()) {
                 llibresAutor.append("autor: ").append(entry.getKey()).append("\n");
-                llibresAutor.append(entry.getValue());
-                llibresAutor.append("\n");
+                llibresAutor.append(entry.getValue()).append("\n");
             }
 
-            return llibresAutor.toString();
+            System.out.println(llibresAutor.toString());
+
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-
-        return null; 
     }
 
-
-    public static String prestecsforatermini(){
+    /* Función que lista los préstamos fuera de termino, en los que los libros no han sido devueltos
+     * 
+     * @return retorna un lista de IdUsuario, IdLlibre, DataPrestec, DataDevolucio.
+     * 
+     */
+    public static void prestecsforatermini(){
         String filePathPrestecs = "./data/prestecs.json";
         StringBuilder prestecsList = new StringBuilder();
 
@@ -269,7 +285,8 @@ public class Main {
             }
 
             if (usersLoans.isEmpty()) {
-                return "No se encontraron prestamos fuera de termino.";
+                System.out.println("No se encontraron prestamos fuera de termino.");
+                return;
             }
 
             for (HashMap.Entry<String, StringBuilder> entry : usersLoans.entrySet()) {
@@ -277,13 +294,11 @@ public class Main {
                 prestecsList.append(entry.getValue()).append("\n");
             }
 
-            return prestecsList.toString();
+            System.out.println(prestecsList.toString());
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-
-        return null;
     }
 
     public static void main(String[] args) {
@@ -292,11 +307,12 @@ public class Main {
         /*System.out.println(prestecsLlistas());*/
         /*String listaPrestecs = Main.prestecsLlistas();*/
         /*String llistatllibresperautor = Main.llibresperautorllistat("");*/
-       String foraterminilist = Main.prestecsforatermini();
+       /*  prestecsforatermini();*/
+        llibresperautorllistat();
 
         /*System.out.println(listaPrestecs);*/
        /*  System.out.println(llistatllibresperautor);*/
-        System.out.println(foraterminilist);
+       /* System.out.println(foraterminilist);
        /*  System.out.println(afegirusuario);*/
         /*System.out.println(autorlistado);*/
         /*afegirUsuari();*/
