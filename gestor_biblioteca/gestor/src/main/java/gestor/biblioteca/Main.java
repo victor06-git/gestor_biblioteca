@@ -117,6 +117,7 @@ public class Main {
             }
 
         }
+        scanner.close();
     }
 
     public static void menuLlistarUsuaris(){
@@ -171,6 +172,7 @@ public class Main {
                     break;
             }
         }
+        scanner.close();
     }
 
     /* Menú de Libros */
@@ -221,6 +223,7 @@ public class Main {
                     System.out.println("Opció no vàlida. Torna a intentar-ho");
             }
         }
+        scanner.close();
     }
 
     /*MENÚ DE LISTAR LIBROS */
@@ -294,6 +297,7 @@ public class Main {
                     System.out.println("Opció no vàlida. Torna a intentar-ho");
             }
         }
+        scanner.close();
     }
 
     public static void menuPrestecs() {
@@ -347,6 +351,7 @@ public class Main {
                     break;
             }
         }
+        scanner.close();
     }
 
     public static void menuLlistarPrestecs() {
@@ -402,6 +407,7 @@ public class Main {
                     break;
             }
         }
+        scanner.close();
     }
 
 
@@ -454,6 +460,7 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+        scanner.close();
     }
 
 
@@ -617,6 +624,7 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+        scanner.close();
     }
 
     /*FUNCIÓN AÑADIR USUARIO */
@@ -848,6 +856,8 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
+        } finally {
+            scanner.close();
         }
     }
 
@@ -1944,6 +1954,8 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
+        } finally {
+            scanner.close();
         }
     }
 
