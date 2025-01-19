@@ -28,7 +28,7 @@ public class Main {
             System.out.println("1. Llibres");
             System.out.println("2. Usuaris");
             System.out.println("3. Prèstecs");
-            System.out.println("0. Sortir");
+            System.out.println("0. Sortir del programa");
             System.out.print("\nEscull una opció: ");
             String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
 
@@ -77,7 +77,7 @@ public class Main {
             System.out.println("2. Modificar");
             System.out.println("3. Eliminar");
             System.out.println("4. Llistar");
-            System.out.println("0. Tornar");
+            System.out.println("0. Tornar al menú principal");
             System.out.print("\nEscull una opció: ");
             String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
 
@@ -182,7 +182,7 @@ public class Main {
             System.out.println("2. Modificar");
             System.out.println("3. Eliminar");
             System.out.println("4. Llistar");
-            System.out.println("0. Tornar");
+            System.out.println("0. Tornar al menú principal");
             System.out.print("Selecciona una opció: ");
 
             String opció = scanner.nextLine().trim().toLowerCase();
@@ -232,7 +232,7 @@ public class Main {
             System.out.println("2. Llibres en préstec");
             System.out.println("3. Llibres per autor");
             System.out.println("4. Cercar títol");
-            System.out.println("0. Tornar");
+            System.out.println("0. Tornar al menú llibres");
             System.out.print("Selecciona una opció: ");
 
             String opció = scanner.nextLine().trim().toLowerCase();
@@ -304,7 +304,7 @@ public class Main {
             System.out.println("2. Modificar");
             System.out.println("3. Eliminar");
             System.out.println("4. Llistar");
-            System.out.println("0. Tornar");
+            System.out.println("0. Tornar al menú principal");
             System.out.print("\nEscull una opció: ");
             String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
 
