@@ -1,154 +1,157 @@
 [
     {
-      "id": 1,
-      "titol": "Cien Años de Soledad",
-      "autor": "Gabriel García Márquez"
+        "titol": "Cien Años de Soledad",
+        "id": 1,
+        "autor": "Gabriel García Márquez"
     },
     {
-      "id": 2,
-      "titol": "1984",
-      "autor": "George Orwell"
+        "titol": "1984",
+        "id": 2,
+        "autor": "George Orwell"
     },
     {
-      "id": 3,
-      "titol": "Don Quijote de la Mancha",
-      "autor": "Miguel de Cervantes"
+        "titol": "Don Quijote de la Mancha",
+        "id": 3,
+        "autor": "Miguel de Cervantes"
     },
     {
-      "id": 4,
-      "titol": "Orgullo y prejuicio",
-      "autor": "Jane Austen"
+        "titol": "Orgullo y prejuicio",
+        "id": 4,
+        "autor": "Jane Austen"
     },
     {
-      "id": 5,
-      "titol": "El señor de los anillos",
-      "autor": "J.R.R. Tolkien"
+        "titol": "El señor de los anillos",
+        "id": 5,
+        "autor": "J.R.R. Tolkien"
     },
     {
-      "id": 6,
-      "titol": "Ulises",
-      "autor": "James Joyce"
+        "titol": "Ulises",
+        "id": 6,
+        "autor": "James Joyce"
     },
     {
-      "id": 7,
-      "titol": "Matar a un ruiseñor",
-      "autor": "Harper Lee"
+        "titol": "Matar a un ruiseñor",
+        "id": 7,
+        "autor": "Harper Lee"
     },
     {
-      "id": 8,
-      "titol": "El amor en los tiempos del cólera ",
-      "autor": "Gabriel García Márquez"
+        "titol": "El amor en los tiempos del cólera ",
+        "id": 8,
+        "autor": "Gabriel García Márquez"
     },
     {
-      "id": 9,
-      "titol": "La sombra del viento",
-      "autor": "Carlos Ruiz Zafón"
+        "titol": "La sombra del viento",
+        "id": 9,
+        "autor": "Carlos Ruiz Zafón"
     },
     {
-      "id": 10,
-      "titol": "Los miserables",
-      "autor": "Victor Hugo"
+        "titol": "Los miserables",
+        "id": 10,
+        "autor": "Victor Hugo"
     },
     {
-      "id": 11,
-      "titol": "La Odisea",
-      "autor": "Homero"
+        "titol": "La Odisea",
+        "id": 11,
+        "autor": "Homero"
     },
     {
-      "id": 12,
-      "titol": "La Iliada",
-      "autor": "Homero"
+        "titol": "La Iliada",
+        "id": 12,
+        "autor": "Homero"
     },
     {
-      "id": 13,
-      "titol": "Rayuela",
-      "autor": "Julio Cortázar"
+        "titol": "Rayuela",
+        "id": 13,
+        "autor": "Julio Cortázar"
     },
     {
-      "id": 14,
-      "titol": "El retrato de Dorian Gray ",
-      "autor": "Oscar Wilde"
+        "titol": "El retrato de Dorian Gray ",
+        "id": 14,
+        "autor": "Oscar Wilde"
     },
     {
-      "id": 15,
-      "titol": "Drácula",
-      "autor": "Bram Stoker"
+        "titol": "Drácula",
+        "id": 15,
+        "autor": "Bram Stoker"
     },
     {
-      "id": 16,
-      "titol": "Cumbres borrascosas",
-      "autor": "Emily Brontë"
+        "titol": "Cumbres borrascosas",
+        "id": 16,
+        "autor": "Emily Brontë"
     },
     {
-      "id": 17,
-      "titol": "Anna Karenina",
-      "autor": "León Tolstói"
+        "titol": "Anna Karenina",
+        "id": 17,
+        "autor": "León Tolstói"
     },
     {
-      "id": 18,
-      "titol": "La guerra y la paz",
-      "autor": "León Tolstói"
+        "titol": "La guerra y la paz",
+        "id": 18,
+        "autor": "León Tolstói"
     },
     {
-      "id": 19,
-      "titol": "El alquimista",
-      "autor": "Paulo Coelho"
+        "titol": "El alquimista",
+        "id": 19,
+        "autor": "Paulo Coelho"
     },
     {
-      "id": 20,
-      "titol": "El nombre de la rosa ",
-      "autor": "Umberto Eco"
+        "titol": "El nombre de la rosa ",
+        "id": 20,
+        "autor": "Umberto Eco"
     },
     {
-      "id": 21,
-      "titol": "La peste",
-      "autor": "Albert Camus"
+        "titol": "La peste",
+        "id": 21,
+        "autor": "Albert Camus"
     },
     {
-      "id": 22,
-      "titol": "El hombre en busca de sentido",
-      "autor": "Viktor Frankl"
+        "titol": "El hombre en busca de sentido",
+        "id": 22,
+        "autor": "Viktor Frankl"
     },
     {
-      "id": 23,
-      "titol": "Las aventuras de Tom Sawyer",
-      "autor": "Mark Twain"
+        "titol": "Las aventuras de Tom Sawyer",
+        "id": 23,
+        "autor": "Mark Twain"
     },
     {
-      "id": 24,
-      "titol": "El extranjero ",
-      "autor": "Albert Camus"
+        "titol": "El extranjero ",
+        "id": 24,
+        "autor": "Albert Camus"
     },
     {
-      "id": 25,
-      "titol": "Al faro ",
-      "autor": "Virginia Woolf"
+        "titol": "Al faro ",
+        "id": 25,
+        "autor": "Virginia Woolf"
     },
     {
-      "id": 26,
-      "titol": "Notas del subsuelo",
-      "autor": "Fiódor Dostoyevski"
+        "titol": "Notas del subsuelo",
+        "id": 26,
+        "autor": "Fiódor Dostoyevski"
     },
     {
-      "id": 27,
-      "titol": "La vida es sueño",
-      "autor": "Pedro Calderón de la Barca"
+        "titol": "La vida es sueño",
+        "id": 27,
+        "autor": "Pedro Calderón de la Barca"
     },
     {
-      "id": 28,
-      "titol": "Conversación en la catedral",
-      "autor": "Mario Vargas Llosa"
+        "titol": "Conversación en la catedral",
+        "id": 28,
+        "autor": "Mario Vargas Llosa"
     },
     {
-      "id": 29,
-      "titol": "El niño que perdió la guerra",
-      "autor": "Julia Navarro"
+        "titol": "El niño que perdió la guerra",
+        "id": 29,
+        "autor": "Julia Navarro"
     },
     {
-      "id": 30,
-      "titol": "El día que se perdió la cordura ",
-      "autor": "Javier Castillo"
+        "titol": "El día que se perdió la cordura ",
+        "id": 30,
+        "autor": "Javier Castillo"
+    },
+    {
+        "titol": "jorge",
+        "id": 31,
+        "autor": "gan"
     }
-  ]
-  
-    
+]

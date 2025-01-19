@@ -198,29 +198,35 @@ public class Main {
                     System.out.println("Has seleccionat afegir llibre");
                     afegir_llibres();
                     break;
+
                 case "2":
                 case "modificar":
                     System.out.println("Has seleccionat modificar llibre");
                     modificarLLibre();
                     break;
+
                 case "3":
                 case "eliminar":
                     System.out.println("Has seleccionat eliminar llibre");
                     eliminarLLibre();
                     break;
+
                 case "4":
                 case "llistar":
                     System.out.println("Has seleccionat llistar llibres");
                     menuLlistarLlibres();
                     break;
+
                 case "0":
                 case "tornar":
                     System.out.println("Tornant al menú principal...");
                     salir = true;
                     menuPrincipal();
                     break;
+
                 default:
                     System.out.println("Opció no vàlida. Torna a intentar-ho");
+                    break;
             }
         }
         scanner.close();
@@ -429,7 +435,7 @@ public class Main {
         nouLlibre.put("autor", autor);
 
         try {
-            String filePath_llibres = "./data/llibres.json";
+            String filePath_llibres = "./gestor_biblioteca/gestor/data/llibres.json";
             String content = new String(Files.readAllBytes(Paths.get(filePath_llibres)));
             JSONArray llibres = new JSONArray(content);
 
@@ -457,16 +463,15 @@ public class Main {
             System.out.println(String.format("%-" + idWidth + "s  %-" + titolWidth + "s  %-" + autorWidth + "s", "ID", "Títol", "Autor"));
             System.out.println("--------------------------------------------------------------");
             System.out.println(String.format("%-" + idWidth + "d  %-" + titolWidth + "s  %-" + autorWidth + "s", nouId, titol, autor));
-
+            
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-        scanner.close();
     }
 
 
     public static void modificarLLibre(){
-        String filePathLlibres = "./data/llibres.json";
+        String filePathLlibres = "./gestor_biblioteca/gestor/data/llibres.json";
         Scanner scanner = new Scanner(System.in);
 
         try {
@@ -525,7 +530,7 @@ public class Main {
     }
 
     public static void eliminarLLibre(){
-        String filePathLlibres = "./data/llibres.json";
+        String filePathLlibres = "./gestor_biblioteca/gestor/data/llibres.json";
         Scanner scanner = new Scanner(System.in);
 
         try {
@@ -581,7 +586,7 @@ public class Main {
 
     public static void eliminar_prestecs() {
         Scanner scanner = new Scanner(System.in);
-        String filePathPrestecs = "./data/prestecs.json";
+        String filePathPrestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
     
         try {
             String contentPrestecs = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
@@ -608,7 +613,7 @@ public class Main {
                 // confirmem si l'usuari vol eliminar o no el prestec
                 System.out.println("Estàs segur que vols eliminar el següent préstec?");
                 System.out.println(prestecAEliminar.toString(4));
-                System.out.print("Vols eliminar aquest préstec? (s/n): ");
+                System.out.print("\nVols eliminar aquest préstec? (s/n): \n");
                 String confirmacio = scanner.next();
     
                 if (confirmacio.equalsIgnoreCase("s")) {
@@ -617,20 +622,23 @@ public class Main {
                     Files.write(Paths.get(filePathPrestecs), prestecsArray.toString(4).getBytes());
                     System.out.println("S'ha eliminat el préstec amb ID " + idPrestecEliminar);
                 } else {
-                    System.out.println("No s'ha eliminat el préstec amb ID " + idPrestecEliminar);
+                    System.out.println("\nNo s'ha eliminat el préstec amb ID " + idPrestecEliminar + "\n");
+                    menuPrestecs();
                 }
             } else {
                 System.out.println("No s'ha trobat cap préstec amb l'ID especificat.");
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
+        } finally {
+            scanner.close();
         }
-        scanner.close();
+        
     }
 
     /*FUNCIÓN AÑADIR USUARIO */
     public static void afegirUsuari() {
-        String filePathUsuaris = "./data/usuaris.json";
+        String filePathUsuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
         Scanner scanner = new Scanner(System.in);
 
         try {
@@ -686,7 +694,7 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Error al leer o escribir en el archivo: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Error inesperad: " + e.getMessage());
+            System.out.println("Error inesperado: " + e.getMessage());
         } finally{
             scanner.close();
         }
@@ -696,7 +704,7 @@ public class Main {
     public static void modificar_usuaris() {
         //modificar usuaris
         Scanner scanner = new Scanner(System.in);
-        String filePathUsuaris = "./data/usuaris.json";
+        String filePathUsuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
         StringBuilder userList = new StringBuilder();
 
         int nomWidth = 15;
@@ -864,7 +872,7 @@ public class Main {
 
     /* Eliminar usuario */
     public static void eliminarUsuario() {
-        String filePathUsuarios = "./data/usuaris.json";
+        String filePathUsuarios = "./gestor_biblioteca/gestor/data/usuaris.json";
         Scanner scanner = new Scanner(System.in);
 
         try {
@@ -921,9 +929,9 @@ public class Main {
         
         try {
 
-            String filePathPrestecs = "./data/prestecs.json";
-            String filePathLlibres = "./data/llibres.json";
-            String filePathUsuaris = "./data/usuaris.json";
+            String filePathPrestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
+            String filePathLlibres = "./gestor_biblioteca/gestor/data/llibres.json";
+            String filePathUsuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
             
             String content = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
             String content2 = new String(Files.readAllBytes(Paths.get(filePathUsuaris)));
@@ -1060,7 +1068,7 @@ public class Main {
             boolean dataCorrecta = false; //Variable per a comprovar si la data de devolució és correcta
             while(!dataCorrecta) {   
                 System.out.print("Escriu la data de devolució (yyyy-MM-dd): ");
-                dataDevolucio = scanner.next();
+                dataDevolucio = scanner.nextLine();
 
                 SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
             try {
@@ -1120,7 +1128,7 @@ public class Main {
             System.out.println("Vols afegir aquest préstec?");
             System.out.println(nouPrestec.toString(4));
             System.out.print("Vols afegir aquest préstec? (s/n): ");
-            String confirmacio = scanner.next();
+            String confirmacio = scanner.nextLine();
 
             JSONArray prestecs = new JSONArray(content);
             
@@ -1134,7 +1142,8 @@ public class Main {
                 System.out.println("Data de préstec: " + dataPrestec);
                 System.out.println("Data de devolució: " + dataDevolucio);
             } else {
-                System.out.println("No s'ha afegit el préstec.");
+                System.out.println("\nNo s'ha afegit el préstec.\n");
+                menuPrestecs();
             }
         
         } catch (Exception e) {
@@ -1197,7 +1206,7 @@ public class Main {
                         System.out.println("2. ID Usuari");
                         System.out.println("3. Data Prestec");
                         System.out.println("4. Data Devolucio");
-                        System.out.println("5. Sortir");
+                        System.out.println("0. Sortir");
                         System.out.print("Selecciona una opció: ");
                         
                         if (scanner.hasNextInt()) {
@@ -1431,9 +1440,10 @@ public class Main {
 
                                     break;
 
-                                    case 5: // Sortir
+                                    case 0: // Sortir
                                         continuar = false;
-                                        System.out.println("Sortint del menú...");
+                                        System.out.println("\nSortint del menú...\n");
+                                        menuPrestecs();
                                         break;
                                     
                                     default:
@@ -1674,7 +1684,8 @@ public class Main {
                                     
                                     case "Sortir": case "sortir": case "s": case "S":
                                         continuar = false;
-                                        System.out.println("Sortint del menú...");
+                                        System.out.println("\nSortint del menú...\n");
+                                        menuPrestecs();
                                         break;
                                     
                                     default:
@@ -1708,7 +1719,7 @@ public class Main {
      */
     public static String llibresNomLlistat(String title) {
         // Function to get the list of books from the JSON file by name
-        String filePath_books = "./data/llibres.json";
+        String filePath_books = "./gestor_biblioteca/gestor/data/llibres.json";
 
         StringBuilder llibresNom = new StringBuilder();
 
@@ -1754,7 +1765,7 @@ public class Main {
      */
     public static String usuarisLlistat() {
         // Function to get the list of users from the JSON file
-        String filePath_users = "./data/usuaris.json";
+        String filePath_users = "./gestor_biblioteca/gestor/data/usuaris.json";
         StringBuilder userList = new StringBuilder(); 
 
         int nomWidth = 15;
@@ -1792,9 +1803,9 @@ public class Main {
      */
     public static String prestecsLlista() {
         // Function to get the list of books from the JSON file
-        String filePath_prestecs = "./data/prestecs.json";
-        String filePath_llibres = "./data/llibres.json";
-        String filePath_usuaris = "./data/usuaris.json";
+        String filePath_prestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
+        String filePath_llibres = "./gestor_biblioteca/gestor/data/llibres.json";
+        String filePath_usuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
         StringBuilder prestecList = new StringBuilder();
 
         int idWidth = 5;
@@ -1865,7 +1876,7 @@ public class Main {
      */
     public static String llibresLlistat(){
         // Ruta arxiu "llibres.json"
-        String filePath_llibres = "./data/llibres.json";
+        String filePath_llibres = "./gestor_biblioteca/gestor/data/llibres.json";
         StringBuilder llibresList = new StringBuilder();
 
         int idWidth = 5;
@@ -1910,7 +1921,7 @@ public class Main {
         }
         autor = autor.trim().toLowerCase();
 
-        String filePathllibre = "./data/llibres.json";
+        String filePathllibre = "./gestor_biblioteca/gestor/data/llibres.json";
         StringBuilder llibresAutor = new StringBuilder();
 
         int idLlibreWidth = 5;
@@ -1967,8 +1978,8 @@ public class Main {
      */
 
      public static void LlibresprestecsLlistat(){
-        String filePathPrestecs = "./data/prestecs.json";
-        String filePathLlibres = "./data/llibres.json";
+        String filePathPrestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
+        String filePathLlibres = "./gestor_biblioteca/gestor/data/llibres.json";
         StringBuilder prestecList = new StringBuilder();
 
         int idLlibreWidth = 10;
@@ -2029,9 +2040,9 @@ public class Main {
     public static String llistatPrestecsUsuari(int idUsuari){
 
         // Ruta arxiu "prestecs.json"
-        String filePath_prestecs = "./data/prestecs.json";
-        String filePath_usuaris = "./data/usuaris.json";
-        String filePath_llibres = "./data/llibres.json";
+        String filePath_prestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
+        String filePath_usuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
+        String filePath_llibres = "./gestor_biblioteca/gestor/data/llibres.json";
         StringBuilder prestecsList = new StringBuilder();
 
         int nomUsuariWidth = 10;
@@ -2112,7 +2123,7 @@ public class Main {
      * 
      */
     public static void prestecsforatermini(){
-        String filePathPrestecs = "./data/prestecs.json";
+        String filePathPrestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
         StringBuilder prestecsList = new StringBuilder();
 
         int idUsuariWidth = 10;
@@ -2172,8 +2183,8 @@ public class Main {
      * @return Retorna un array dels usuaris amb préstecs actius segons NomUsuari i CognomUsuari.
      */
     public static String usuarisLlistatAmbPrestecsActius() {
-        String filePath_usuaris = "./data/usuaris.json";
-        String filePath_prestecs = "./data/prestecs.json";
+        String filePath_usuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
+        String filePath_prestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
 
         StringBuilder usuarisAmbPrestecs = new StringBuilder();
 
@@ -2223,8 +2234,8 @@ public class Main {
      * @return Retorna un array dels usuaris amb préstecs fora de termini segons NomUsuari i CognomUsuari.
      */
     public static String usuarisLlistatAmbPrestecsForaTermini() {
-        String filePath_usuaris = "./data/usuaris.json";
-        String filePath_prestecs = "./data/prestecs.json";
+        String filePath_usuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
+        String filePath_prestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
 
         StringBuilder usuarisAmbPrestecs = new StringBuilder();
 
@@ -2277,9 +2288,9 @@ public class Main {
      */
     public static String llistatPrestecsActius() {
         // Ruta arxiu "prestecs.json"
-        String filePath_prestecs = "./data/prestecs.json";
-        String filePath_usuaris = "./data/usuaris.json";
-        String filePath_llibres = "./data/llibres.json";
+        String filePath_prestecs = "./gestor_biblioteca/gestor/data/prestecs.json";
+        String filePath_usuaris = "./gestor_biblioteca/gestor/data/usuaris.json";
+        String filePath_llibres = "./gestor_biblioteca/gestor/data/llibres.json";
         StringBuilder prestecsList = new StringBuilder();
 
         int idWidth = 10;
