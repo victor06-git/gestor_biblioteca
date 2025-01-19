@@ -1937,6 +1937,66 @@ public class Main {
         }
     }
 
+    /* Función que lista los libros en préstamo y los libros disponibles.
+     * 
+     * @return retorna un array de todos los libros y dice cuales estan en prestamo y cuales estan disponibles.
+     * Muestra el idLlibre, NomLlibre, estado.
+     */
+
+     public static void LlibresprestecsLlistat(){
+        String filePathPrestecs = "./data/prestecs.json";
+        String filePathLlibres = "./data/llibres.json";
+        StringBuilder prestecList = new StringBuilder();
+
+        int idLlibreWidth = 10;
+        int nomLlibreWith = 40;
+        int estatWidth = 15;
+
+        prestecList.append(String.format("%-" + idLlibreWidth + "s %-" + nomLlibreWith + "s %-" + estatWidth + "s%n", "IdLlibre", "NomLlibre", "estat"));
+        prestecList.append("------------------------------------------------------------\n");
+
+        try {
+            String prestecsContent = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
+            String llibresContent = new String(Files.readAllBytes(Paths.get(filePathLlibres)));
+
+            JSONArray prestecsArray = new JSONArray(prestecsContent);
+            JSONArray llibresArray = new JSONArray(llibresContent);
+
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            /*Recorrer para mostrar el estado de los libros*/
+            for (int i = 0; i < llibresArray.length(); i++) {
+                JSONObject llibre = llibresArray.getJSONObject(i);
+
+                int id = llibre.getInt("id");
+                String nomLlibre = llibre.getString("titol");
+                String estat = "Disponible";
+
+                /*Buscar si el libro esta en prestamo */
+                for (int j = 0; j < prestecsArray.length(); j++){
+                    JSONObject prestec = prestecsArray.getJSONObject(j);
+                    if (prestec.getInt("IdLlibre") == id) {
+                        String dataDevolucioStr = prestec.optString("DataDevolucio", " ");
+                        if (!dataDevolucioStr.isEmpty()) {
+                            LocalDate dataDevolucio = LocalDate.parse(dataDevolucioStr, formatter);
+                            if (dataDevolucio.isAfter(currentDate)){
+                                estat = "En Prestamo";
+                            }
+                        }
+                        break;
+                    }
+                }
+            
+                prestecList.append(String.format("%-" + idLlibreWidth + "d %-" + nomLlibreWith + "s %-" + estatWidth + "s%n", id, nomLlibre, estat));
+            }
+        }catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        System.out.println(prestecList.toString());
+    }
+
     /**
      * Funció que llistar els préstecs d'un usuari
      *
@@ -2021,6 +2081,66 @@ public class Main {
             }
 
         return prestecsList.toString();
+    }
+
+    /* Función que lista los préstamos fuera de termino, en los que los libros no han sido devueltos
+     * 
+     * @return retorna un lista de IdUsuario, IdLlibre, DataPrestec, DataDevolucio.
+     * 
+     */
+    public static void prestecsforatermini(){
+        String filePathPrestecs = "./data/prestecs.json";
+        StringBuilder prestecsList = new StringBuilder();
+
+        int idUsuariWidth = 10;
+        int idLlibreWidth = 10;
+        int dataPrestecWidth = 15;
+        int dataDevolucioWidth = 15;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        prestecsList.append(String.format("%-" + idUsuariWidth + "s %-" + idLlibreWidth +  "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWidth + "s%n", "IdUsuari", "IdLlibre", "DataPrestec", "DataDevolucio"));
+        prestecsList.append("--------------------------------------------------------------------------------------\n");
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePathPrestecs)));
+            JSONArray jsonArray = new JSONArray(content);
+
+            HashMap<String, StringBuilder> usersLoans = new HashMap<>();
+            LocalDate currentDate = LocalDate.now();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                int idUsuari = jsonObject.getInt("IdUsuari");
+                int idLlibre = jsonObject.getInt("IdLlibre");
+                String DataPrestec = jsonObject.getString("DataPrestec");
+                String DataDevolucio = jsonObject.optString("DataDevolucio", "");
+
+                LocalDate prestecDate = LocalDate.parse(DataPrestec, formatter);
+                LocalDate devolucioDate = DataDevolucio.isEmpty() ? null : LocalDate.parse(DataDevolucio, formatter);
+
+                /*Verificar estado de prestamo */
+                if (devolucioDate == null || devolucioDate.isAfter(currentDate)) {
+                    StringBuilder loans = usersLoans.computeIfAbsent(String.valueOf(idUsuari), k -> new StringBuilder());
+                    loans.append(String.format("%-" + idUsuariWidth + "s %-" + idLlibreWidth + "s %-" + dataPrestecWidth + "s %-" + dataDevolucioWidth + "s%n",
+                    idUsuari, idLlibre, DataPrestec, DataDevolucio.isEmpty() ? "No devuelto" : DataDevolucio));
+                }
+            }
+
+            if (usersLoans.isEmpty()) {
+                System.out.println("No se encontraron prestamos fuera de termino.");
+                return;
+            }
+
+            for (HashMap.Entry<String, StringBuilder> entry : usersLoans.entrySet()) {
+                prestecsList.append("Usuario: ").append(entry.getKey()).append("\n");
+                prestecsList.append(entry.getValue()).append("\n");
+            }
+
+            System.out.println(prestecsList.toString());
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**
