@@ -153,5 +153,10 @@
         "titol": "jorge",
         "id": 31,
         "autor": "gan"
+    },
+    {
+        "titol": "juan",
+        "id": 32,
+        "autor": "silvestre"
     }
 ]
