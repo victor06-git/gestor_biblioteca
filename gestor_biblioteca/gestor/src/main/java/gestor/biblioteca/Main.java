@@ -97,7 +97,7 @@ public class Main {
                 case "3":
                 case "eliminar":
                     System.out.println("\nHas seleccionat 'Eliminar'");
-                    //aquí s'ha d'afegir la funció que elimina usuaris
+                    eliminarUsuario();
                     break;
 
                 case "4":
@@ -377,53 +377,53 @@ public class Main {
 
 
 
-    //Funcions per afegir, modificar i eliminar llibres, usuaris i prestecs
-public static void afegir_llibres() {
-    Scanner scanner = new Scanner(System.in);
+        //Funcions per afegir, modificar i eliminar llibres, usuaris i prestecs
+    public static void afegir_llibres() {
+        Scanner scanner = new Scanner(System.in);
 
-    System.out.print("Escriu el títol del llibre a afegir: ");
-    String titol = scanner.nextLine();
-    System.out.print("Escriu l'autor del llibre a afegir: ");
-    String autor = scanner.nextLine();
+        System.out.print("Escriu el títol del llibre a afegir: ");
+        String titol = scanner.nextLine();
+        System.out.print("Escriu l'autor del llibre a afegir: ");
+        String autor = scanner.nextLine();
 
-    JSONObject nouLlibre = new JSONObject();
-    nouLlibre.put("titol", titol);
-    nouLlibre.put("autor", autor);
+        JSONObject nouLlibre = new JSONObject();
+        nouLlibre.put("titol", titol);
+        nouLlibre.put("autor", autor);
 
-    try {
-        String filePath_llibres = "./data/llibres.json";
-        String content = new String(Files.readAllBytes(Paths.get(filePath_llibres)));
-        JSONArray llibres = new JSONArray(content);
+        try {
+            String filePath_llibres = "./data/llibres.json";
+            String content = new String(Files.readAllBytes(Paths.get(filePath_llibres)));
+            JSONArray llibres = new JSONArray(content);
 
-        int nouId = 1;
-        for (int i = 0; i < llibres.length(); i++) {
-            JSONObject llibre = llibres.getJSONObject(i);
-            Integer id = llibre.getInt("id");
+            int nouId = 1;
+            for (int i = 0; i < llibres.length(); i++) {
+                JSONObject llibre = llibres.getJSONObject(i);
+                Integer id = llibre.getInt("id");
 
-            if (id == nouId) {
-                nouId++;
-                i = -1; // Tornem a començar el bucle per comprovar si l'ID està repetit o no
+                if (id == nouId) {
+                    nouId++;
+                    i = -1; // Tornem a començar el bucle per comprovar si l'ID està repetit o no
+                }
             }
+            nouLlibre.put("id", nouId);
+
+            llibres.put(nouLlibre);
+            Files.write(Paths.get(filePath_llibres), llibres.toString(4).getBytes());
+
+            // Formato tabular para imprimir
+            int idWidth = 10;
+            int titolWidth = 30;
+            int autorWidth = 25;
+
+            System.out.println();
+            System.out.println(String.format("%-" + idWidth + "s  %-" + titolWidth + "s  %-" + autorWidth + "s", "ID", "Títol", "Autor"));
+            System.out.println("--------------------------------------------------------------");
+            System.out.println(String.format("%-" + idWidth + "d  %-" + titolWidth + "s  %-" + autorWidth + "s", nouId, titol, autor));
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
-        nouLlibre.put("id", nouId);
-
-        llibres.put(nouLlibre);
-        Files.write(Paths.get(filePath_llibres), llibres.toString(4).getBytes());
-
-        // Formato tabular para imprimir
-        int idWidth = 10;
-        int titolWidth = 30;
-        int autorWidth = 25;
-
-        System.out.println();
-        System.out.println(String.format("%-" + idWidth + "s  %-" + titolWidth + "s  %-" + autorWidth + "s", "ID", "Títol", "Autor"));
-        System.out.println("--------------------------------------------------------------");
-        System.out.println(String.format("%-" + idWidth + "d  %-" + titolWidth + "s  %-" + autorWidth + "s", nouId, titol, autor));
-
-    } catch (Exception e) {
-        System.out.println("Error: " + e.getMessage());
     }
-}
 
 
     public static void modificarLLibre(){
@@ -1681,6 +1681,7 @@ public static void afegir_llibres() {
             String content = new String(Files.readAllBytes(Paths.get(filePath_books)));
             
             JSONArray jsonArray = new JSONArray(content); //Convertir el contingut a JSONArray
+            boolean trobat = false;
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -1690,15 +1691,22 @@ public static void afegir_llibres() {
                 
                 if (bookTitle.toLowerCase().contains(title.toLowerCase())) {
                     llibresNom.append(String.format("%-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n", bookTitle, autorNom));
+                    trobat = true;
                 }
             }
-            return llibresNom.toString();
+            if (!trobat) {
+                llibresNom.append("No s'ha trobat cap llibre amb aquest títol.\n");
+                return "";
+            } else {
+                return llibresNom.toString();
+            }
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
 
-        return llibresNom.toString();
+        return "";
+    
     }
 
     /**
