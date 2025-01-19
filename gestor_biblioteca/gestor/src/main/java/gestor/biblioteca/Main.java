@@ -48,7 +48,7 @@ public class Main {
                 case "3":
                 case "préstecs":
                     System.out.println("\nHas seleccionat 'Préstecs'.");
-                    //aquí s'ha d'afegir la funció del menú que gestiona els préstecs
+                    menuPrestecs();
                     break;
 
                 case "0":
@@ -85,7 +85,7 @@ public class Main {
                 case "1":
                 case "afegir":
                     System.out.println("\nHas seleccionar 'Afegir'");
-                    //aquí s'ha d'afegir la funció que afegeix usuaris
+                    afegirUsuari();
                     break;
                 
                 case "2":
@@ -243,7 +243,7 @@ public class Main {
                     break;
                 case 3: 
                     System.out.println("Llistar els llibres per autor.");
-                    /*llibresperautorllistat("Gabriel Garcia");*/
+                    llibresperautorllistat();
                     break;
                 case 4:
                     System.out.println("Llistar els llibres per títol.");
@@ -301,6 +301,7 @@ public class Main {
                 case "0":
                 case "tornar":
                     salir = true;
+                    menuPrincipal();
                     break;
                 
                 default:
@@ -2137,6 +2138,6 @@ public static void afegir_llibres() {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        modificar_prestecs();
+        menuPrestecs();
     }
 }
