@@ -48,7 +48,7 @@ public class Main {
                 case "3":
                 case "préstecs":
                     System.out.println("\nHas seleccionat 'Préstecs'.");
-                    //aquí s'ha d'afegir la funció del menú que gestiona els préstecs
+                    menuPrestecs();
                     break;
 
                 case "0":
@@ -85,7 +85,7 @@ public class Main {
                 case "1":
                 case "afegir":
                     System.out.println("\nHas seleccionar 'Afegir'");
-                    //aquí s'ha d'afegir la funció que afegeix usuaris
+                    afegirUsuari();
                     break;
                 
                 case "2":
@@ -243,7 +243,7 @@ public class Main {
                     break;
                 case 3: 
                     System.out.println("Llistar els llibres per autor.");
-                    /*llibresperautorllistat("Gabriel Garcia");*/
+                    llibresperautorllistat();
                     break;
                 case 4:
                     System.out.println("Llistar els llibres per títol.");
@@ -259,6 +259,57 @@ public class Main {
         }
     }
 
+    public static void menuPrestecs() {
+        Scanner scanner = new Scanner(System.in);   
+        boolean salir = false;
+
+        while (!salir) {
+            System.out.println("Gestió de préstecs");
+            System.out.println("1. Afegir");
+            System.out.println("2. Modificar");
+            System.out.println("3. Eliminar");
+            System.out.println("4. Llistar");
+            System.out.println("0. Tornar");
+            System.out.print("\nEscull una opció: ");
+            String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
+
+            switch (opcio) {
+                case "1":
+                case "afegir":
+                    System.out.println("\nHas seleccionat 'Afegir'");
+                    afegir_prestecs();
+                    break;
+
+                case "2":
+                case "modificar":
+                    System.out.println("\nHas seleccionat 'Modificar'");
+                    modificar_prestecs();
+                    break;
+
+                case "3":
+                case "eliminar":
+                    System.out.println("\nHas seleccionat 'Eliminar'");
+                    eliminar_prestecs();
+                    break;
+
+                case "4":
+                case "llistar":
+                    System.out.println("\nHas seleccionat 'Llistar'");
+                    //aquí s'ha d'afegir la funció del menú que llista els préstecs
+                    break;
+                
+                case "0":
+                case "tornar":
+                    salir = true;
+                    menuPrincipal();
+                    break;
+                
+                default:
+                    System.out.println("\nOpció no vàlida. Torna-ho a intentar.\n");
+                    break;
+            }
+        }
+    }
 
 
 
@@ -2087,6 +2138,6 @@ public static void afegir_llibres() {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        modificar_prestecs();
+        menuPrestecs();
     }
 }
