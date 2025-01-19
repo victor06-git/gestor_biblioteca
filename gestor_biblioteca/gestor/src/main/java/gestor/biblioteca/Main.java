@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -1735,6 +1736,67 @@ public static void afegir_llibres() {
             System.out.println("Error: " + e.getMessage());
             }
         return llibresList.toString();
+    }
+
+    /* Función que lista los libros por el autor 
+     * 
+     * @return retorna un array de llibres basant-se en el seu autor, mostra el idLlibre, titol, autor.
+     */
+    public static void llibresperautorllistat() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el nombre del autor (o presione Enter para listar todos): ");
+        String autor = scanner.nextLine();
+        if (autor == null) {
+            autor = "";
+        }
+        autor = autor.trim().toLowerCase();
+
+        String filePathllibre = "./data/llibres.json";
+        StringBuilder llibresAutor = new StringBuilder();
+
+        int idLlibreWidth = 5;
+        int nomLlibreWidth = 30;
+        int autorLlibreWidth = 25;
+
+        llibresAutor.append(String.format("%-" + idLlibreWidth + "s %-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n","id","titol","autor"));
+        llibresAutor.append("------------------------------------------\n");
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(filePathllibre)));
+            JSONArray jsonArray = new JSONArray(content);
+
+            HashMap<String, StringBuilder> autoresLibros = new HashMap<>();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                int idllibre = jsonObject.getInt("id");
+                String titolllibre = jsonObject.getString("titol");
+                String autorNom = jsonObject.getString("autor");
+
+                if (autor.isEmpty() || autorNom.toLowerCase().contains(autor.toLowerCase())) {
+
+                    autoresLibros
+                        .computeIfAbsent(autorNom, k -> new StringBuilder())
+                        .append(String.format("%-" + idLlibreWidth + "d %-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n", idllibre , titolllibre, autorNom));        
+                }
+
+            }
+
+            if (autoresLibros.isEmpty()) {
+                System.out.println("No se encontraron libros para el autor: " + autor);
+                return;
+            }
+
+            for (HashMap.Entry<String, StringBuilder> entry : autoresLibros.entrySet()) {
+                llibresAutor.append("autor: ").append(entry.getKey()).append("\n");
+                llibresAutor.append(entry.getValue()).append("\n");
+            }
+
+            System.out.println(llibresAutor.toString());
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**
