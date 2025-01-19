@@ -311,6 +311,51 @@ public class Main {
         }
     }
 
+    public static void menuLlistarPrestecs() {
+        Scanner scanner = new Scanner(System.in);
+        boolean sortir = false;
+
+        while (!sortir) {
+            System.out.println("Llistar préstecs");
+            System.out.println("1. Tots");
+            System.out.println("2. Actius");
+            System.out.println("3. Fora de termini");
+            System.out.println("0. Tornar al menú de préstecs");
+            System.out.print("\nEscull una opció: ");
+            String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
+
+            switch (opcio) {
+                case "1":
+                case "tots":
+                    System.out.println("\nHas seleccionat 'Tots'");
+                    System.out.println(prestecsLlista());
+                    break;
+                
+                case "2":
+                case "actius":
+                    System.out.println("\nHas seleccionat 'Actius'");
+                    System.out.println(llistatPrestecsActius());
+                    break;
+                
+                case "3":
+                case "fora de termini":
+                    System.out.println("\nHas seleccionat 'Fora de termini'");
+                    System.out.println();
+                    break;
+
+                case "0":
+                case "tornar":
+                    sortir = true;
+                    menuPrestecs();
+                    break;
+
+                default:
+                    System.out.println("nOpció no vàlida. Torna-ho a intentar.\n");
+                    break;
+            }
+        }
+    }
+
 
 
 
@@ -2138,6 +2183,6 @@ public static void afegir_llibres() {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        menuPrestecs();
+        menuLlistarPrestecs();
     }
 }
