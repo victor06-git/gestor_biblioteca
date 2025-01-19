@@ -263,8 +263,6 @@ public class Main {
                             if (!result.isEmpty()) {
                                 System.out.println(result);
                                 trobatLlibre = true;
-                            } else {
-                                System.out.println("No s'ha trobat cap llibre amb el títol especificat. Torna-ho a intentar.");
                             }
 
                         } catch (Exception e) {
@@ -1692,7 +1690,7 @@ public class Main {
             String content = new String(Files.readAllBytes(Paths.get(filePath_books)));
             
             JSONArray jsonArray = new JSONArray(content); //Convertir el contingut a JSONArray
-
+            boolean trobat = false;
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String bookTitle = jsonObject.getString("titol");
@@ -1701,10 +1699,12 @@ public class Main {
                 
                 if (bookTitle.toLowerCase().contains(title.toLowerCase())) {
                     llibresNom.append(String.format("%-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n", bookTitle, autorNom));
+                    trobat = true;
                 }
             }
-            
-            return llibresNom.toString();
+            if (!trobat) {
+                return "No s'ha trobat cap llibre amb aquest títol.";
+            } else { return llibresNom.toString(); }
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
