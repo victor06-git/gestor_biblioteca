@@ -126,7 +126,13 @@ public class Main {
         return prestecList.toString();
     }
 
-    public static String prestecsLlistas(){
+    /* Función que lista los libros en préstamo y los libros disponibles.
+     * 
+     * @return retorna un array de todos los libros y dice cuales estan en prestamo y cuales estan disponibles.
+     * Muestra el idLlibre, NomLlibre, estado.
+     */
+
+    public static void LlibresprestecsLlistat(){
         String filePathPrestecs = "./data/prestecs.json";
         String filePathLlibres = "./data/llibres.json";
         StringBuilder prestecList = new StringBuilder();
@@ -177,7 +183,7 @@ public class Main {
             System.out.println("Error: " + e.getMessage());
         }
 
-        return prestecList.toString();
+        System.out.println(prestecList.toString());
     }
 
     /* Función que lista los libros por el autor 
@@ -309,7 +315,7 @@ public class Main {
         /*String llistatllibresperautor = Main.llibresperautorllistat("");*/
        /*  prestecsforatermini();*/
        /* llibresperautorllistat();*/
-       prestecsLlistas();
+       LlibresprestecsLlistat();
 
         /*System.out.println(listaPrestecs);*/
        /*  System.out.println(llistatllibresperautor);*/
