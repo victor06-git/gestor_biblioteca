@@ -1960,7 +1960,7 @@ public class Main {
         }
     }
 
-    /* Función que lista los libros en préstamo y los libros disponibles.
+    /** Función que lista los libros en préstamo y los libros disponibles.
      * 
      * @return retorna un array de todos los libros y dice cuales estan en prestamo y cuales estan disponibles.
      * Muestra el idLlibre, NomLlibre, estado.
