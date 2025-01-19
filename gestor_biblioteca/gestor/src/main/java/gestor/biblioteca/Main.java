@@ -304,7 +304,6 @@ public class Main {
                     System.out.println("Opció no vàlida. Torna a intentar-ho");
             }
         }
-        scanner.close();
     }
 
     public static void menuPrestecs() {
@@ -414,7 +413,6 @@ public class Main {
                     break;
             }
         }
-        scanner.close();
     }
 
 
@@ -524,8 +522,6 @@ public class Main {
             System.out.println("Error al leer o escribir en el archivo: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());
-        } finally {
-            scanner.close();
         }
     }
 
@@ -579,8 +575,6 @@ public class Main {
             System.out.println("Error al leer o escribir el archivo: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());
-        } finally {
-            scanner.close();
         }
     }
 
@@ -695,8 +689,6 @@ public class Main {
             System.out.println("Error al leer o escribir en el archivo: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());
-        } finally{
-            scanner.close();
         }
         
     }
@@ -847,6 +839,7 @@ public class Main {
                             case "tornar":
                                 continuar = false;
                                 System.out.println("Sortint del menú de modificació.\n");
+                                menuUsuaris();
                                 break;
                             default:
                                 System.out.println("\nOpció no vàlida. Intenta-ho de nou.\n");
@@ -865,8 +858,6 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        } finally {
-            scanner.close();
         }
     }
 
@@ -911,16 +902,15 @@ public class Main {
             }
 
             if (!found) {
-                System.out.println("No existe un usuario asociado con la información proporcionada.");
+                System.out.println("No existe un usuario asociado con la información proporcionada.\n");
+                menuUsuaris();
             }
 
         }catch (IOException e) {
             System.out.println("Error al leer o escribir el archivo" + e.getMessage());
         } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());
-        } finally {
-            scanner.close();
-        }
+        } 
     }
 
     public static void afegir_prestecs() {
@@ -1148,9 +1138,7 @@ public class Main {
         
         } catch (Exception e) {
         System.out.println("Error: " + e.getMessage());
-        } finally {
-            scanner.close();
-        }
+        } 
         
     }
 
@@ -1704,8 +1692,6 @@ public class Main {
 
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
-                } finally {
-                    scanner.close();
                 }
             }
 
@@ -1966,8 +1952,6 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        } finally {
-            scanner.close();
         }
     }
 
@@ -2378,7 +2362,6 @@ public class Main {
 
 
     public static void main(String[] args) {
-        System.out.println("Hello world!");
         menuPrincipal();
     }
 }
