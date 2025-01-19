@@ -1697,7 +1697,7 @@ public class Main {
      */
     public static String llibresNomLlistat(String title) {
         // Function to get the list of books from the JSON file by name
-        String filePath_books = "./gestor_biblioteca/gestor/data/llibres.json";
+        String filePath_books = "./data/llibres.json";
 
         StringBuilder llibresNom = new StringBuilder();
 
