@@ -308,7 +308,8 @@ public class Main {
         /*String listaPrestecs = Main.prestecsLlistas();*/
         /*String llistatllibresperautor = Main.llibresperautorllistat("");*/
        /*  prestecsforatermini();*/
-        llibresperautorllistat();
+       /* llibresperautorllistat();*/
+       prestecsLlistas();
 
         /*System.out.println(listaPrestecs);*/
        /*  System.out.println(llistatllibresperautor);*/
