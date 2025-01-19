@@ -665,11 +665,22 @@ public class Main {
                 }
             }
             if (duplicado) {
-                System.out.println("Error: Ya existe un usuario con la información proporcionada.");
+                System.out.println("Error: Ya existe un usuario con la información proporcionada.\n");
+                menuUsuaris();
+
             } else {
-                System.out.print("Introduce el numero de telefono: ");
-                String telefon = scanner.nextLine().trim();
-            
+                String telefon;
+                while (true) {
+                    System.out.print("Introduce el numero de telefono: ");
+                    telefon = scanner.nextLine().trim();
+
+                    if (telefon.length() == 9 && telefon.chars().allMatch(Character::isDigit)) {
+                        break;
+                    } else {
+                        System.out.println("Error: El telèfon ha de contenir exactament 9 dígits numèrics. Torna-ho a intentar.\n");
+                    }
+                }
+
                 JSONObject newUser = new JSONObject();
                 newUser.put("id", newID);
                 newUser.put("nom", nom);
