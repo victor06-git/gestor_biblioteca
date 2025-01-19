@@ -179,33 +179,38 @@ public class Main {
         while (!salir) {
             System.out.println("\nMenú de Llibres");
             System.out.println("1. Afegir");
-            System.out.println("2. Modififcar");
+            System.out.println("2. Modificar");
             System.out.println("3. Eliminar");
             System.out.println("4. Llistar");
-            System.out.println("5. Torna al menú principal");
+            System.out.println("0. Tornar");
             System.out.print("Selecciona una opció: ");
 
-            int opció = scanner.nextInt();
+            String opció = scanner.nextLine().trim().toLowerCase();
             scanner.nextLine();
 
             switch (opció) {
-                case 1:
+                case "1":
+                case "afegir":
                     System.out.println("Has seleccionat afegir llibre");
                     afegir_llibres();
                     break;
-                case 2:
+                case "2":
+                case "modificar":
                     System.out.println("Has seleccionat modificar llibre");
                     modificarLLibre();
                     break;
-                case 3:
+                case "3":
+                case "eliminar":
                     System.out.println("Has seleccionat eliminar llibre");
                     eliminarLLibre();
                     break;
-                case 4:
+                case "4":
+                case "llistar":
                     System.out.println("Has seleccionat llistar llibres");
                     menuLlistarLlibres();
                     break;
-                case 5:
+                case "0":
+                case "tornar":
                     System.out.println("Tornant al menú principal...");
                     salir = true;
                     menuPrincipal();
@@ -227,29 +232,33 @@ public class Main {
             System.out.println("2. Llibres en préstec");
             System.out.println("3. Llibres per autor");
             System.out.println("4. Cercar títol");
-            System.out.println("5. Torna al menú de llibres");
+            System.out.println("0. Tornar");
             System.out.print("Selecciona una opció: ");
 
-            int opció = scanner.nextInt();
+            String opció = scanner.nextLine().trim().toLowerCase();
             scanner.nextLine();
 
             switch (opció) {
-                case 1:
+                case "1":
+                case "tots els llibres":
                     System.out.println("Llistar tots els llibres.");
                     llibresLlistat();
                     break;
 
-                case 2:
+                case "2":
+                case "llibres en préstec": case "en préstec":
                     System.out.println("Llistar els llibres en préstec.");
                     /* Añadir la función de listar los libros en prestamo */
                     break;
                 
-                case 3: 
+                case "3":
+                case "llibres per autor": case "per autor": 
                     System.out.println("Llistar els llibres per autor.");
                     llibresperautorllistat();
                     break;
 
-                case 4:
+                case "4":
+                case "cercar títol": case "cercar titol":
                     System.out.println("Llistar els llibres per títol.");
                     boolean trobatLlibre = false;
 
@@ -273,7 +282,8 @@ public class Main {
                     break;
 
 
-                case 5:
+                case "0":
+                case "tornar":
                     System.out.println("Tornant al menú llibres...");
                     menuLlibres();
                     break;
