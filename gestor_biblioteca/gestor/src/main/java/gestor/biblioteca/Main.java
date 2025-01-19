@@ -208,6 +208,7 @@ public class Main {
                 case 5:
                     System.out.println("Tornant al menú principal...");
                     salir = true;
+                    menuPrincipal();
                     break;
                 default:
                     System.out.println("Opció no vàlida. Torna a intentar-ho");
@@ -296,6 +297,7 @@ public class Main {
                 case "llistar":
                     System.out.println("\nHas seleccionat 'Llistar'");
                     //aquí s'ha d'afegir la funció del menú que llista els préstecs
+                    menuLlistarPrestecs();
                     break;
                 
                 case "0":
