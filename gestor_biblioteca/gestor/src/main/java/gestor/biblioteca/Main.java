@@ -356,8 +356,6 @@ public class Main {
         while (!sortir) {
             System.out.println("Llistar préstecs");
             System.out.println("1. Tots");
-            System.out.println("2. Actius");
-            System.out.println("3. Fora de termini");
             System.out.println("0. Tornar al menú de préstecs");
             System.out.print("\nEscull una opció: ");
             String opcio = scanner.nextLine().trim().toLowerCase(); //convertim l'opció a lowerCase per a que no hi hagin conflictes
@@ -375,10 +373,8 @@ public class Main {
                     System.out.println(llistatPrestecsActius());
                     break;
                 
-                case "3":
                 case "fora de termini":
                     System.out.println("\nHas seleccionat 'Fora de termini'");
-                    System.out.println();
                     break;
 
                 case "0":
