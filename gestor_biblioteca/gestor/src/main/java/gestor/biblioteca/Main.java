@@ -251,16 +251,27 @@ public class Main {
 
                 case 4:
                     System.out.println("Llistar els llibres per títol.");
-                    try {
-                    
-                        System.out.print("Introdueix el títol del llibre a cercar: ");
-                        String title = scanner.nextLine();
-                        llibresNomLlistat(title);
-                        
+                    boolean trobatLlibre = false;
 
-                    } catch (Exception e) {
-                        System.out.println("Error: " + e.getMessage());
+                    while (!trobatLlibre) {
+                        try {
+                        
+                            System.out.print("Introdueix el títol del llibre a cercar: ");
+                            String title = scanner.nextLine();
+                            String result = llibresNomLlistat(title);
+                            
+                            if (!result.isEmpty()) {
+                                System.out.println(result);
+                                trobatLlibre = true;
+                            } else {
+                                System.out.println("No s'ha trobat cap llibre amb el títol especificat. Torna-ho a intentar.");
+                            }
+
+                        } catch (Exception e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
                     }
+
                     break;
 
 
@@ -1681,7 +1692,6 @@ public class Main {
             String content = new String(Files.readAllBytes(Paths.get(filePath_books)));
             
             JSONArray jsonArray = new JSONArray(content); //Convertir el contingut a JSONArray
-            boolean trobat = false;
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -1691,15 +1701,10 @@ public class Main {
                 
                 if (bookTitle.toLowerCase().contains(title.toLowerCase())) {
                     llibresNom.append(String.format("%-" + nomLlibreWidth + "s %-" + autorLlibreWidth + "s%n", bookTitle, autorNom));
-                    trobat = true;
                 }
             }
-            if (!trobat) {
-                llibresNom.append("No s'ha trobat cap llibre amb aquest títol.\n");
-                return "";
-            } else {
-                return llibresNom.toString();
-            }
+            
+            return llibresNom.toString();
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -2208,6 +2213,6 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        menuLlistarLlibres();
+        menuPrincipal();
     }
 }
