@@ -84,7 +84,7 @@ public class Main {
             switch (opcio) {
                 case "1":
                 case "afegir":
-                    System.out.println("\nHas seleccionar 'Afegir'");
+                    System.out.println("\nHas seleccionat 'Afegir'");
                     afegirUsuari();
                     break;
                 
