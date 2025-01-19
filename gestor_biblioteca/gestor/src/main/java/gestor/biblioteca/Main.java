@@ -108,6 +108,7 @@ public class Main {
                 case "0":
                 case "tornar":
                     tornar = true;
+                    menuPrincipal();
                     break;
 
                 default:
@@ -162,6 +163,7 @@ public class Main {
                 case "0":
                 case "tornar":
                     tornar = true;
+                    menuUsuaris();
                     break;
 
                 default:
